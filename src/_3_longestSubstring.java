@@ -24,7 +24,7 @@ import java.util.Set;
  * Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
  */
 
-public class _4_longestSubstring {
+public class _3_longestSubstring {
     public static int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0) {
             return 0;
