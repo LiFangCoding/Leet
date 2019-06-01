@@ -39,6 +39,7 @@ public class _4_longestSubstring {
         int left = 0;
         int right = 0;
         while (right < len) {
+            // This is can alway forward right.
             char charR = s.charAt(right);
 
             if (map.containsKey(charR)) {
