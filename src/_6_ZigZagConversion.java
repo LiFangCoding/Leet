@@ -42,14 +42,13 @@ public class _6_ZigZagConversion {
 
         StringBuilder res = new StringBuilder();
         int size = 2 * nRows - 2;
+
         for (int i = 0; i < nRows; i++) {
             for (int j = i; j < s.length(); j += size) {
                 res.append(s.charAt(j));
-                if (i != 0 && i != nRows - 1) {
-                    int diff = size - 2 * i;
-                    if (j + diff < s.length()) {
-                        res.append(s.charAt(j + diff));
-                    }
+                int nextIdx = j + size - 2 * i;
+                if (i != 0 && i != nRows - 1 && nextIdx < s.length()) {
+                    res.append(s.charAt(nextIdx));
                 }
             }
         }
