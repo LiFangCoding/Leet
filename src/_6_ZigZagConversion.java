@@ -28,10 +28,32 @@ public class _6_ZigZagConversion {
     /**
      * O(n)
      * @param s
-     * @param numRows
      * @return
      */
-    public static String convert(String s, int numRows) {
+    public static String convert(String s, int nRows) {
+        // O(n)
+        if (s == null || s.length() == 0 || nRows <= 0) {
+            return "";
+        }
 
+        if (nRows == 1) {
+            return s;
+        }
+
+        StringBuilder res = new StringBuilder();
+        int size = 2 * nRows - 2;
+        for (int i = 0; i < nRows; i++) {
+            for (int j = i; j < s.length(); j += size) {
+                res.append(s.charAt(j));
+                if (i != 0 && i != nRows - 1) {
+                    int diff = size - 2 * i;
+                    if (j + diff < s.length()) {
+                        res.append(s.charAt(j + diff));
+                    }
+                }
+            }
+        }
+
+       return res.toString();
     }
 }

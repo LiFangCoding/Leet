@@ -6,11 +6,13 @@ class _6_ZigZagConversionTest {
 
     @Test
     void convert() {
+        assertEquals("04135726", _6_ZigZagConversion.convert("01234567", 3));
+
         String s = "PAYPALISHIRING";
         assertEquals("PAHNAPLSIIGYIR", _6_ZigZagConversion.convert(s, 3));
 
         s = "PAYPALISHIRING";
-        assertEquals("PINALSIGYAHRPI", _6_ZigZagConversion.convert(s, 3));
+        assertEquals("PINALSIGYAHRPI", _6_ZigZagConversion.convert(s, 4));
 
     }
 }
