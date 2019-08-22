@@ -47,6 +47,9 @@ public class _8_StringToInteger_atoi {
      * Can have overflow problem. return the MIN or MAX value.
      */
     public int myAtoi(String str) {
+        /**
+         * Another easy wasy is to use long type for res.
+         */
         if (str == null) {
             return 0;
         }
@@ -59,26 +62,37 @@ public class _8_StringToInteger_atoi {
         }
 
         int res = 0;
-        int sign = 1;
-        if (pt < len) {
-            if (chars[pt] == '+' || (chars[pt] >= '0' && chars[pt] <= '9')) {
-                sign = 1;
-            } else if (chars[pt] == '-') {
-                sign = -1;
-            } else {
-                return res;
-            }
+        boolean pos = true;
+
+        if (pt >= len) {
+            return 0;
+        }
+
+        // to be safe, do not use chars[pt++]. It will change the pt.
+        if (chars[pt] == '+') {
+            pt++;
+        } else if (chars[pt] == '-') {
+            pos = false;
             pt++;
         }
 
         while (pt < len) {
-            if (chars[pt] >= '0' && chars[pt] <= '9') {
-                int temp = res * 10 + chars[pt] - '0';
-                if (temp / 10 != res) {
-                    break;
-                }
+            int digit = chars[pt++] - '0';
+            if (digit >= 0 && digit <= 9) {
+               if (pos && res > (Integer.MAX_VALUE - digit) / 10) {
+                   return Integer.MAX_VALUE;
+               }
+
+               if (!pos &&  -1 * res < (Integer.MIN_VALUE + digit) / 10) {
+                    return Integer.MIN_VALUE;
+               }
+
+               res = res * 10 + digit;
+            } else {
+                break;
             }
         }
-        return 0;
+
+        return pos ? res : -1 * res;
     }
 }
