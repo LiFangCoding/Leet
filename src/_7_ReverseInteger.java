@@ -23,16 +23,22 @@ public class _7_ReverseInteger {
      * Overflow  [-2^31, 2^31 - 1]
      */
     public static int reverse(int n) {
+        boolean positive = n > 0;
         int res = 0;
 
         while (n != 0) {
-            int temp = res * 10 + n % 10;
+            int pop = n % 10;
             n = n / 10;
-            if (temp / 10 != res) {
-                res = 0;
-                break;
+
+            if (positive && res > (Integer.MAX_VALUE - pop) / 10) {
+                return 0;
             }
-            res = temp;
+
+            if (!positive && res < (Integer.MIN_VALUE - pop) / 10) {
+                return 0;
+            }
+
+            res = res * 10 + pop;
         }
 
         return res;
