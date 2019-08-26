@@ -45,63 +45,80 @@
  * Output: false
  */
 public class _10_RegularExpressionMatching {
-    public boolean isMatch(String s, String p) {
-        char[] text = s.toCharArray();
-        char[] pattern = p.toCharArray();
-
-        boolean T[][] = new boolean[text.length+1][pattern.length+1];
-        T[0][0] = true;
-        for(int i = 1; i < T[0].length; i++){
-            if(pattern[i-1] == '*'){
-                T[0][i] = T[0][i-2];
-            }
+    /**
+     * Recursion only
+     */
+    public boolean isMatch(String text, String pattern) {
+        if (pattern.isEmpty()) {
+            return text.isEmpty();
         }
+        boolean first_match = (!text.isEmpty() &&
+                (pattern.charAt(0) == text.charAt(0) || pattern.charAt(0) == '.'));
 
-        for(int i = 1; i < T.length; i++){
-            for(int j = 1; j < T[0].length; j++){
-                if(pattern[j-1] == '.' || pattern[j-1] == text[i-1]){
-                    T[i][j] = T[i-1][j-1];
-                }else if (pattern[j-1] == '*'){
-                    T[i][j] = T[i][j-2];
-                    if(pattern[j-2] == '.' || pattern[j-2] == text[i-1]){
-                        T[i][j] = T[i][j] | T[i-1][j];
-                    }
-                }else{
-                    T[i][j] = false;
-                }
-            }
+        if (pattern.length() >= 2 && pattern.charAt(1) == '*'){
+            return (isMatch(text, pattern.substring(2)) ||
+                    (first_match && isMatch(text.substring(1), pattern)));
+        } else {
+            return first_match && isMatch(text.substring(1), pattern.substring(1));
         }
-        return T[text.length][pattern.length];
     }
 
     /**
-     *  vector<vector<int>>f;
-     *     int n, m;
-     *     bool isMatch(string s, string p) {
-     *         n = s.size();
-     *         m = p.size();
-     *         f = vector<vector<int>>(n + 1, vector<int>(m + 1, -1));
-     *         return dp(0, 0, s, p);
-     *     }
-     *
-     *     bool dp(int x, int y, string &s, string &p)
-     *     {
-     *         if (f[x][y] != -1) return f[x][y];
-     *         if (y == m)
-     *             return f[x][y] = x == n;
-     *         bool first_match = x < n && (s[x] == p[y] || p[y] == '.');
-     *         bool ans;
-     *         if (y + 1 < m && p[y + 1] == '*')
-     *         {
-     *             ans = dp(x, y + 2, s, p) || first_match && dp(x + 1, y, s, p);
-     *         }
-     *         else
-     *             ans = first_match && dp(x + 1, y + 1, s, p);
-     *         return f[x][y] = ans;
-     *
-     * 作者：yxc
-     * 链接：https://www.acwing.com/solution/LeetCode/content/102/
-     * 来源：AcWing
-     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     * dp recursion
      */
+    enum Result {
+        TRUE, FALSE
+    }
+
+    Result[][] memo;
+
+    public boolean isMatch2(String text, String pattern) {
+        memo = new Result[text.length() + 1][pattern.length() + 1];
+        return dp(0, 0, text, pattern);
+    }
+
+    public boolean dp(int i, int j, String text, String pattern) {
+        if (memo[i][j] != null) {
+            return memo[i][j] == Result.TRUE;
+        }
+        boolean ans;
+        if (j == pattern.length()){
+            ans = i == text.length();
+        } else{
+            boolean first_match = (i < text.length() &&
+                    (pattern.charAt(j) == text.charAt(i) ||
+                            pattern.charAt(j) == '.'));
+
+            if (j + 1 < pattern.length() && pattern.charAt(j+1) == '*'){
+                ans = (dp(i, j+2, text, pattern) ||
+                        first_match && dp(i+1, j, text, pattern));
+            } else {
+                ans = first_match && dp(i+1, j+1, text, pattern);
+            }
+        }
+        memo[i][j] = ans ? Result.TRUE : Result.FALSE;
+        return ans;
+    }
+
+    /**
+     * dp bottom-up
+     */
+    public boolean isMatch3(String text, String pattern) {
+        boolean[][] dp = new boolean[text.length() + 1][pattern.length() + 1];
+        dp[text.length()][pattern.length()] = true;
+
+        for (int i = text.length(); i >= 0; i--){
+            for (int j = pattern.length() - 1; j >= 0; j--){
+                boolean first_match = (i < text.length() &&
+                        (pattern.charAt(j) == text.charAt(i) ||
+                                pattern.charAt(j) == '.'));
+                if (j + 1 < pattern.length() && pattern.charAt(j+1) == '*'){
+                    dp[i][j] = dp[i][j+2] || first_match && dp[i+1][j];
+                } else {
+                    dp[i][j] = first_match && dp[i+1][j+1];
+                }
+            }
+        }
+        return dp[0][0];
+    }
 }
