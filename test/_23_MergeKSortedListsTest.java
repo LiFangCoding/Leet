@@ -13,6 +13,14 @@ class _23_MergeKSortedListsTest {
         ListNode l3 = ListNode.stringToListNode("[2,6]");
 
         ListNode[] lists = {l1, l2, l3};
-        assertEquals("1->1->2->3->4->4->5->6", test.mergeKLists(lists).toString());
+        assertEquals("1->1->2->3->4->4->5->6", test.mergeKLists1(lists).toString());
+    }
+
+    @Test
+    void mergeKLists1() {
+    }
+
+    @Test
+    void mergeKLists2() {
     }
 }
