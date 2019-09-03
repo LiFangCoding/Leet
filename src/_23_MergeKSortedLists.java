@@ -56,6 +56,53 @@ public class _23_MergeKSortedLists {
          * T = O(N * logk)
          * N is the toal num of nodes. K is the nunm of lists.
          */
-        if ()
+
+        if (lists == null) {
+            return null;
+        }
+
+        return mergeHelper(lists, 0, lists.length - 1);
+    }
+
+    private ListNode mergeHelper(ListNode[] lists, int start, int end) {
+        if (start == end) {
+            return lists[start];
+        }
+
+        if (start > end) {
+            return null;
+        }
+
+        int mid = start + (end - start) / 2;
+        ListNode left = mergeHelper(lists, start, mid);
+        ListNode right = mergeHelper(lists, mid + 1, end);
+        return mergeTwo(left, right);
+    }
+
+    private ListNode mergeTwo(ListNode left, ListNode right) {
+        ListNode dummy = new ListNode(0);
+        ListNode curr = dummy;
+
+        while (left != null && right != null) {
+            if (left.val < right.val) {
+                curr.next = left;
+                left = left.next;
+                curr = curr.next;
+            } else {
+                curr.next = right;
+                right = right.next;
+                curr = curr.next;
+            }
+        }
+
+        if (left != null) {
+            curr.next = left;
+        }
+
+        if (right != null) {
+            curr.next = right;
+        }
+
+        return dummy.next;
     }
 }
