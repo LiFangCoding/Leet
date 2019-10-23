@@ -1,3 +1,4 @@
+import _1_50._22_GenerateParentheses;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

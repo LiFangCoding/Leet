@@ -1,3 +1,5 @@
+package _1_50;
+
 import java.util.HashMap;
 import java.util.Map;
 

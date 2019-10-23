@@ -1,7 +1,6 @@
+import _1_50._21_MergeTwoSortedLists;
 import common.ListNode;
 import org.junit.jupiter.api.Test;
-
-import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

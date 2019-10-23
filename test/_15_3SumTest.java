@@ -1,9 +1,5 @@
+import _1_50._15_3Sum;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class _15_3SumTest {
     _15_3Sum test = new _15_3Sum();

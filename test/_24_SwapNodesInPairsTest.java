@@ -1,3 +1,4 @@
+import _1_50._24_SwapNodesInPairs;
 import org.junit.jupiter.api.Test;
 
 class _24_SwapNodesInPairsTest {

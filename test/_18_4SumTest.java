@@ -1,6 +1,5 @@
+import _1_50._18_4Sum;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class _18_4SumTest {
     _18_4Sum test = new _18_4Sum();
