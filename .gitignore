@@ -40,3 +40,5 @@ cwallet.sso.lck
 .idea/checkstyle-idea.xml
 .idea/inspectionProfiles/
 .idea/workspace.xml
+
+*.xml
