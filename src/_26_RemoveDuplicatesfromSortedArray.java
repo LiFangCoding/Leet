@@ -40,8 +40,8 @@ public class _26_RemoveDuplicatesfromSortedArray {
             return 0;
         }
 
-        int distinctI = 1;
-        int cur = 1;
+        int i = 0;
+        int cur = 0;
 
         int len = nums.length;
 
@@ -49,13 +49,16 @@ public class _26_RemoveDuplicatesfromSortedArray {
          * here, the end condition is cur = len, it will stop here and not continue.
          */
         while (cur != len) {
-            if (nums[cur] != nums[cur - 1]) {
-                nums[distinctI++] = nums[cur];
+            if (cur == 0) {
+                nums[i++] = nums[cur++];
+            } else {
+                if (nums[cur] != nums[cur - 1]) {
+                    nums[i++] = nums[cur];
+                }
+                cur++;
             }
-
-            cur++;
         }
 
-        return distinctI;
+        return i;
     }
 }
