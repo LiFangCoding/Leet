@@ -23,9 +23,11 @@ public class _24_SwapNodesInPairs {
             ListNode second = first.next;
 
             // in order, exchange two nodes
+            ListNode nextFirst = second.next;
+
             cur.next = second;
-            first.next = second.next;
             second.next = first;
+            first.next = nextFirst;
 
             cur = first;
         }
