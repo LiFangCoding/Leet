@@ -21,5 +21,5 @@ package _1_50;
  * Output: []
  */
 public class _30_SubstringwithConcatenationAllWords {
-
+    //TODO
 }

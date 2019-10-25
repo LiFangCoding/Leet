@@ -21,5 +21,56 @@ package _1_50;
  * Output: -1
  */
 public class _33_SearchinRotatedSortedArray {
+    public static void main(String[] args) {
+        _33_SearchinRotatedSortedArray test = new _33_SearchinRotatedSortedArray();
 
+        int[] nums = {4, 5, 6, 7, 0, 1, 2};
+
+        int expected = 4;
+
+        System.out.println(test.search(nums, 0));
+    }
+
+    public int search(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+
+        int start = 0;
+        int end = nums.length - 1;
+
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[mid] >= nums[0]) {
+                //mid is in the first part of array
+                if (target >= nums[0] && target < nums[mid]) {
+                    end = mid;
+                } else {
+                    start = mid;
+                }
+            } else {
+                // mid is in the second part of array
+                if (target > nums[mid] && target < nums[0]) {
+                    start = mid;
+                } else {
+                    end = mid;
+                }
+            }
+        }
+
+        if (nums[start] == target) {
+            return start;
+        }
+
+        if (nums[end] == target) {
+            return end;
+        }
+
+        return -1;
+    }
 }
