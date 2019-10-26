@@ -46,6 +46,7 @@ public class _33_SearchinRotatedSortedArray {
                 return mid;
             }
 
+            // Find where is mid. So we can know which part is sorted. Then determine scope
             if (nums[mid] >= nums[0]) {
                 //mid is in the first part of array
                 if (target >= nums[0] && target < nums[mid]) {
