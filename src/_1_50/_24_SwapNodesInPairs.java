@@ -20,6 +20,7 @@ public class _24_SwapNodesInPairs {
 
         ListNode cur = dummy;
 
+        //TODO: refactor
         while (cur != null && cur.next != null && cur.next.next != null) {
             ListNode first = cur.next;
             ListNode second = first.next;

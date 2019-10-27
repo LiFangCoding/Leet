@@ -26,7 +26,7 @@ public class _25_ReverseNodesInKGroup {
         dummy.next = head;
         ListNode cur = dummy;
 
-        while (cur != null) {
+        while (true) {
             ListNode first = cur.next;
 
             ListNode end = cur;
