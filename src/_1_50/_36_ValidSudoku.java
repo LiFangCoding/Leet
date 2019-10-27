@@ -54,56 +54,6 @@ import java.util.Set;
  * The given board size is always 9x9.
  */
 public class _36_ValidSudoku {
-    public static void main(String[] args) {
-        char[][] board = {
-                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
-                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
-                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
-                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
-                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
-                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
-                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
-                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
-                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
-        };
-
-        _36_ValidSudoku test = new _36_ValidSudoku();
-
-        System.out.println(test.isValidSudoku(board));
-    }
-
-    /**
-     * @param board
-     * @return
-     */
-    public boolean isValidSudoku_Shorter(char[][] board) {
-        for (int i = 0; i < 9; i++) {
-            Set<Character> row = new HashSet<>();
-            Set<Character> col = new HashSet<>();
-            Set<Character> subbox = new HashSet<>();
-
-            for (int j = 0; j < 9; j++) {
-                // check ith row
-                if (board[i][j] != '.' && row.contains(board[i][j])) {
-                    return false;
-                }
-
-                // check ith col
-                if (board[j][i] != '.' && col.contains(board[j][i])) {
-                    return false;
-                }
-
-                int rowIndex = 3 * (i / 3) + j / 3;
-                int colIndex = 3 * (i % 3) + j % 3;
-
-                if (board[rowIndex][colIndex] != '.' && !subbox.contains(board[rowIndex][colIndex])) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     /**
      * T = O(sizeofBoard)
      *
@@ -180,5 +130,23 @@ public class _36_ValidSudoku {
         }
 
         return true;
+    }
+
+    public static void main(String[] args) {
+        char[][] board = {
+                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
+        };
+
+        _36_ValidSudoku test = new _36_ValidSudoku();
+
+        System.out.println(test.isValidSudoku(board));
     }
 }
