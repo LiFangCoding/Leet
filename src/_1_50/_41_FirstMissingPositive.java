@@ -40,15 +40,15 @@ public class _41_FirstMissingPositive {
 
         int len = nums.length;
 
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < len; i++) {
             // make sure the i is swapped to correct position.
-            if (nums[i] > 0 && nums[i] <= nums.length && nums[nums[i] - 1] != nums[i]) {
+            if (nums[i] > 0 && nums[i] <= len && nums[nums[i] - 1] != nums[i]) {
                 swap(nums, nums[i] - 1, i);
                 i--;
             }
         }
 
-        for (int i = 0; i < nums.length; i ++) {
+        for (int i = 0; i < len; i ++) {
             if (nums[i] != i + 1) {
                 return i + 1;
             }
@@ -75,15 +75,15 @@ public class _41_FirstMissingPositive {
      * @return
      */
     public int firstMissingPositive_bruteForce(int[] A) {
-        // 汗，前段时间写的，同学问我我竟然一时没看懂，这次加点注释
-        // i是要找的最小正整数，从1开始，最大是数组长度+1
         for (int i = 1; i <= A.length + 1; i++) {
             for(int j = 0; j < A.length; j++){
-                //找到了，跳出内循环，找下一个最小数
-                if(A[j] == i) break;
+                if(A[j] == i) {
+                    break;
+                }
                 //找到最后一位也不是，返回i
-                if(j == A.length - 1 && A[j] != i)
+                if(j == A.length - 1 && A[j] != i) {
                     return i;
+                }
             }
         }
         //数组为空的情况
