@@ -19,12 +19,18 @@ package _1_50;
  *
  * Input: s = "PAYPALISHIRING", numRows = 4
  * Output: "PINALSIGYAHRPI"
- * Explanation:
  *
- * P     I    N
- * A   L S  I G
- * Y A   H R
- * P     I
+ * PAYPALISHIRING  3
+ *
+ * 0    4   8     12
+ * 1  3 5 7 9  11 13
+ * 2    6   10
+ *
+ * Explanation:  4
+ * 0    6       12
+ * 1  5 7    11 13   17
+ * 2 4  8 10    14 16
+ * 3    9       15
  */
 public class _6_ZigZagConversion {
     /**
