@@ -17,9 +17,10 @@ import java.util.List;
  * ]
  */
 public class _22_GenerateParentheses {
-    List<String> res = new ArrayList<>();
+    List<String> res;
 
     public List<String> generateParenthesis(int n) {
+        res = new ArrayList<>();
         if (n == 0) {
             return res;
         }

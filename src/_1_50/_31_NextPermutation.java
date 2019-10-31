@@ -48,10 +48,6 @@ public class _31_NextPermutation {
      * 1,3,5,4,8,7,6
      * 1,3,5,6,4,7,8
      * <p>
-     * 1,7,6
-     * 1,7,7,6
-     * 6,7,1
-     * <p>
      * 1,6,7
      * 1,7,6
      * <p>
@@ -59,6 +55,9 @@ public class _31_NextPermutation {
      * 7,1,7
      * 7,7,1
      *
+     * Consider edge case problem
+     * 1
+     * 1,1
      * @param nums
      */
     public void nextPermutation(int[] nums) {

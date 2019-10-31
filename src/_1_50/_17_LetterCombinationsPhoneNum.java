@@ -14,10 +14,11 @@ import java.util.List;
  * Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
  */
 public class _17_LetterCombinationsPhoneNum {
-    List<String> res = new ArrayList<String>();
+    List<String> res;
     String[] map = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
     public List<String> letterCombinations(String digits) {
+        res =  new ArrayList<>();
         /**
          * when len = 0, res = [] not [""]
          */

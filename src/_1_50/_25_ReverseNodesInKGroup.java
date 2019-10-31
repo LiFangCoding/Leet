@@ -40,8 +40,9 @@ public class _25_ReverseNodesInKGroup {
 
             ListNode next = end.next;
             reverse(first, end);
-            first.next = next;
+
             cur.next = end;
+            first.next = next;
             cur = first;
         }
 

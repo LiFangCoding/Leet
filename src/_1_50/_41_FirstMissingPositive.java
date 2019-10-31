@@ -65,7 +65,7 @@ public class _41_FirstMissingPositive {
 
     public static void main(String[] args) {
         _41_FirstMissingPositive test = new _41_FirstMissingPositive();
-        int[] A = {3, 4, -1, -1};
+        int[] A = {3, 4, -1, 1};
         System.out.println(test.firstMissingPositive(A));
     }
     /**

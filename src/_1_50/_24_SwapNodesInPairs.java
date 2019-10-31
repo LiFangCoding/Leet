@@ -20,17 +20,21 @@ public class _24_SwapNodesInPairs {
 
         ListNode cur = dummy;
 
-        //TODO: refactor
-        while (cur != null && cur.next != null && cur.next.next != null) {
+        //TODO: test on leet
+        while (true) {
             ListNode first = cur.next;
+
+            if (first == null || first.next == null) {
+                break;
+            }
             ListNode second = first.next;
 
             // in order, exchange two nodes
-            ListNode nextFirst = second.next;
+            ListNode next = second.next;
 
-            cur.next = second;
+            first.next = next;
             second.next = first;
-            first.next = nextFirst;
+            cur.next = second;
 
             cur = first;
         }

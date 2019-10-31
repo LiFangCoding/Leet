@@ -23,11 +23,16 @@ package _1_50;
  */
 public class _29_DivideTwoIntegers {
     public static void main(String[] args) {
-        _29_DivideTwoIntegers test = new _29_DivideTwoIntegers();
-        int res = test.divide(-1, 1);
-        System.out.println(res);
+        System.out.println(true ^ false);
+        System.out.println(true ^ true);
+        System.out.println(false ^ true);
+        System.out.println(false ^ false);
 
-        System.out.println(test.divide(-2147483648, 1));
+//        _29_DivideTwoIntegers test = new _29_DivideTwoIntegers();
+//        int res = test.divide(-1, 1);
+//        System.out.println(res);
+//
+//        System.out.println(test.divide(-2147483648, 1));
     }
 
     public int divide(int dividend, int divisor) {
@@ -35,12 +40,17 @@ public class _29_DivideTwoIntegers {
             return Integer.MAX_VALUE;
         }
 
+        int res = 0;
+        int sign = -1;
+        boolean bothPos = dividend > 0 && divisor > 0;
+        boolean bothNeg = dividend < 0 && divisor < 0;
+        if (bothPos || bothNeg) {
+            sign = 1;
+        }
+
         // Math.abs(Integer.MIN_VALUE) will return MIN_VALUE
         long m = Math.abs((long) dividend);
         long n = Math.abs((long) divisor);
-        int res = 0;
-
-        int sign = ((dividend < 0) ^ (divisor < 0)) ? -1 : 1;
 
         while (m >= n) {
             long substractVal = n, times = 1;
@@ -54,6 +64,6 @@ public class _29_DivideTwoIntegers {
             m -= substractVal;
         }
 
-        return sign == 1 ? res : -res;
+        return sign * res;
     }
 }

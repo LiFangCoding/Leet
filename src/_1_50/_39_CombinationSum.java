@@ -64,6 +64,7 @@ public class _39_CombinationSum {
 
     /**
      * Without start index,
+     * for each method, finally add correct path into res
      * candidates = [2,3,6,7], target = 7,
      * res = {[2,2,3], [2,3,2], [3,2,2], 7}. Not correct.
      */

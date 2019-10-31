@@ -20,7 +20,8 @@ import common.ListNode;
  */
 public class _19_RemoveNthNodeFromEnd {
     /**
-     * 5min37
+     * T = O(N)
+     * N is size of list
      */
     public ListNode removeNthFromEnd(ListNode head, int n) {
         if (head == null) {
