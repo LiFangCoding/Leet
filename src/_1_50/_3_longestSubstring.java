@@ -27,6 +27,10 @@ import java.util.Set;
  */
 
 public class _3_longestSubstring {
+    /**
+     * T = O(n)
+     * S = O(n)
+     */
     public static int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -56,6 +60,10 @@ public class _3_longestSubstring {
         return res;
     }
 
+    /**
+     * T = O(n) But a little slower since it will remove 1 by 1, many times. For above method, just 1 time.
+     * S = O(n)
+     */
     public static int lengthOfLongestSubstring2(String s) {
         if (s == null || s.length() == 0) {
             return 0;

@@ -4,16 +4,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class _6_ZigZagConversionTest {
+    _6_ZigZagConversion test = new _6_ZigZagConversion();
 
     @Test
-    void convert() {
-        assertEquals("04135726", _6_ZigZagConversion.convert("01234567", 3));
+    void test() {
+        assertEquals("04135726", test.convert_my("01234567", 3));
 
         String s = "PAYPALISHIRING";
-        assertEquals("PAHNAPLSIIGYIR", _6_ZigZagConversion.convert(s, 3));
+        assertEquals("PAHNAPLSIIGYIR", test.convert_my(s, 3));
 
         s = "PAYPALISHIRING";
-        assertEquals("PINALSIGYAHRPI", _6_ZigZagConversion.convert(s, 4));
+        assertEquals("PINALSIGYAHRPI", test.convert_my(s, 4));
+
+
+
 
     }
 }
