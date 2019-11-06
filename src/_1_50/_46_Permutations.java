@@ -23,14 +23,38 @@ public class _46_Permutations {
     List<List<Integer>> res;
 
     public List<List<Integer>> permute(int[] nums) {
-        path = new ArrayList<>();
-        res = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
 
-        helper(nums, 0);
+        helper(nums, used, path, res);
         return res;
     }
 
-    // add path to list
+
+    private void helper(int[] A, boolean[] used, List<Integer> path, List<List<Integer>> res) {
+        if (path.size() == A.length) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+
+        for (int i = 0; i < A.length; i++) {
+            if (used[i]) {
+                continue;
+            }
+            used[i] = true;
+            path.add(A[i]);
+            helper(A, used, path, res);
+            path.remove(path.size() - 1);
+            used[i] = false;
+        }
+    }
+
+    /**
+     * better do not use swap. Because swap will break the relationship that sorted array the same are grouped.
+     * @param nums
+     * @param start
+     */
     private void helper(int[] nums, int start) {
         if (path.size() == nums.length) {
             res.add(new ArrayList<>(path));
