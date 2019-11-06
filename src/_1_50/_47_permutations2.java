@@ -32,6 +32,10 @@ public class _47_permutations2 {
         return res;
     }
 
+    /**
+     * think about candidates.
+     * choose one, then backtrack. Like idea in algorithm design manual
+     */
     private void helper(int[] A, boolean[] used, List<Integer> path, List<List<Integer>> res) {
         // base case
         if (path.size() == A.length) {

@@ -31,7 +31,6 @@ public class _46_Permutations {
         return res;
     }
 
-
     private void helper(int[] A, boolean[] used, List<Integer> path, List<List<Integer>> res) {
         if (path.size() == A.length) {
             res.add(new ArrayList<>(path));
