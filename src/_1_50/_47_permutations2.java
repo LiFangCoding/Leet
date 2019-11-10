@@ -69,27 +69,27 @@ public class _47_permutations2 {
 
     // Has bug.
     // If we swap here, it can be 9,0, 1, 0. It will break the point that A[i] == A[i - 1]
-    private void helper_bug(int[] A, int start, List<Integer> path, List<List<Integer>> res) {
-        if (start == A.length) {
-            res.add(new ArrayList<>(path));
-        }
-
-        for (int i = start; i < A.length; i++) {
-            if (i != start && A[i] == A[i - 1]) {
-                continue;
-            }
-
-            swap(A, i, start);
-            path.add(A[start]);
-            helper_bug(A, start + 1, path, res);
-            swap(A, i, start);
-            path.remove(path.size() - 1);
-        }
-    }
-
-    private void swap(int[] A, int i, int j) {
-        int temp = A[i];
-        A[i] = A[j];
-        A[j] = temp;
-    }
+//    private void helper_bug(int[] A, int start, List<Integer> path, List<List<Integer>> res) {
+//        if (start == A.length) {
+//            res.add(new ArrayList<>(path));
+//        }
+//
+//        for (int i = start; i < A.length; i++) {
+//            if (i != start && A[i] == A[i - 1]) {
+//                continue;
+//            }
+//
+//            swap(A, i, start);
+//            path.add(A[start]);
+//            helper_bug(A, start + 1, path, res);
+//            swap(A, i, start);
+//            path.remove(path.size() - 1);
+//        }
+//    }
+//
+//    private void swap(int[] A, int i, int j) {
+//        int temp = A[i];
+//        A[i] = A[j];
+//        A[j] = temp;
+//    }
 }
