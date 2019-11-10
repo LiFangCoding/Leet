@@ -37,6 +37,7 @@ public class _43_MultiplyStrings {
      * 1 0  2
      * 3 0 6
      */
+    //TODO
     public String multiply(String s1, String s2) {
         if (s1 == null || s2 == null) {
             return "";
