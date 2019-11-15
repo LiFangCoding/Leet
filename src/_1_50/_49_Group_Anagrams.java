@@ -47,5 +47,4 @@ public class _49_Group_Anagrams {
 
         return new ArrayList(map.values());
     }
-
 }
