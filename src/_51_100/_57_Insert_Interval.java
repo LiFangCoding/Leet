@@ -18,9 +18,9 @@ import sun.jvm.hotspot.utilities.Interval;
  * Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
  */
 public class _57_Insert_Interval {
-    public int[][] insert(int[][] intervals, int[] newInterval) {
-
-    }
-
-    private Interval mergeInteval(List<Integer> res,)
+//    public int[][] insert(int[][] intervals, int[] newInterval) {
+//
+//    }
+//
+//    private Interval mergeInteval(List<Integer> res,)
 }
