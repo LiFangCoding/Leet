@@ -11,14 +11,6 @@ public class _51_NQueens {
       return res;
     }
 
-    /**
-     * chosen for the all rows the cols
-     */
-    /**
-     * chosen
-     * candidate
-     */
-
     helper(n, new ArrayList<>(), res);
     return res;
   }
