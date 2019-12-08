@@ -9,6 +9,7 @@ public class _67_Add_Binary {
             int sum = carry;
             sum += (i >= 0) ? a.charAt(i) - '0' : 0;
             sum += (j >= 0) ? b.charAt(j) - '0' : 0;
+
             res = (sum % 2) + res;
             carry = sum / 2;
         }
