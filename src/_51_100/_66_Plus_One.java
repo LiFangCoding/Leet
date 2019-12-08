@@ -1,5 +1,7 @@
 package _51_100;
 
+import java.util.Arrays;
+
 /**
  * Given a non-empty array of digits representing a non-negative integer, plus one to the integer.
  * <p>
@@ -19,5 +21,41 @@ package _51_100;
  * Explanation: The array represents the integer 4321.
  */
 public class _66_Plus_One {
+    public static void main(String[] args) {
+        _66_Plus_One test = new _66_Plus_One();
+        int[] A = {8, 9, 9};
+        System.out.println(Arrays.toString(test.plusOne(A)));
+    }
 
+    /**
+     * @param A digits array
+     * @return
+     */
+    public int[] plusOne(int[] A) {
+        if (A == null || A.length == 0) {
+            return new int[]{0};
+        }
+
+        int len = A.length;
+        int carries = 1;
+
+        for (int i = len - 1; i >= 0 && carries != 0; i--) {
+            int sum = A[i] + carries;
+            A[i] = sum % 10;
+            carries = sum / 10;
+        }
+
+        if (carries == 0) {
+            return A;
+        }
+
+        int[] res = new int[len + 1];
+        res[0] = 1;
+
+        for (int j = 1; j < res.length; j++) {
+            res[j] = A[j - 1];
+        }
+
+        return res;
+    }
 }
