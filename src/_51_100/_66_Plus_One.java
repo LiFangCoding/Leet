@@ -37,15 +37,15 @@ public class _66_Plus_One {
         }
 
         int len = A.length;
-        int carries = 1;
+        int carry = 1;
 
-        for (int i = len - 1; i >= 0 && carries != 0; i--) {
-            int sum = A[i] + carries;
+        for (int i = len - 1; i >= 0 && carry != 0; i--) {
+            int sum = A[i] + carry;
             A[i] = sum % 10;
-            carries = sum / 10;
+            carry = sum / 10;
         }
 
-        if (carries == 0) {
+        if (carry == 0) {
             return A;
         }
 
