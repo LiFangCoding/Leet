@@ -38,7 +38,9 @@ public class _75_Sort_Colors {
 
         /**
          * !!! pay attention. Do not swap the place where is 2.
-         * i<= right. So before i is always 0 and 1
+         * i<= right. Because when iterate all 2 will go to end,
+         * So before i is always 0 or 1.
+         *  left =< i <= right
          */
         for (int i = 0; i <= right; ) {
             /**
@@ -50,9 +52,9 @@ public class _75_Sort_Colors {
              */
             if (A[i] == 0) {
                 /**
-                 * !! if not i++, it will wrong order.
+                 * !! if not i++, since swap can be 0. left will ++.
                  */
-                swap(A, i++, left++);
+                swap(A, i, left++);
             } else if (A[i] == 2) {
                 swap(A, i, right--);
             } else {
