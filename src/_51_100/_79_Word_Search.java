@@ -46,9 +46,10 @@ public class _79_Word_Search {
         if (board[x][y] != word.charAt(chosen.length())) {
             return false;
         }
-
-        chosen += board[x][y];
-        if (chosen.length() == word.length()) {
+        /**
+         * check current sol is ok
+         */
+        if (chosen.length() == word.length() - 1) {
             return true;
         }
 
@@ -57,19 +58,21 @@ public class _79_Word_Search {
         int m = board.length;
         int n = board[0].length;
 
+        /**
+         * cannot go back.
+         * check further has solution
+         */
         visited[x][y] = true;
         for (int i = 0; i < dx.length; i++) {
             int newx = x + dx[i];
             int newy = y + dy[i];
 
-            if (newx < 0 || newx >= m || newy < 0 || newy >= n) {
+            if (visited[newx][newy] || newx < 0 || newx >= m || newy < 0 || newy >= n) {
                 continue;
             }
 
-            if (!visited[newx][newy]) {
-                if (helper(newx, newy, visited, chosen, board, word)) {
-                    return true;
-                }
+            if (helper(newx, newy, visited, chosen + board[x][y], board, word)) {
+                return true;
             }
         }
         visited[x][y] = false;
