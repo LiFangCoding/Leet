@@ -20,7 +20,8 @@ public class _76_Minimum_Window_Substring {
 
         StringBuilder sb = new StringBuilder();
         for (int right = 0, j = 0, c = 0; right < s.length(); right++) {
-            if (hash)
+//            if (hash)
         }
+        return null;
     }
 }
