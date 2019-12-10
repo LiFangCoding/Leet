@@ -37,19 +37,14 @@ public class _75_Sort_Colors {
         int right = len - 1;
 
         /**
-         * !!! pay attention. Do not swap the place where is 2.
-         * i<= right. Because when iterate all 2 will go to end,
-         * So before i is always 0 or 1.
-         *  left =< i <= right
+         * !!! pay attention.
+         * before left are all the 0s. Behind right are all the 1s.
+         * Interate all the elements, if meet 0, swap it to 0s,
+         * the swapped back value can be 0 ({0}) or 1. No need to care since no 2.
+         * If meet 2, swap it to 2s. Care swapped value. Since it can be 0,1,2
+         * Then all are well sorted.
          */
         for (int i = 0; i <= right; ) {
-            /**
-             * move 0 to the place where is pl to fill 0
-             * move 1 to the place where is right to fill 1
-             * Invariant: pl left is 0
-             * right right is 2
-             *
-             */
             if (A[i] == 0) {
                 /**
                  * !! if not i++, since swap can be 0. left will ++.
