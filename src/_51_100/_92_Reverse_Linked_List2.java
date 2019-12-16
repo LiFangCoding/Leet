@@ -28,6 +28,8 @@ public class _92_Reverse_Linked_List2 {
 
         ListNode prev = cur;
         // reverse start
+        ListNode tail = prev.next;
+
         ListNode p1 = prev.next;
         ListNode p2 = p1.next;
 
@@ -38,7 +40,7 @@ public class _92_Reverse_Linked_List2 {
             p2 = temp;
         }
 
-        prev.next.next = p2;
+        tail.next = p2;
         prev.next = p1;
         return dummy.next;
     }
