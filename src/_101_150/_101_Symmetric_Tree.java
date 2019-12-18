@@ -1,50 +1,50 @@
-package _101_150;
+package _101_150;//Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+//
+// For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
+//
+//
+//    1
+//   / \
+//  2   2
+// / \ / \
+//3  4 4  3
+//
+//
+//
+//
+// But the following [1,2,2,null,3,null,3] is not:
+//
+//
+//    1
+//   / \
+//  2   2
+//   \   \
+//   3    3
+//
+//
+//
+//
+// Note:
+//Bonus points if you could solve it both recursively and iteratively.
+// Related Topics Tree Depth-first Search Breadth-first Search
+
+
+//leetcode submit region begin(Prohibit modification and deletion)
 
 import common.TreeNode;
 
 import java.util.Stack;
 
 /**
- * Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ * int val;
+ * TreeNode left;
+ * TreeNode right;
+ * TreeNode(int x) { val = x; }
+ * }
  */
-public class _101_Symmetric_Tree {
-    public static boolean isSymmetric_ite_inorder(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
-        TreeNode p = root.left;
-        TreeNode q = root.right;
-
-        Stack<TreeNode> stack1 = new Stack<>();
-        Stack<TreeNode> stack2 = new Stack<>();
-
-        while (p != null) {
-            stack1.
-        }
-
-        while (node0 != null || node1 != null || !stk0.isEmpty() || !stk1.isEmpty()) {
-            while (node0 != null && node1 != null) {
-                stk0.add(node0);
-                node0 = node0.left;
-                stk1.add(node1);
-                node1 = node1.right;
-            }
-            if (node0 != null || node1 != null) {
-                return false;
-            }
-            node0 = stk0.get(stk0.size() - 1);
-            stk0.remove(stk0.size() - 1);
-            node1 = stk1.get(stk1.size() - 1);
-            stk1.remove(stk1.size() - 1);
-            if (node0.val != node1.val) {
-                return false;
-            }
-            node0 = node0.right;
-            node1 = node1.left;
-        }
-        return true;
-    }
-
+class _101_Symmetric_Tree {
     public boolean isSymmetric(TreeNode root) {
         if (root == null) {
             return true;
@@ -59,4 +59,47 @@ public class _101_Symmetric_Tree {
 
         return p.val == q.val && helper(p.left, q.right) && helper(p.right, q.left);
     }
+
+    public boolean isSymmetric_iterative(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        Stack<TreeNode> left = new Stack<>();
+        Stack<TreeNode> right = new Stack<>();
+
+        TreeNode lc = root.left;
+        TreeNode rc = root.right;
+
+        while (true) {
+            while (lc != null && rc != null) {
+                left.push(lc);
+                right.push(rc);
+                lc = lc.left;
+                rc = rc.right;
+            }
+
+            if (!(lc == null && rc == null)) {
+                return false;
+            }
+
+            if (left.isEmpty() && right.isEmpty()) {
+                return true;
+            }
+
+            if (left.isEmpty() || right.isEmpty()) {
+                return false;
+            }
+
+            lc = left.pop();
+            rc = right.pop();
+
+            if (lc.val != rc.val) {
+                return false;
+            }
+            lc = lc.right;
+            rc = rc.left;
+        }
+    }
 }
+//leetcode submit region end(Prohibit modification and deletion)
