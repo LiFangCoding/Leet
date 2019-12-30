@@ -2,6 +2,8 @@ package _101_150;
 
 import common.TreeNode;
 
+import java.util.Stack;
+
 /**
  * Given a binary tree, flatten it to a linked list in-place.
  * <p>
@@ -48,5 +50,32 @@ public class _114_FlattenBinaryTreetoLinkedList {
         TreeNode right = root.right;
         flatten(root.left);
         flatten(right);
+    }
+
+    public void flatten_iterative(TreeNode root) {
+
+        Stack<TreeNode> stack = new Stack<>();
+
+        if (root != null) {
+            stack.push(root);
+        }
+
+        TreeNode prev = null;
+        while (!stack.isEmpty()) {
+            TreeNode cur = stack.pop();
+            if (prev != null) {
+                prev.left = null;
+                prev.right = cur;
+            }
+
+            prev = cur;
+            if (cur.right != null) {
+                stack.push(cur.right);
+            }
+
+            if (cur.left != null) {
+                stack.push(cur.left);
+            }
+        }
     }
 }
