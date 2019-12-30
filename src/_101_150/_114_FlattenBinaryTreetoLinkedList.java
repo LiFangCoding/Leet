@@ -35,17 +35,17 @@ public class _114_FlattenBinaryTreetoLinkedList {
             return;
         }
 
-        if (prev != null) {
-            prev.left = null;
-            prev.right = root;
-        }
+        TreeNode left = root.left;
+        TreeNode right = root.right;
+
+        root.left = null;
+        root.right = left;
 
         prev = root;
-        /**
-         * !! keep the record. since root.right can change
-         */
-        TreeNode right = root.right;
-        flatten(root.left);
+
+        flatten(left);
+        prev.left = null;
+        prev.right = right;
         flatten(right);
     }
 }
