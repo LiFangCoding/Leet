@@ -24,16 +24,23 @@ import common.Node;
  */
 public class _117_Populating_Next_Right_Pointers_in_Each_Node {
     public Node connect(Node root) {
+        if (root == null) {
+            return root;
+        }
 
-        Node cur = root;
-        while (cur != null) {
+        /**
+         * !!!levelHead only goes to previous level.
+         * Here we will check by the levelHead. If it is last level, it will check all left, right are empty.
+         */
+        Node levelHead = root;
+        while (levelHead != null) {
             Node dummy = new Node(0);
             Node tail = dummy;
 
             /**
              * traverse next level
              */
-            while (cur != null) {
+            for (Node cur = levelHead; cur != null; cur = cur.next) {
                 if (cur.left != null) {
                     tail.next = cur.left;
                     tail = tail.next;
@@ -43,11 +50,10 @@ public class _117_Populating_Next_Right_Pointers_in_Each_Node {
                     tail.next = cur.right;
                     tail = tail.next;
                 }
-                cur = cur.next;
             }
 
             tail.next = null;
-            cur = dummy.next;
+            levelHead = dummy.next;
         }
 
         return root;

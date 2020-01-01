@@ -48,7 +48,10 @@ public class _116_PopulatingNextRightPointersInEachNode {
          * When it goes to 2, 2.left.next is null.next.
          * will have error
          */
-        while (levelHead.left != null) {
+        while (levelHead != null) {
+            if (levelHead.left == null) {
+                break;
+            }
             for (Node cur = levelHead; cur != null; cur = cur.next) {
                 cur.left.next = cur.right;
                 cur.right.next = cur.next == null ? null : cur.next.left;
