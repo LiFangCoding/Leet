@@ -63,7 +63,7 @@ public class _110_BalancedBinaryTree {
         return new RT(Math.max(left.h, right.h) + 1, true);
     }
 
-    public class RT {
+    public static class RT {
         int h;
         boolean isBal;
 
