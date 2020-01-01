@@ -33,18 +33,27 @@ import common.Node;
  */
 public class _116_PopulatingNextRightPointersInEachNode {
     public Node connect(Node root) {
+        if (root == null) {
+            return root;
+        }
+
+
+        Node levelHead = root;
         /**
          * !!! level.left != null.
+         *
+         * Test cases:
+         * 1
+         * 2 3
+         * When it goes to 2, 2.left.next is null.next.
+         * will have error
          */
-        for (Node level = root; level != null && level.left != null; level = level.left) {
-            for (Node cur = level; cur != null; cur = cur.next) {
+        while (levelHead.left != null) {
+            for (Node cur = levelHead; cur != null; cur = cur.next) {
                 cur.left.next = cur.right;
-                if (cur.next == null) {
-                    cur.right.next = null;
-                } else {
-                    cur.right.next = cur.next.left;
-                }
+                cur.right.next = cur.next == null ? null : cur.next.left;
             }
+            levelHead = levelHead.left;
         }
 
         return root;
