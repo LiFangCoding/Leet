@@ -41,6 +41,9 @@ public class _127_Word_Ladder {
         _127_Word_Ladder test = new _127_Word_Ladder();
         System.out.println(test.ladderLength("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log", "cog")));
         System.out.println(test.ladderLength("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log")));
+
+        System.out.println(test.ladderLength_DBFS("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log", "cog")));
+        System.out.println(test.ladderLength_DBFS("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log")));
     }
 
     public int ladderLength(String start, String end, List<String> wordList) {
@@ -96,5 +99,56 @@ public class _127_Word_Ladder {
             }
         }
         return nextWords;                                    //构造当前单词的全部下一步方案
+    }
+
+    //TODO: make it to Double bfs
+    public int ladderLength_DBFS(String start, String end, List<String> wordList) {
+        Set<String> hash = new HashSet<>(wordList);
+
+        if (!hash.contains(end)) {
+            return 0;
+        }
+
+
+        Set<String> head = new HashSet<>();
+        Set<String> tail = new HashSet<>();
+        head.add(start);
+        tail.add(end);
+
+        int res = 2;
+        while (head.size() != 0 && tail.size() != 0) {
+            if (head.size() > tail.size()) {
+                Set<String> temp = head;
+                head = tail;
+                tail = head;
+            }
+
+            Set<String> tmp = new HashSet<>();
+
+            for (String word : head) {
+                for (int i = 0; i < word.length(); i++) {
+                    char c = word.charAt(i);
+
+                    for (int j = 0; j < 26; j++) {
+                        if ('a' + j == c) continue;
+                        StringBuilder sb = new StringBuilder(word);
+                        sb.setCharAt(i, (char) ('a' + j));
+                        String next = sb.toString();
+
+                        if (tail.contains(next)) return res;
+
+                        if (hash.contains(word)) {
+                            tmp.add(word);
+                            hash.remove(word);
+                        }
+                    }
+                }
+            }
+            res++;
+            Set<String> swaptmp = tmp;
+            head = tmp;
+            tmp = swaptmp;
+        }
+        return 0;
     }
 }
