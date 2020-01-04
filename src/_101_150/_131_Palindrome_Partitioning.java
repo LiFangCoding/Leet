@@ -41,6 +41,9 @@ public class _131_Palindrome_Partitioning {
             return;
         }
 
+        /**
+         * start ~ i
+         */
         for (int i = start; i < chars.length; i++) {
             if (isValid(chars, start, i)) {
                 path.add(new String(chars, start, i + 1 - start));
