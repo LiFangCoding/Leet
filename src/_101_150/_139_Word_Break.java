@@ -35,6 +35,7 @@ public class _139_Word_Break {
         List<String> wordDict = Arrays.asList("leet", "code");
 
         System.out.println(test.wordBreak_brute(s, wordDict));
+        System.out.println(test.wordBreak(s, wordDict));
     }
 
     /**
@@ -59,9 +60,10 @@ public class _139_Word_Break {
         boolean[] dp = new boolean[len + 1];
         dp[0] = true;
         Set<String> set = new HashSet<>(wordDict);
+        int maxLen = getMaxLength(set);
 
         for (int i = 1; i <= len; i++) {
-            for (int j = 0; j <= i - 1; j++) {
+            for (int j = Math.max(0, (i - maxLen)); j <= i - 1; j++) {
                 if (set.contains(s.substring(j, i)) && dp[j]) {
                     dp[i] = true;
                     break;
@@ -70,6 +72,14 @@ public class _139_Word_Break {
         }
 
         return dp[len];
+    }
+
+    private int getMaxLength(Set<String> dict) {
+        int max = 0;
+        for (String s : dict) {
+            max = Math.max(max, s.length());
+        }
+        return max;
     }
 
     /**
