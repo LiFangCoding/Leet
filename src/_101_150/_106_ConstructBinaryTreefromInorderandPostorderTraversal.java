@@ -50,7 +50,7 @@ public class _106_ConstructBinaryTreefromInorderandPostorderTraversal {
         }
 
         map = new HashMap<>();
-        for (int i = 0; i < inorder.length; i++) {
+        for (int i = 0; i < len1; i++) {
             /**
              * !!! map is val, index
              * not index, val

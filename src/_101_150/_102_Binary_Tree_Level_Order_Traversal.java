@@ -28,30 +28,30 @@ public class _102_Binary_Tree_Level_Order_Traversal {
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
 
-        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<TreeNode> q = new LinkedList<>();
         /**
          * !!!
          */
         if (root != null) {
-            queue.add(root);
+            q.add(root);
         }
 
-        while (!queue.isEmpty()) {
-            int size = queue.size();
+        while (!q.isEmpty()) {
+            int size = q.size();
 
             List<Integer> level = new ArrayList<>();
             for (int i = 0; i < size; i++) {
-                TreeNode cur = queue.remove();
+                TreeNode cur = q.remove();
                 /**
                  * !!! cur should not be null
                  */
                 level.add(cur.val);
                 if (cur.left != null) {
-                    queue.add(cur.left);
+                    q.add(cur.left);
                 }
 
                 if (cur.right != null) {
-                    queue.add(cur.right);
+                    q.add(cur.right);
                 }
             }
 

@@ -45,21 +45,20 @@ public class _113_PathSum2 {
             return;
         }
 
+        path.add(root.val);
+
         if (root.left == null && root.right == null && root.val == sum) {
             /**
              * !!! path need to add current node. Then remove it.
              * Run small test cases before
              * This ends one step before.
              */
-            path.add(root.val);
             res.add(new ArrayList<>(path));
-            path.remove(path.size() - 1);
+        } else {
+          helper(root.left, sum - root.val);
+          helper(root.right, sum - root.val);
         }
 
-        path.add(root.val);
-        helper(root.left, sum - root.val);
-
-        helper(root.right, sum - root.val);
         path.remove(path.size() - 1);
     }
 }
