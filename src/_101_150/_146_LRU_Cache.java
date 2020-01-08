@@ -55,26 +55,19 @@ public class _146_LRU_Cache {
         return newest.value;
     }
 
-    public void put(int key, int value) {
-        if (!map.containsKey(key)) {
-            Node newest = new Node(key, value);
-            map.put(key, newest);
-            insertToTail(newest);
+    public static void main(String[] args) {
+        _146_LRU_Cache cache = new _146_LRU_Cache(2);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        // returns 1
+        System.out.println(cache.get(1));
+        cache.put(3, 3);    // evicts key 2
+        cache.get(2);       // returns -1 (not found)
+        cache.put(4, 4);    // evicts key 1
+        cache.get(1);       // returns -1 (not found)
+        cache.get(3);       // returns 3
+        cache.get(4);       // returns 4
 
-            if (map.size() == capacity) {
-                /**
-                 * map also need to remove the head.next
-                 * !!! Here is why we need key.
-                 */
-                map.remove(head.next.key);
-                disconnect(head.next);
-            }
-        } else {
-            Node newest = map.get(key);
-            newest.value = value;
-            disconnect(newest);
-            insertToTail(newest);
-        }
     }
 
     private void insertToTail(Node node) {
@@ -107,6 +100,31 @@ public class _146_LRU_Cache {
             this.value = value;
             prev = null;
             next = null;
+        }
+    }
+
+    public void put(int key, int value) {
+        if (!map.containsKey(key)) {
+            /**
+             * !!!Check if it reach capacity before, detached the node, then put node
+             */
+            if (map.size() == capacity) {
+                /**
+                 * map also need to remove the head.next
+                 * !!! Here is why we need key.
+                 */
+                map.remove(head.next.key);
+                disconnect(head.next);
+            }
+
+            Node newest = new Node(key, value);
+            map.put(key, newest);
+            insertToTail(newest);
+        } else {
+            Node newest = map.get(key);
+            newest.value = value;
+            disconnect(newest);
+            insertToTail(newest);
         }
     }
 }
