@@ -33,8 +33,18 @@ package _151_200;
  * For C programmers, try to solve it in-place in O(1) extra space.
  */
 public class _151_Reverse_Words_in_a_String {
+    public static void main(String[] args) {
+        _151_Reverse_Words_in_a_String test = new _151_Reverse_Words_in_a_String();
+        System.out.println(test.reverseWords("  hello world!  "));
+
+    }
+
     public String reverseWords(String s) {
-        char[] chars = s.trim().toCharArray();
+        /**
+         * Here already trim()
+         * If we do not use trim()
+         */
+        char[] chars = s.toCharArray();
         StringBuilder sb = new StringBuilder();
         reverse(chars, 0, chars.length - 1);
 
@@ -47,8 +57,10 @@ public class _151_Reverse_Words_in_a_String {
                 r++;
             }
 
+            if (r == chars.length) {
+                break;
+            }
             l = r;
-
             /**
              * find next word end index
              */
@@ -58,6 +70,7 @@ public class _151_Reverse_Words_in_a_String {
 
             reverse(chars, l, r - 1);
             sb.append(new String(chars, l, r - l));
+            System.out.println("new Strign is " + new String(chars, l, r - l));
             sb.append(' ');
         }
 
