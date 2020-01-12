@@ -27,35 +27,53 @@ package _151_200;
  * Explanation: We can replace '0' with '1' to get t.
  */
 public class _161_OneEditDistance {
+    public static void main(String[] args) {
+        _161_OneEditDistance test = new _161_OneEditDistance();
+        System.out.println(test.isOneEditDistance("a", "ac"));
+        System.out.println(test.isOneEditDistance("ab", "acb"));
+        System.out.println(test.isOneEditDistance("cab", "ad"));
+        System.out.println(test.isOneEditDistance("1203", "1213"));
+    }
+
     /**
-     * f(i, i + 1) = other ith chars are same
-     * f(i + 1, i)  ith chars are same
-     * (i, i) means the all are same
-     * <p>
-     * f(m ,n) = if last equals, f(m - 1, n - 1)
-     * if not equal,
+     * "a"
+     * ""
      */
     public boolean isOneEditDistance(String s, String t) {
         if (s == null || t == null) {
             return false;
         }
 
-        /**
-         * s should always larger
-         */
-        if (s.length() < t.length()) {
-            String temp = s;
-            s = t;
-            t = s;
-        }
-
         int slen = s.length();
         int tlen = t.length();
 
-        if ((slen - tlen) > 1) {
+        /**
+         * s should always smaller or equal
+         */
+        if (slen > tlen) {
+            return isOneEditDistance(t, s);
+        }
+
+        if ((tlen - slen) > 1) {
             return false;
         }
 
+        for (int i = 0; i < slen; i++) {
+            if (s.charAt(i) != t.charAt(i)) {
+                // if strings have the same length
+                if (slen == tlen) {
+                    return s.substring(i + 1).equals(t.substring(i + 1));
+                }
+                // if strings have different lengths
+                else {
+                    return s.substring(i).equals(t.substring(i + 1));
+                }
+            }
+        }
 
+        // If there is no diffs on ns distance
+        // the strings are one edit away only if
+        // t has one more character.
+        return (slen + 1 == tlen);
     }
 }
