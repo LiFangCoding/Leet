@@ -41,6 +41,14 @@ package _101_150;
  * ^^^
  */
 public class _115_DistinctSubsequences {
+  /**
+   * dp[i][j] means the ways that first i chars of s can form the first j chars of t
+   *
+   * f[i][j] = f[i - 1][j - 1] (if s[i] == s[j]) + f[i-1][j]
+   * @param s
+   * @param t
+   * @return
+   */
     public int numDistinct(String s, String t) {
         if (s == null || t == null) {
             return 0;
@@ -49,10 +57,14 @@ public class _115_DistinctSubsequences {
         int len1 = s.length();
         int len2 = t.length();
 
-        int[][] f = new int[len1 + 1][len2 + 1];
+        int[][] dp = new int[len1 + 1][len2 + 1];
 
         for (int i = 0; i <= len1; i++) {
-            f[i][0] = 1;
+            dp[i][0] = 1;
+        }
+
+        for (int j = 1; j <= len2; j++) {
+          dp[0][j] = 0;
         }
 
         /**
@@ -63,13 +75,13 @@ public class _115_DistinctSubsequences {
         for (int i = 1; i <= len1; i++) {
             for (int j = 1; j <= len2; j++) {
                 if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    f[i][j] = f[i - 1][j - 1] + f[i - 1][j];
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
                 } else {
-                    f[i][j] = f[i - 1][j];
+                    dp[i][j] = dp[i - 1][j];
                 }
             }
         }
 
-        return f[len1][len2];
+        return dp[len1][len2];
     }
 }
