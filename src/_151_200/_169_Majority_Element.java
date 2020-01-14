@@ -25,22 +25,25 @@ public class _169_Majority_Element {
         System.out.println(test.majorityElement(A));
     }
 
+    /**
+     * Boyer–Moore majority vote algorithm
+     * https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_majority_vote_algorithm
+     */
     public int majorityElement(int[] A) {
-        int count = 1;
-        int cur = A[0];
+        int majority = -1;
+        int count = 0;
 
-        for (int i = 1; i < A.length; i++) {
-            if (cur == A[i]) {
+        for (int num : A) {
+            if (count == 0) {
+                majority = num;
+                count++;
+            } else if (majority == num) {
                 count++;
             } else {
                 count--;
-                if (count == 0) {
-                    cur = A[i];
-                    count = 1;
-                }
             }
         }
 
-        return cur;
+        return majority;
     }
 }
