@@ -40,13 +40,17 @@ public class _168_ExcelSheetColumnTitle {
         StringBuilder sb = new StringBuilder();
 
         while (n > 0) {
+            /**
+             * Everytime, delete 1 from n for the last digit condition
+             */
+            n--;
             int reminder = (n - 1) % 26;
+            n /= 26;
             /**
              * !!! remember to / by 26
              *
              * coner case 26.
              */
-            n = (n - 1) / 26;
             char c = (char) (reminder + 'A');
             sb.append(c);
         }
