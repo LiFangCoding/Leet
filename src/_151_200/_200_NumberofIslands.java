@@ -26,6 +26,9 @@ import java.util.Queue;
  * Output: 3i
  */
 public class _200_NumberofIslands {
+    int[] dx = {1, -1, 0, 0};
+    int[] dy = {0, 0, 1, -1};
+
     int m;
     int n;
 
@@ -49,9 +52,6 @@ public class _200_NumberofIslands {
                 if (grid[i][j] == '1') {
 //                    dfs(grid, i, j);
                     bfs(grid, i, j);
-                    /**
-                     *
-                     */
                     count++;
                 }
             }
@@ -68,34 +68,23 @@ public class _200_NumberofIslands {
          *
          * Need to be careful the value should be '1', then it can continue
          */
-        if (x < 0 || x >= m || y < 0 || y >= n) {
-            return;
-        }
-
-        if (grid[x][y] != '1') {
-            return;
-        }
-
         grid[x][y] = '0';
 
-        int[] dx = {1, -1, 0, 0};
-        int[] dy = {0, 0, 1, -1};
         for (int i = 0; i < dx.length; i++) {
-            dfs(grid, x + dx[i], y + dy[i]);
+            int newx = x + dx[i];
+            int newy = y + dy[i];
+
+            if (newx >= 0 && newx < m && newy >= 0 && newy < n && grid[newx][newy] == '1') {
+                dfs(grid, newx, newy);
+            }
         }
     }
 
     private void bfs(char[][] grid, int x, int y) {
-        if (grid[x][y] != '1') {
-            return;
-        }
-
         grid[x][y] = '0';
+
         Queue<Node> q = new LinkedList<>();
         q.add(new Node(x, y));
-
-        int[] dx = {-1, 1, 0, 0};
-        int[] dy = {0, 0, 1, -1};
 
         while (!q.isEmpty()) {
             Node cur = q.remove();
@@ -104,7 +93,7 @@ public class _200_NumberofIslands {
                 int newx = cur.x + dx[i];
                 int newy = cur.y + dy[i];
 
-                if (newx >= 0 && newx < grid.length && newy >= 0 && newy < grid[0].length && grid[newx][newy] == '1') {
+                if (newx >= 0 && newx < m && newy >= 0 && newy < n && grid[newx][newy] == '1') {
                     grid[newx][newy] = '0';
                     q.add(new Node(newx, newy));
                 }
