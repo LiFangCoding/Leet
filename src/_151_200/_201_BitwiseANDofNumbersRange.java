@@ -13,7 +13,8 @@ package _151_200;
  * Output: 0
  */
 public class _201_BitwiseANDofNumbersRange {
+    //TODO: haojun, need more time
     public int rangeBitwiseAnd(int m, int n) {
-
+        return -1;
     }
 }
