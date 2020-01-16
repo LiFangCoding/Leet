@@ -56,6 +56,27 @@ public class _202_HappyNumber {
      * Use the slow and fast pointer
      */
     public boolean isHappy_twopointers(int n) {
-        return false;
+        int slow = n;
+        int fast = squareSum(n);
+
+        while (true) {
+            if (slow == fast) {
+                return slow == 1;
+            }
+
+            slow = squareSum(slow);
+            fast = squareSum(fast);
+            fast = squareSum(fast);
+        }
+    }
+
+    private int squareSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            int digit = n % 10;
+            sum += digit * digit;
+            n /= 10;
+        }
+        return sum;
     }
 }
