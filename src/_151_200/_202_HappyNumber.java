@@ -51,4 +51,11 @@ public class _202_HappyNumber {
          * it will never reach to that end
          */
     }
+
+    /**
+     * Use the slow and fast pointer
+     */
+    public boolean isHappy_twopointers(int n) {
+        return false;
+    }
 }
