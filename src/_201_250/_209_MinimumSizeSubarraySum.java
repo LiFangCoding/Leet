@@ -50,26 +50,17 @@ public class _209_MinimumSizeSubarraySum {
         int sum = 0;
 
         while (r < A.length) {
-            while (r < A.length && sum < target) {
-                sum += A[r];
-                r++;
-            }
+            sum += A[r];
 
-            while (l < A.length && sum >= target) {
+            while (sum >= target) {
+                res = Math.min(res, r - l + 1);
                 sum -= A[l];
                 l++;
             }
 
-            /**
-             * l - 1 l    r - 1 (r)
-             */
-            res = Math.min(res, r - l + 1);
+            r++;
         }
 
-        if (res > A.length) {
-            return 0;
-        }
-
-        return res;
+        return res == Integer.MAX_VALUE ? 0 : res;
     }
 }
