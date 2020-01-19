@@ -79,6 +79,7 @@ public class _211_AddAndSearchWord {
 
         public Node() {
             isleaf = false;
+            children = new Node[26];
             for (int i = 0; i < 26; i++) {
                 children[i] = null;
             }
