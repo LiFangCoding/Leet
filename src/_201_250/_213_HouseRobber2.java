@@ -37,6 +37,6 @@ public class _213_HouseRobber2 {
         }
 
         int res = 0;
-
+        return -1;
     }
 }

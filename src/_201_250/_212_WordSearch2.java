@@ -82,8 +82,10 @@ public class _212_WordSearch2 {
 
         vt[x][y] = true;
         if (cur.isleaf) {
-            String match =
+//            String match =
         }
+
+        return;
     }
 
     //TODO
