@@ -53,6 +53,13 @@ public class _229_MajorityElement2 {
          * if not same, it will be assigned different value.
          *
          * Be careful just 1 if.
+         *
+         * Cannot change the order of count1, coun2 before A[i] == .
+         * [8,8,7,7,7]
+         *输出
+         * [7]
+         * 预期结果
+         * [8,7]
          */
         for (int i = 0; i < A.length; i++) {
             if (A[i] == first) {
