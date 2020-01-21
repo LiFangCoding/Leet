@@ -53,7 +53,7 @@ public class _234_PalindromeLinkedList {
 
         ListNode head2 = reverse(secondHalf);
 
-        while (head != null && head2 != null) {
+        while (head2 != null) {
             if (head.val != head2.val) {
                 return false;
             } else {
