@@ -49,27 +49,44 @@ public class _225_ImplementStackusingQueues {
      * Push element x onto stack.
      */
     public void push(int x) {
-
+        q1.add(x);
     }
 
     /**
      * Removes the element on top of the stack and returns that element.
+     * You may assume that all operations are valid (for example, no pop or top operations will be called on an empty stack).
      */
     public int pop() {
+        while (q1.size() > 1) {
+            int num = q1.remove();
+            q2.add(num);
+        }
 
+        int res = q1.remove();
+
+        Queue<Integer> temp = q1;
+        q1 = q2;
+        q2 = temp;
+
+        return res;
     }
 
     /**
      * Get the top element.
      */
     public int top() {
+        while (q1.size() > 1) {
+            int num = q1.remove();
+            q2.add(num);
+        }
 
+        return q1.peek();
     }
 
     /**
      * Returns whether the stack is empty.
      */
     public boolean empty() {
-
+        return q1.isEmpty() && q2.isEmpty();
     }
 }
