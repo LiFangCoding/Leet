@@ -28,6 +28,6 @@ public class _239_SlidingWindowMaximum {
      * TODO: haojun
      */
     public int[] maxSlidingWindow(int[] A, int k) {
-
+        return null;
     }
 }
