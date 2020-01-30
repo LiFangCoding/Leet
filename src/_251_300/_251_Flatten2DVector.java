@@ -29,19 +29,44 @@ package _251_300;
  * As an added challenge, try to code it using only iterators in C++ or iterators in Java.
  */
 public class _251_Flatten2DVector {
-    //TODO:251
     class Vector2D {
+        /**
+         * [[1,2,3], [4,5], [6], [7,8,9]
+         *
+         * @param v
+         */
+
+        int start;
+        int cur;
+        int[][] v;
 
         public Vector2D(int[][] v) {
-
+            this.v = v;
+            this.cur = 0;
+            this.start = 0;
         }
 
         public int next() {
+            while (v[start] == null || v[start].length == 0) {
+                start++;
+            }
 
+            if (cur < v[start].length) {
+                int res = v[start][cur];
+                cur++;
+                return res;
+            } else {
+                start++;
+                while (v[start] == null || v[start].length == 0) {
+                    start++;
+                }
+                cur = 0;
+                return v[start][cur];
+            }
         }
 
         public boolean hasNext() {
-
+            return start != (v.length - 1) || cur != v[start].length;
         }
     }
 }
