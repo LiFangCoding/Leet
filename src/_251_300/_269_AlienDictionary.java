@@ -46,6 +46,9 @@ import java.util.*;
  * There may be multiple valid order of letters, return any one of them is fine.
  */
 public class _269_AlienDictionary {
+    /**
+     * TODO haojun.
+     */
     public String alienOrder(String[] words) {
         //1.构建图
         Map<Character, Set<Character>> map = new HashMap<>();
