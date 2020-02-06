@@ -13,6 +13,7 @@ public class stack_overflow {
    * @param args
    */
   public static void main(String[] args) {
-    getNum(Integer.MAX_VALUE, 0);
+//    getNum(Integer.MAX_VALUE, 0);
+
   }
 }
