@@ -32,7 +32,6 @@ public class _285_InorderSuccessorinBST {
     public static void main(String[] args) {
         _285_InorderSuccessorinBST test = new _285_InorderSuccessorinBST();
         TreeNode root = TreeNode.stringToTreeNode("[5,3,6,2,4,null,null,1]");
-        System.out.println(test.inorderSuccessor(root, new TreeNode(1)).val);
     }
 
     class Sol_ite {
