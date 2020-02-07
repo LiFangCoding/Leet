@@ -43,7 +43,6 @@ public class _288_UniqueWordAbbre {
         for (String s : dict) {
             if (s != null && s.length() >= 2) {
                 set.add(s);
-                map.put(getAbbre(s), !map.containsKey(getAbbre(s));
             }
         }
     }
