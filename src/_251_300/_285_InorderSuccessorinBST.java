@@ -76,6 +76,7 @@ public class _285_InorderSuccessorinBST {
 
     /**
      * Need to traverse all nodes. Cannot stop
+     * It will be very slow
      */
     class Sol_traverse {
         int target;
