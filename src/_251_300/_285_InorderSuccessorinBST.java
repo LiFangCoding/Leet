@@ -98,6 +98,10 @@ public class _285_InorderSuccessorinBST {
             traverse(root.left);
             System.out.println("current node is " + root.val);
 
+            if (res != null) {
+                return;
+            }
+
             if (prev != null && prev.val == target) {
                 System.out.println("here is equal");
                 res = root;
