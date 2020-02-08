@@ -22,6 +22,6 @@ package _251_300;
 public class _296_BestMeetingPoint {
     //TODO
     public int minTotalDistance(int[][] grid) {
-
+        return -1;
     }
 }
