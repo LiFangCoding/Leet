@@ -39,45 +39,79 @@ import common.TreeNode;
  * Explanation: Longest consecutive sequence path is 2-3, not 3-2-1, so return 2.
  */
 public class _298_BinaryTreeLongestConsecutiveSequence3 {
-    int res = 0;
-
-    public static void main(String[] args) {
-        _298_BinaryTreeLongestConsecutiveSequence3 test = new _298_BinaryTreeLongestConsecutiveSequence3();
-        TreeNode root = TreeNode.stringToTreeNode("[1,null,3,2,4,null,null,null, 5]");
-
-        System.out.println(test.longestConsecutive(root));
-    }
-
+    /**
+     * slow solution
+     */
     public int longestConsecutive(TreeNode root) {
-        helper(root);
-        return res;
+        ResultType rt = getLongest(root);
+        return rt.globalLen;
     }
 
-    public int helper(TreeNode root) {
+    private ResultType getLongest(TreeNode root) {
         if (root == null) {
-            System.out.println("function is for root : " + root.val + " the len is " + 0);
-            return 0;
+            return new ResultType(0, 0);
         }
 
         if (root.left == null && root.right == null) {
-            System.out.println("function is for root : " + root.val + " the len is " + 1);
-            return 1;
+            return new ResultType(1, 1);
         }
 
-        int curMax = 0;
-        if (root.left != null) {
-            curMax = helper(root.left) + (root.val + 1 == root.left.val ? 1 : 0);
+        int localLen = 0;
+        ResultType left = getLongest(root.left);
+        int locall = 1;
+        if (root.left != null && root.val + 1 == root.left.val) {
+            locall += left.localLen;
         }
 
-        if (root.right != null) {
-            int maxright = helper(root.right) + (root.val + 1 == root.right.val ? 1 : 0);
-            curMax = Math.max(curMax, maxright);
+        int localr = 1;
+        ResultType right = getLongest(root.right);
+        if (root.right != null && root.val + 1 == root.right.val) {
+            localr += right.localLen;
         }
 
+        ResultType res = new ResultType(0, 0);
+        res.localLen = Math.max(locall, localr);
+        res.globalLen = Math.max(res.localLen, Math.max(left.globalLen, right.globalLen));
 
-        System.out.println("function is for root : " + root.val + " the len is " + curMax);
-        res = Math.max(res, curMax);
-        System.out.println("update the res " + res);
-        return curMax;
+        return res;
+    }
+
+    public class ResultType {
+        public int localLen;
+        public int globalLen;
+
+        public ResultType(int local, int global) {
+            localLen = local;
+            globalLen = global;
+        }
+    }
+
+    public class Sol2 {
+        private int res = 0;
+
+        public int longestConsecutive(TreeNode root) {
+            dfs(root, 1);
+            return res;
+        }
+
+        private void dfs(TreeNode root, int len) {
+            if (root == null) {
+                return;
+            }
+
+            res = Math.max(res, len);
+
+            if (root.left != null && root.val + 1 == root.left.val) {
+                dfs(root.left, len + 1);
+            } else {
+                dfs(root.left, 1);
+            }
+
+            if (root.right != null && root.val + 1 == root.right.val) {
+                dfs(root.right, len + 1);
+            } else {
+                dfs(root.right, 1);
+            }
+        }
     }
 }
