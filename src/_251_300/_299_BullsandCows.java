@@ -24,4 +24,37 @@ package _251_300;
  * Note: You may assume that the secret number and your friend's guess only contain digits, and their lengths are always equal.
  */
 public class _299_BullsandCows {
+    public String getHint(String secret, String guess) {
+        int countA = 0;
+        int len = secret.length();
+
+        char[] schars = secret.toCharArray();
+        char[] gchars = guess.toCharArray();
+
+        for (int i = 0; i < len; i++) {
+            if (schars[i] == gchars[i]) {
+                countA++;
+            }
+        }
+
+        int countB = 0;
+        int[] count = new int[10];
+
+
+        for (char c : schars) {
+            count[c - '0']++;
+        }
+
+        for (char c : gchars) {
+            if (count[c - '0'] > 0) {
+                count[c - '0']--;
+                countB++;
+            }
+        }
+
+        countB = countB - countA;
+
+        return countA + "A" + countB + "B";
+    }
+
 }
