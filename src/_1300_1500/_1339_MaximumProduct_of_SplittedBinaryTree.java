@@ -68,14 +68,14 @@ public class _1339_MaximumProduct_of_SplittedBinaryTree {
             return 0;
         }
 
-        long leftSum = findMax(root.left);
-        long rightSum = findMax(root.right);
+        long suml = findMax(root.left);
+        long sumr = findMax(root.right);
 
 
         res = Math.max(res,
-                Math.max((sum - leftSum) * leftSum, (sum - rightSum) * rightSum));
+                Math.max((sum - suml) * suml, (sum - sumr) * sumr));
 
-        return root.val + leftSum + rightSum;
+        return root.val + suml + sumr;
     }
 
     private long getSum(TreeNode root) {
