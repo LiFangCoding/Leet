@@ -32,6 +32,35 @@ import common.Node;
  * Explanation: Given the above perfect binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. The serialized output is in level order as connected by the next pointers, with '#' signifying the end of each level.
  */
 public class _116_PopulatingNextRightPointersInEachNode {
+    /**
+     * recursion:
+     * T = O(n)
+     * S = O(log n) Perfect tree
+     */
+
+    public Node connect_recursion(Node root) {
+        // since perfect tree
+        if (root == null || root.left == null) {
+            return root;
+        }
+
+        root.left.next = root.right;
+        if (root.next != null) {
+            root.right.next = root.next.left;
+        }
+
+        connect_recursion(root.left);
+        connect_recursion(root.right);
+
+        return root;
+    }
+
+    /**
+     * BFS:
+     * Do not need to use queue to store data since has next
+     * T = O(n)
+     * S = O(1)
+     */
     public Node connect(Node root) {
         if (root == null) {
             return root;
