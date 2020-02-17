@@ -1,4 +1,4 @@
-package _1300_1500;
+package huahua.BinaryTrees;
 
 import common.TreeNode;
 
