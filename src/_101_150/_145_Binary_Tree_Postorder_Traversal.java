@@ -2,10 +2,7 @@ package _101_150;
 
 import common.TreeNode;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Given a binary tree, return the postorder traversal of its nodes' values.
@@ -61,17 +58,20 @@ public class _145_Binary_Tree_Postorder_Traversal {
          * root.val
          * root.right
          * root.left
+         *
+         * List do not have add First method
          */
-        LinkedList<Integer> res = new LinkedList<>();
-        Stack<TreeNode> stack = new Stack<>();
-
-        if (root != null) {
-            stack.push(root);
+        if (root == null) {
+            return new ArrayList<>();
         }
+
+        Deque<Integer> deque = new LinkedList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
 
         while (!stack.isEmpty()) {
             TreeNode cur = stack.pop();
-            res.addFirst(cur.val);
+            deque.addFirst(cur.val);
             if (cur.left != null) {
                 stack.push(cur.left);
             }
@@ -81,6 +81,6 @@ public class _145_Binary_Tree_Postorder_Traversal {
             }
         }
 
-        return res;
+        return new ArrayList<>(deque);
     }
 }
