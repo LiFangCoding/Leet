@@ -1,5 +1,3 @@
-package huahua.BinaryTrees;
-
 import java.util.TreeMap;
 
 /**

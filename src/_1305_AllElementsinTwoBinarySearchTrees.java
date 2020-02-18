@@ -1,5 +1,3 @@
-package huahua.BinaryTrees;
-
 import common.TreeNode;
 
 import java.util.ArrayList;
