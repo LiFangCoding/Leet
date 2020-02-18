@@ -32,21 +32,18 @@ public class _94_Binary_Tree_Inorder_Traversal {
             return res;
         }
 
-        Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> s = new Stack<>();
 
-        while (root != null) {
-            stack.push(root);
-            root = root.left;
-        }
-
-        while (!stack.isEmpty()) {
-            TreeNode cur = stack.pop();
-            res.add(cur.val);
-            TreeNode next = cur.right;
-            while (next != null) {
-                stack.push(next);
-                next = next.left;
+        TreeNode cur = root;
+        while (cur != null || !s.isEmpty()) {
+            while (cur != null) {
+                s.push(cur);
+                cur = cur.left;
             }
+
+            cur = s.pop();
+            res.add(cur.val);
+            cur = cur.right;
         }
 
         return res;
