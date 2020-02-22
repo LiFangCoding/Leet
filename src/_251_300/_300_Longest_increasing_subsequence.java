@@ -15,9 +15,35 @@ package _251_300;
  * Follow up: Could you improve it to O(n log n) time complexity?
  */
 public class _300_Longest_increasing_subsequence {
-    public int lengthOfLIS(int[] A) {
-        return 0;
-
+    public static void main(String[] args) {
+        _300_Longest_increasing_subsequence test = new _300_Longest_increasing_subsequence();
+        int[] A = new int[]{10, 9, 2, 5, 3, 7, 101, 18};
+        System.out.println(test.lengthOfLIS(A));
     }
 
+    public int lengthOfLIS(int[] A) {
+        // dp[i] means char at i, the longest increasing subsequence
+        // [5, 2,3,-1,7,101]
+        int[] dp = new int[A.length + 1];
+        if (A == null || A.length == 0) {
+            return 0;
+        }
+
+        dp[1] = 1;
+
+        for (int i = 2; i <= A.length; i++) {
+            dp[i] = 1;
+            for (int j = 1; j < i; j++) {
+                if (dp[i] > dp[j]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+
+        int res = dp[1];
+        for (int num : A) {
+            res = Math.max(res, num);
+        }
+        return res;
+    }
 }
