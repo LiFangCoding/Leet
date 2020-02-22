@@ -1,5 +1,7 @@
 package _251_300;
 
+import java.util.Arrays;
+
 /**
  * Given an unsorted array of integers, find the length of longest increasing subsequence.
  * <p>
@@ -22,28 +24,24 @@ public class _300_Longest_increasing_subsequence {
     }
 
     public int lengthOfLIS(int[] A) {
-        // dp[i] means char at i, the longest increasing subsequence
-        // [5, 2,3,-1,7,101]
-        int[] dp = new int[A.length + 1];
         if (A == null || A.length == 0) {
             return 0;
         }
+        // f[i] means char at i, the longest increasing subsequence
+        // [5, 2,3,-1,7,101]
+        int[] f = new int[A.length];
+        Arrays.fill(f, 1);
 
-        dp[1] = 1;
-
-        for (int i = 2; i <= A.length; i++) {
-            dp[i] = 1;
-            for (int j = 1; j < i; j++) {
-                if (dp[i] > dp[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
+        //!!! pay attention to the i, j index here
+        for (int i = 0; i < f.length; i++) {
+            for (int j = 0; j < i; j++) {
+                // Here, important is the A here
+                if (A[i] > A[j]) {
+                    f[i] = Math.max(f[i], f[j] + 1);
                 }
             }
         }
 
-        int res = dp[1];
-        for (int num : A) {
-            res = Math.max(res, num);
-        }
-        return res;
+        return Arrays.stream(f).max().getAsInt();
     }
 }
