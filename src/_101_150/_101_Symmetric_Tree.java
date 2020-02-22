@@ -49,15 +49,15 @@ class _101_Symmetric_Tree {
         if (root == null) {
             return true;
         }
-        return helper(root.left, root.right);
+        return isMirror(root.left, root.right);
     }
 
-    private boolean helper(TreeNode p, TreeNode q) {
+    private boolean isMirror(TreeNode p, TreeNode q) {
         if (p == null || q == null) {
             return p == q;
         }
 
-        return p.val == q.val && helper(p.left, q.right) && helper(p.right, q.left);
+        return p.val == q.val && isMirror(p.left, q.right) && isMirror(p.right, q.left);
     }
 
     public boolean isSymmetric_iterative(TreeNode root) {
