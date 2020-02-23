@@ -1,7 +1,6 @@
 import common.TreeNode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Given a binary tree, return the vertical order traversal of its nodes values.
@@ -35,7 +34,9 @@ public class _987_VerticalOrderTraversalofBinaryTree {
                 }
             });
 
-            res.add(datalist.stream().map(d -> d.val).collect(Collectors.toList()));
+            List<Integer> temp = new ArrayList<>();
+            datalist.forEach(d -> temp.add(d.val));
+            res.add(temp);
         }
 
         return res;
