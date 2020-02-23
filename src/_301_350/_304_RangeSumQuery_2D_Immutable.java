@@ -23,14 +23,15 @@ package _301_350;
  * There are many calls to sumRegion function.
  * You may assume that row1 ≤ row2 and col1 ≤ col2.
  */
+//TODO
 public class _304_RangeSumQuery_2D_Immutable {
     int[][] f;
 
-    public NumMatrix(int[][] m) {
+    public _304_RangeSumQuery_2D_Immutable(int[][] m) {
 
     }
 
     public int sumRegion(int row1, int col1, int row2, int col2) {
-
+        return -1;
     }
 }
