@@ -1,9 +1,7 @@
 import common.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Given a binary tree, return the vertical order traversal of its nodes values.
@@ -17,33 +15,27 @@ import java.util.List;
  * Return an list of non-empty reports in order of X coordinate.  Every report will have a list of values of nodes.
  */
 public class _987_VerticalOrderTraversalofBinaryTree {
-    List<Data> datalist;
+    /**
+     * x, {y, val}
+     */
+    Map<Integer, List<Data>> map;
 
     public List<List<Integer>> verticalTraversal(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
-        if (root == null) {
-            return res;
-        }
 
-        datalist = new ArrayList<>();
+        map = new TreeMap<>();
         dfs(root, 0, 0);
+        for (int x : map.keySet()) {
+            List<Data> datalist = map.get(x);
+            Collections.sort(datalist, (a, b) -> {
+                if (a.y != b.y) {
+                    return Integer.compare(a.y, b.y);
+                } else {
+                    return Integer.compare(a.val, b.val);
+                }
+            });
 
-        Collections.sort(
-                datalist,
-                Comparator.comparing(Data::getX)
-                        .thenComparing(Data::getY)
-                        .thenComparing(Data::getVal)
-        );
-
-        for (int i = 0; i < datalist.size(); i++) {
-            Data data = datalist.get(i);
-            if (i == 0 || data.x != datalist.get(i - 1).x) {
-                List<Integer> temp = new ArrayList<>();
-                temp.add(data.val);
-                res.add(temp);
-            } else {
-                res.get(res.size() - 1).add(data.val);
-            }
+            res.add(datalist.stream().map(d -> d.val).collect(Collectors.toList()));
         }
 
         return res;
@@ -54,33 +46,20 @@ public class _987_VerticalOrderTraversalofBinaryTree {
             return;
         }
 
-        datalist.add(new Data(x, y, root.val));
+        map.putIfAbsent(x, new ArrayList<>());
+        map.get(x).add(new Data(y, root.val));
+
         dfs(root.left, x - 1, y + 1);
         dfs(root.right, x + 1, y + 1);
     }
 
-    // data object which contains x, y, val
     public class Data {
-        public int x;
         public int y;
         public int val;
 
-        public Data(int x, int y, int val) {
-            this.x = x;
+        public Data(int y, int val) {
             this.y = y;
             this.val = val;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public int getVal() {
-            return val;
         }
     }
 }
