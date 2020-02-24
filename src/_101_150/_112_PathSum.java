@@ -41,7 +41,7 @@ class _112_PathSum {
             return root.val == sum;
         }
 
-        sum = sum - root.val;
-        return hasPathSum(root.left, sum) || hasPathSum(root.right, sum);
+        int newSum = sum - root.val;
+        return hasPathSum(root.left, newSum) || hasPathSum(root.right, newSum);
     }
 }
