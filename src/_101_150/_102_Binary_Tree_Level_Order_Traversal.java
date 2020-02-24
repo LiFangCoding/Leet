@@ -25,9 +25,17 @@ import java.util.Queue;
  * ]
  */
 public class _102_Binary_Tree_Level_Order_Traversal {
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> res = new ArrayList<>();
+    List<List<Integer>> ans;
 
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        ans = new ArrayList<>();
+
+//        dfs(root, 0);
+        bfs(root);
+        return ans;
+    }
+
+    private void bfs(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
         /**
          * !!!
@@ -55,9 +63,21 @@ public class _102_Binary_Tree_Level_Order_Traversal {
                 }
             }
 
-            res.add(level);
+            ans.add(level);
+        }
+    }
+
+    private void dfs(TreeNode root, int d) {
+        // base case
+        if (root == null) {
+            return;
         }
 
-        return res;
+        while (ans.size() <= d) {
+            ans.add(new ArrayList<>());
+        }
+        ans.get(d).add(root.val);
+        dfs(root.left, d + 1);
+        dfs(root.right, d + 1);
     }
 }
