@@ -47,6 +47,7 @@ public class _429_N_ary_Tree_level_order_traversal {
                 level.add(cur.val);
 
                 for (Node child : cur.children) {
+                    //!!!
                     if (child != null) {
                         q.add(child);
                     }
