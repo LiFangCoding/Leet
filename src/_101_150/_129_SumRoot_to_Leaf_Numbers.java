@@ -39,25 +39,25 @@ import common.TreeNode;
  */
 
 public class _129_SumRoot_to_Leaf_Numbers {
-    int[] A;
-
+    int ans;
     public int sumNumbers(TreeNode root) {
-        A = new int[1];
-
-        dfs(root, 0);
-        return A[0];
+        ans = 0;
+        traverse(root, 0);
+        return ans;
     }
 
-    private void dfs(TreeNode root, int sum) {
+    private void traverse(TreeNode root, int sum) {
         if (root == null) {
             return;
         }
 
+        int newSum = sum * 10 + root.val;
         if (root.left == null && root.right == null) {
-            A[0] += sum * 10 + root.val;
+            ans += newSum;
+            return;
         }
 
-        dfs(root.left, sum * 10 + root.val);
-        dfs(root.right, sum * 10 + root.val);
+        traverse(root.left, newSum);
+        traverse(root.right, newSum);
     }
 }
