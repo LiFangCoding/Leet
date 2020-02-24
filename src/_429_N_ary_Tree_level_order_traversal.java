@@ -9,15 +9,36 @@ import java.util.Queue;
  * Nary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).
  */
 public class _429_N_ary_Tree_level_order_traversal {
-    public List<List<Integer>> levelOrder(Node root) {
-        List<List<Integer>> res = new ArrayList<>();
+    List<List<Integer>> ans;
 
-        Queue<Node> q = new LinkedList<>();
+    public List<List<Integer>> levelOrder(Node root) {
+        ans = new ArrayList<>();
+//        bfs(root);
+        dfs(root, 0);
+        return ans;
+    }
+
+    private void dfs(Node root, int d) {
         if (root == null) {
-            return res;
+            return;
         }
 
-        q.add(root);
+        while (ans.size() <= d) {
+            ans.add(new ArrayList<>());
+        }
+
+        ans.get(d).add(root.val);
+        for (Node child : root.children) {
+            dfs(child, d + 1);
+        }
+    }
+
+    private void bfs(Node root) {
+        Queue<Node> q = new LinkedList<>();
+        if (root != null) {
+            q.add(root);
+        }
+
         while (!q.isEmpty()) {
             int size = q.size();
             List<Integer> level = new ArrayList<>();
@@ -31,10 +52,9 @@ public class _429_N_ary_Tree_level_order_traversal {
                     }
                 }
             }
-            res.add(level);
-        }
 
-        return res;
+            ans.add(level);
+        }
     }
 
     class Node {
