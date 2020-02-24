@@ -54,6 +54,8 @@ public class _437_PathSum3 {
             map.put(cur, map.getOrDefault(cur, 0) + 1);
             pathSum(root.left, cur, sum);
             pathSum(root.right, cur, sum);
+            //记得回溯，把路径和弹出去.
+            // Because the path can change to anotehr one
             map.put(cur, map.get(cur) - 1);
         }
     }
