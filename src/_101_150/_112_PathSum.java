@@ -41,12 +41,7 @@ class _112_PathSum {
             return root.val == sum;
         }
 
-        boolean left = hasPathSum(root.left, sum - root.val);
-        if (left) {
-            return true;
-        }
-
-        boolean right = hasPathSum(root.right, sum - root.val);
-        return right;
+        sum = sum - root.val;
+        return hasPathSum(root.left, sum) || hasPathSum(root.right, sum);
     }
 }
