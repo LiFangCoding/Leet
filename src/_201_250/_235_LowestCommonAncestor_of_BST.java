@@ -36,14 +36,12 @@ public class _235_LowestCommonAncestor_of_BST {
         }
 
         TreeNode cur = root;
-
         int small = Math.min(p.val, q.val);
         int large = Math.max(p.val, q.val);
-
         /**
          * !!! need a while
          */
-        while (true) {
+        while (cur != null) {
             if (cur.val >= small && cur.val <= large) {
                 return cur;
             } else if (cur.val < small) {
@@ -52,5 +50,7 @@ public class _235_LowestCommonAncestor_of_BST {
                 cur = cur.left;
             }
         }
+
+        return null;
     }
 }
