@@ -24,15 +24,15 @@ public class _198_HouseRobber {
       return 0;
     }
 
+    int len = A.length;
     /**
      * !!! be careful the len
      */
 
-    if (A.length == 1) {
+    if (len == 1) {
       return A[0];
     }
 
-    int len = A.length;
     /**
      * f[i] means until the ith index, the maximum rob
      */
