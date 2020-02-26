@@ -30,7 +30,7 @@ public class _283_MoveZeroes {
                 A[cur++] = A[i];
             }
         }
-
+        
         for (; cur < A.length; cur++) {
             A[cur] = 0;
         }
