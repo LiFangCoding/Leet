@@ -35,22 +35,26 @@ public class _213_HouseRobber2 {
         return Math.max(ans1, ans2);
     }
 
-    private int robOneWay(int[] A) {
+    public int robOneWay(int[] A) {
         if (A == null || A.length == 0) {
             return 0;
         }
 
         int len = A.length;
-        int[] f = new int[len];
+        //!!!
+        if (len == 1) {
+            return A[0];
+        }
 
-        for (int i = 0; i < len; i++) {
-            if (i == 0) {
-                f[0] = A[0];
-            } else if (i == 1) {
-                f[1] = Math.max(A[0], A[1]);
-            } else {
-                f[i] = Math.max(f[i - 1], f[i - 2] + A[i]);
-            }
+        /**
+         * f[i] means until the ith index, the maximum rob
+         */
+        int[] f = new int[len];
+        f[0] = A[0];
+        f[1] = Math.max(A[0], A[1]);
+
+        for (int i = 2; i < len; i++) {
+            f[i] = Math.max(f[i - 2] + A[i], f[i - 1]);
         }
 
         return f[len - 1];

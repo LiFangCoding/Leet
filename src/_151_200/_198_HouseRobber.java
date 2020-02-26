@@ -25,10 +25,7 @@ public class _198_HouseRobber {
     }
 
     int len = A.length;
-    /**
-     * !!! be careful the len
-     */
-
+    //!!!
     if (len == 1) {
       return A[0];
     }
@@ -37,7 +34,6 @@ public class _198_HouseRobber {
      * f[i] means until the ith index, the maximum rob
      */
     int[] f = new int[len];
-
     f[0] = A[0];
     f[1] = Math.max(A[0], A[1]);
 
