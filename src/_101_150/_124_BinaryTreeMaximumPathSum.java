@@ -37,16 +37,23 @@ public class _124_BinaryTreeMaximumPathSum {
         return ans;
     }
 
+    // get and update. So every root.left, root.right should be run
     private int getOnePathSum(TreeNode root) {
         if (root == null) {
             return 0;
         }
 
-        int l = Math.max(0, getOnePathSum(root.left));
-        int r = Math.max(0, getOnePathSum(root.right));
+        int l = getOnePathSum(root.left);
+        if (l < 0) {
+            l = 0;
+        }
+        int r = getOnePathSum(root.right);
+        if (r < 0) {
+            r = 0;
+        }
 
-        int maxSumFromRoot = root.val + l + r;
-        ans = Math.max(ans, maxSumFromRoot);
+        int curSum = root.val + l + r;
+        ans = Math.max(ans, curSum);
         return root.val + Math.max(l, r);
     }
 }

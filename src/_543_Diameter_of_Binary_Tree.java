@@ -28,6 +28,7 @@ public class _543_Diameter_of_Binary_Tree {
         return maxCount - 1;
     }
 
+    // get and update one path len
     private int getOnePathLen(TreeNode root) {
         if (root == null) {
             return 0;
