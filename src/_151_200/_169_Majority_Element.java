@@ -1,5 +1,8 @@
 package _151_200;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.
  * <p>
@@ -30,20 +33,37 @@ public class _169_Majority_Element {
      * https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_majority_vote_algorithm
      */
     public int majorityElement(int[] A) {
-        int majority = -1;
+        int ans = 0;
         int count = 0;
 
         for (int num : A) {
             if (count == 0) {
-                majority = num;
+                ans = num;
                 count++;
-            } else if (majority == num) {
+            } else if (ans == num) {
                 count++;
             } else {
                 count--;
             }
         }
 
-        return majority;
+        return ans;
+    }
+
+    public int majorityElement_map(int[] A) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : A) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        int ans = 0;
+        int len = A.length;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > len / 2) {
+                ans = entry.getKey();
+                break;
+            }
+        }
+        return ans;
     }
 }
