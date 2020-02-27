@@ -14,12 +14,14 @@ import common.ListNode;
  * Explanation: 342 + 465 = 807.
  */
 public class _2_AddTwoNumbers {
+    // 11 + 99 = 110
+    // 123 + 4567 = 5797
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(0);
-        ListNode curr = dummy;
+        ListNode cur = dummy;
         int carry = 0;
 
-        while (l1 != null || l2 != null) {
+        while (l1 != null || l2 != null || carry != 0) {
             int sum = 0;
 
             if (l1 != null) {
@@ -33,15 +35,11 @@ public class _2_AddTwoNumbers {
             }
 
             sum += carry;
-            curr.next = new ListNode(sum % 10);
             carry = sum / 10;
+            sum = sum % 10;
 
-            // Remember to move pointers!
-            curr = curr.next;
-        }
-
-        if (carry != 0) {
-            curr.next = new ListNode(carry);
+            cur.next = new ListNode(sum);
+            cur = cur.next;
         }
 
         return dummy.next;
