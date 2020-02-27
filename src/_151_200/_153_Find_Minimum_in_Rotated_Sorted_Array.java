@@ -27,32 +27,36 @@ public class _153_Find_Minimum_in_Rotated_Sorted_Array {
         System.out.println(test.findMin(A));
     }
 
+    /**
+     * 为了便于理解，我们将数组中的数画在二维坐标系中，横坐标表示数组下标，纵坐标表示数值，如下所示：
+     * <p>
+     * <p>
+     * 我们会发现数组中最小值前面的数 nums[i]nums[i] 都满足：nums[i]≥nums[0]nums[i]≥nums[0]，其中 nums[n−1]nums[n−1] 是数组最后一个元素；而数组中最小值后面的数（包括最小值）都不满足这个条件。
+     * 所以我们可以二分出最小值的位置。
+     * <p>
+     * 另外，不要忘记处理数组完全单调的特殊情况。
+     * <p>
+     * 时间复杂度分析：二分查找，所以时间复杂度是 O(logn)
+     */
     public int findMin(int[] A) {
-        if (A == null || A.length == 0) {
+        if (A == null) {
             return 0;
         }
 
-        int start = 0;
-        int end = A.length - 1;
+        int l = 0;
+        int r = A.length - 1;
 
-        /**
-         * !!! Important:
-         * termination is start + 1 < end.
-         */
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
+        int splitVal = A[r];
 
-            /**
-             * from start to mid is in order
-             * Sometimes index 0 can be the smallest
-             */
-            if (A[mid] > A[end]) {
-                start = mid;
+        while (l + 1 < r) {
+            int mid = l + (r - l) / 2;
+            if (A[mid] > splitVal) {
+                l = mid;
             } else {
-                end = mid;
+                r = mid;
             }
         }
 
-        return A[start] < A[end] ? A[start] : A[end];
+        return A[l] < A[r] ? A[l] : A[r];
     }
 }

@@ -28,42 +28,25 @@ public class _154_FindMinimum_in_RotatedSortedArrayII {
             return 0;
         }
 
-        int start = 0;
-        int end = A.length - 1;
+        int l = 0;
+        int r = A.length - 1;
 
-        while (A[end] == A[start] && end > start) {
-            end--;
+        // delete black line. Because minimum will at least be A[l]. It can reduce the problem size
+        while (A[r] == A[l] && r > l) {
+            r--;
         }
 
-        /**
-         * ！！！Important. This need to be after delete the end equals
-         * [0,0,1,1,2,0]
-         *
-         * [1,1,1,1]
-         */
-        if (A[end] >= A[start]) {
-            return A[start];
-        }
-
-        /**
-         * Important is to update the start and end point by binary search
-         * throw half away
-         *
-         * Now,
-         * 竖直虚线左边的数满足 nums[i]≥nums[0]nums[i]≥nums[0]
-         * 并且 nums[i]>nums[n−1]nums[i]>nums[n−1]，
-         * 其中 nums[n−1]nums[n−1] 是数组最后一个元素；
-         * 而竖直虚线右边的数不满足这个条件。分界点就是整个数组的最小值。
-         */
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-            if (A[mid] >= A[start]) {
-                start = mid;
+        int splitVal = A[r];
+        while (l + 1 < r) {
+            int mid = l + (r - l) / 2;
+            // condiser the left part of min point will always large than split val
+            if (A[mid] > splitVal) {
+                l = mid;
             } else {
-                end = mid;
+                r = mid;
             }
         }
 
-        return A[start] < A[end] ? A[start] : A[end];
+        return A[l] < A[r] ? A[l] : A[r];
     }
 }
