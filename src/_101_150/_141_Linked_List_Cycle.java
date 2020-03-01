@@ -17,14 +17,16 @@ import common.ListNode;
  */
 public class _141_Linked_List_Cycle {
     public boolean hasCycle(ListNode head) {
-        if (head == null) {
-            return false;
-        }
-
         ListNode fast = head;
         ListNode slow = head;
 
-        while (fast != null && fast.next != null) {
+        /**
+         * !!! fast.next != null. Do not forget it
+         */
+        while (true) {
+            if (fast != null && fast.next != null) {
+                return false;
+            }
             fast = fast.next.next;
             slow = slow.next;
             /**
@@ -34,7 +36,5 @@ public class _141_Linked_List_Cycle {
                 return true;
             }
         }
-
-        return false;
     }
 }

@@ -18,8 +18,29 @@ import common.ListNode;
  * Explanation: There is a cycle in the linked list, where tail connects to the second node.
  */
 public class _142_Linked_List_Cycle2 {
-    //TODO: when have energy
     public ListNode detectCycle(ListNode head) {
-        return null;
+        ListNode fast = head;
+        ListNode slow = head;
+
+        while (true) {
+            if (fast == null || fast.next == null) {
+                return null;
+            }
+            fast = fast.next.next;
+            slow = slow.next;
+            if (slow == fast) {
+                break;
+            }
+        }
+
+        fast = head;
+
+        while (fast != slow) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        return fast;
     }
+
 }

@@ -22,10 +22,10 @@ public class _206_ReverseLinkedList {
         ListNode cur = head;
 
         while (cur != null) {
-            ListNode temp = cur.next;
+            ListNode next = cur.next;
             cur.next = prev;
             prev = cur;
-            cur = temp;
+            cur = next;
         }
 
         return prev;

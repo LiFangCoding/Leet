@@ -58,17 +58,16 @@ public class _225_ImplementStackusingQueues {
      */
     public int pop() {
         while (q1.size() > 1) {
-            int num = q1.remove();
-            q2.add(num);
+            q2.add(q1.remove());
         }
 
-        int res = q1.remove();
+        int ans = q1.remove();
 
         Queue<Integer> temp = q1;
         q1 = q2;
         q2 = temp;
 
-        return res;
+        return ans;
     }
 
     /**
@@ -76,8 +75,7 @@ public class _225_ImplementStackusingQueues {
      */
     public int top() {
         while (q1.size() > 1) {
-            int num = q1.remove();
-            q2.add(num);
+            q2.add(q1.remove());
         }
 
         return q1.peek();
