@@ -21,29 +21,33 @@ import common.ListNode;
  * You may not alter the values in the list's nodes, only nodes itself may be changed.
  */
 public class _25_ReverseNodesInKGroup {
+    /**
+     * 一图胜千言，根据图片看代码，马上就懂了
+     * https://leetcode-cn.com/problems/reverse-nodes-in-k-group/solution/tu-jie-kge-yi-zu-fan-zhuan-lian-biao-by-user7208t/
+     */
     public ListNode reverseKGroup(ListNode head, int k) {
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        ListNode cur = dummy;
+
+        ListNode pre = dummy;
 
         while (true) {
-            ListNode first = cur.next;
+            ListNode start = pre.next;
 
-            ListNode end = cur;
+            ListNode end = pre;
             for (int i = 0; i < k && end != null; i++) {
                 end = end.next;
             }
-
             if (end == null) {
                 break;
             }
 
             ListNode next = end.next;
-            reverse(first, end);
+            end.next = null;
+            pre.next = reverse(start);
+            start.next = next;
 
-            cur.next = end;
-            first.next = next;
-            cur = first;
+            pre = start;
         }
 
         return dummy.next;
@@ -54,13 +58,12 @@ public class _25_ReverseNodesInKGroup {
      * 3-2-1
      *
      * @param head
-     * @param tail
      */
-    private ListNode reverse(ListNode head, ListNode tail) {
+    private ListNode reverse(ListNode head) {
         ListNode prev = null;
         ListNode cur = head;
 
-        while (prev != tail) {
+        while (cur != null) {
             ListNode next = cur.next;
             cur.next = prev;
             prev = cur;
