@@ -17,9 +17,6 @@ public class _21_MergeTwoSortedLists {
         ListNode cur = dummy;
 
         while (l1 != null && l2 != null) {
-            /**
-             * Be careful to not redirect to itself.
-             */
             if (l1.val < l2.val) {
                 cur.next = l1;
                 l1 = l1.next;
