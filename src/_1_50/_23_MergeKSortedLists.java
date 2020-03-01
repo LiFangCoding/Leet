@@ -24,17 +24,16 @@ public class _23_MergeKSortedLists {
      */
     public ListNode mergeKLists1(ListNode[] lists) {
         /**
-         * Make sure to add comparator to the method
+         * !!! comparator
          */
         PriorityQueue<ListNode> pq = new PriorityQueue<>((l1, l2) -> Integer.compare(l1.val, l2.val));
 
         /**
-         * put all in the pq first
-         * Pay attention to null one.
+         * !!! node != null
          */
-        for (ListNode list : lists) {
-            if (list != null) {
-                pq.add(list);
+        for (ListNode node : lists) {
+            if (node != null) {
+                pq.add(node);
             }
         }
 
@@ -42,12 +41,14 @@ public class _23_MergeKSortedLists {
         ListNode cur = dummy;
 
         while (!pq.isEmpty()) {
-            ListNode temp = pq.remove();
-            cur.next = temp;
-            cur = cur.next;
-            if (temp.next != null) {
-                pq.add(temp.next);
+            ListNode node = pq.remove();
+            if (node.next != null) {
+                pq.add(node.next);
+                node.next = null;
             }
+
+            cur.next = node;
+            cur = cur.next;
         }
 
         return dummy.next;
