@@ -15,27 +15,29 @@ import common.ListNode;
  * Output: -1->0->3->4->5
  */
 public class _148_Sort_List {
+    private int i = 0;
+
     public ListNode sortList(ListNode head) {
+        // base case for merge sort
         if (head == null || head.next == null) {
             return head;
         }
 
-        ListNode mid = findMiddle(head);
-
-        ListNode rhead = mid.next;
+        ListNode mid = findMid(head);
+        ListNode rHead = mid.next;
         mid.next = null;
 
-        ListNode right = sortList(rhead);
-        ListNode left = sortList(head);
-
-        return merge(left, right);
+        return merge(sortList(head), sortList(rHead));
     }
 
-    private ListNode findMiddle(ListNode head) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-
-        ListNode slow = dummy, fast = dummy;
+    /**
+     * 1 -> 1
+     * 1, 2  -> 1
+     * 1, 2, 3 -> 2
+     */
+    private ListNode findMid(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head.next;
 
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
@@ -45,26 +47,104 @@ public class _148_Sort_List {
         return slow;
     }
 
-    private ListNode merge(ListNode head1, ListNode head2) {
+    private ListNode merge(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(0);
-        ListNode tail = dummy;
-        while (head1 != null && head2 != null) {
-            if (head1.val < head2.val) {
-                tail.next = head1;
-                head1 = head1.next;
+        ListNode cur = dummy;
+
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
+                cur = cur.next;
             } else {
-                tail.next = head2;
-                head2 = head2.next;
+                cur.next = l2;
+                l2 = l2.next;
+                cur = cur.next;
             }
-            tail = tail.next;
         }
 
-        if (head1 != null) {
-            tail.next = head1;
-        } else {
-            tail.next = head2;
+        cur.next = l1 != null ? l1 : l2;
+
+        return dummy.next;
+    }
+
+    public ListNode sortList_iterative(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        // 获取链表长度
+        int len = listNodeLength(head);
+
+        // 哨兵节点，也有叫傀儡节点（处理链表问题的一般技巧）
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+
+        // 循环 log n 次
+        for (int i = 1; i < len; i <<= 1) {
+            ListNode prev = dummy;
+            ListNode curr = dummy.next;
+            // 循环 n 次
+            while (curr != null) {
+                ListNode left = curr;
+                ListNode right = split(left, i);
+                curr = split(right, i);
+                prev.next = mergeTwoLists(left, right);
+
+                while (prev.next != null) {
+                    prev = prev.next;
+                }
+            }
         }
 
         return dummy.next;
+    }
+
+    // 根据步长分隔链表
+    private ListNode split(ListNode head, int step) {
+        if (head == null) {
+            return null;
+        }
+
+        for (int i = 1; head.next != null && i < step; i++) {
+            head = head.next;
+        }
+
+        ListNode right = head.next;
+        head.next = null;
+        return right;
+    }
+
+    // 获取链表的长度
+    private int listNodeLength(ListNode head) {
+        int length = 0;
+        ListNode curr = head;
+
+        while (curr != null) {
+            length++;
+            curr = curr.next;
+        }
+
+        return length;
+    }
+
+    // 合并两个有序链表
+    private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode sentry = new ListNode(-1);
+        ListNode curr = sentry;
+
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                curr.next = l1;
+                l1 = l1.next;
+            } else {
+                curr.next = l2;
+                l2 = l2.next;
+            }
+
+            curr = curr.next;
+        }
+
+        curr.next = l1 != null ? l1 : l2;
+        return sentry.next;
     }
 }
