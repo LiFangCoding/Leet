@@ -21,7 +21,7 @@ import common.TreeNode;
  */
 public class _108_ConvertSortedArraytoBinarySearchTree {
     public TreeNode sortedArrayToBST(int[] A) {
-        if (A == null || A.length == 0) {
+        if (A == null) {
             return null;
         }
 
@@ -34,6 +34,7 @@ public class _108_ConvertSortedArraytoBinarySearchTree {
         }
 
         int m = l + (r - l) / 2;
+        // !!! A[m], not m
         TreeNode root = new TreeNode(A[m]);
         root.left = helper(A, l, m - 1);
         root.right = helper(A, m + 1, r);
