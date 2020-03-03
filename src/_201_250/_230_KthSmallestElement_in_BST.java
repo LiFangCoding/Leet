@@ -32,15 +32,15 @@ import common.TreeNode;
  * What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?
  */
 public class _230_KthSmallestElement_in_BST {
-    public int count;
-    int res;
+    int count;
+    int ans;
 
     public int kthSmallest(TreeNode root, int k) {
         count = k;
 
         helper(root);
 
-        return res;
+        return ans;
     }
 
     private void helper(TreeNode root) {
@@ -52,7 +52,7 @@ public class _230_KthSmallestElement_in_BST {
 
         count--;
         if (count == 0) {
-            res = root.val;
+            ans = root.val;
             return;
         }
 
