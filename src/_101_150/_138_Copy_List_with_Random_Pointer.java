@@ -48,4 +48,32 @@ public class _138_Copy_List_with_Random_Pointer {
 
         return map.get(head);
     }
+
+    class Sol_clear_slow_performance {
+        public Node copyRandomList(Node head) {
+            if (head == null) {
+                return null;
+            }
+
+            Map<Node, Node> cloneMap = new HashMap<>();
+
+            Node cur = head;
+            while (cur != null) {
+                cloneMap.put(cur, new Node(cur.val));
+                cur = cur.next;
+            }
+
+            cur = head;
+            while (cur != null) {
+                Node cloneNode = cloneMap.get(cur);
+
+                cloneNode.next = cur.next == null ? null : cloneMap.get(cur.next);
+                cloneNode.random = cur.random == null ? null : cloneMap.get(cur.random);
+
+                cur = cur.next;
+            }
+
+            return cloneMap.get(head);
+        }
+    }
 }
