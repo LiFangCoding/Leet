@@ -17,7 +17,6 @@ package _251_300;
 public class _300_Longest_increasing_subsequence {
     public int lengthOfLIS(int[] A) {
         return 0;
-
     }
 
 }

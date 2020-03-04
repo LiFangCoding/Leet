@@ -40,7 +40,6 @@ import common.TreeNode;
  */
 public class _298_BinaryTreeLongestConsecutiveSequence3 {
     public class Sol_slow {
-
         /**
          * slow solution
          */
