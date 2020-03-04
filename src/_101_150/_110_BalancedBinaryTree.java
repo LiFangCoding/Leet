@@ -36,40 +36,39 @@ import common.TreeNode;
  * Return false.
  */
 public class _110_BalancedBinaryTree {
-
     public boolean isBalanced(TreeNode root) {
-        return helper(root).isBal;
+        return getData(root).isB;
     }
 
-    private RT helper(TreeNode root) {
+    public Data getData(TreeNode root) {
         if (root == null) {
-            return new RT(0, true);
+            return new Data(0, true);
         }
 
-        RT left = helper(root.left);
-        if (!left.isBal) {
-            return new RT(-1, false);
+        Data L = getData(root.left);
+        if (!L.isB) {
+            return new Data(-1, false);
         }
 
-        RT right = helper(root.right);
-        if (!right.isBal) {
-            return new RT(-1, false);
+        Data R = getData(root.right);
+        if (!R.isB) {
+            return new Data(-1, false);
         }
 
-        if (Math.abs(left.h - right.h) > 1) {
-            return new RT(-1, false);
-        }
+        int h = Math.max(L.h, R.h) + 1;
+        boolean isB = L.isB && R.isB && (Math.abs(L.h - R.h) <= 1);
 
-        return new RT(Math.max(left.h, right.h) + 1, true);
+        return new Data(h, isB);
     }
 
-    public static class RT {
+    // D is data for both height and boolean isBalanced.
+    public class Data {
         int h;
-        boolean isBal;
+        boolean isB;
 
-        public RT(int h, boolean isBal) {
-            this.h = h;
-            this.isBal = isBal;
+        public Data(int _h, boolean _isB) {
+            h = _h;
+            isB = _isB;
         }
     }
 }

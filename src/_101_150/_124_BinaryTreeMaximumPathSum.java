@@ -29,46 +29,31 @@ import common.TreeNode;
  * Output: 42
  */
 public class _124_BinaryTreeMaximumPathSum {
-    int[] A;
+    int ans;
 
     public int maxPathSum(TreeNode root) {
-        /**
-         * res is A[0]
-         * !!! What if root.val < 0.
-         */
-        A = new int[1];
-        A[0] = root.val;
-
-        helper(root);
-        return A[0];
+        ans = Integer.MIN_VALUE;
+        getOnePathSum(root);
+        return ans;
     }
 
-    /**
-     * Get a path start from node to end.
-     * It cannot have two paths since it needs to connect with parent node.
-     * <p>
-     * We can upate res.
-     * <p>
-     * start from node, the maximum single path.
-     *
-     * @return
-     */
-    private int helper(TreeNode root) {
+    // get and update. So every root.left, root.right should be run
+    private int getOnePathSum(TreeNode root) {
         if (root == null) {
             return 0;
         }
 
-        int left = helper(root.left);
-        int right = helper(root.right);
-        if (left < 0) {
-            left = 0;
+        int l = getOnePathSum(root.left);
+        if (l < 0) {
+            l = 0;
+        }
+        int r = getOnePathSum(root.right);
+        if (r < 0) {
+            r = 0;
         }
 
-        if (right < 0) {
-            right = 0;
-        }
-
-        A[0] = Math.max(A[0], root.val + left + right);
-        return root.val + Math.max(left, right);
+        int curSum = root.val + l + r;
+        ans = Math.max(ans, curSum);
+        return root.val + Math.max(l, r);
     }
 }

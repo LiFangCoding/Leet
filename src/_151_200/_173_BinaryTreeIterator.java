@@ -27,35 +27,34 @@ import java.util.Stack;
  * iterator.hasNext(); // return false
  */
 public class _173_BinaryTreeIterator {
-    Stack<TreeNode> stack;
+    Stack<TreeNode> s;
+    TreeNode cur;
 
     public _173_BinaryTreeIterator(TreeNode root) {
-        stack = new Stack<>();
-        TreeNode cur = root;
-        while (cur != null) {
-            stack.push(cur);
-            cur = cur.left;
-        }
+        s = new Stack<>();
+        cur = root;
     }
 
     /**
      * @return the next smallest number
      */
     public int next() {
-        TreeNode cur = stack.pop();
-        int val = cur.val;
-        cur = cur.right;
         while (cur != null) {
-            stack.push(cur);
+            s.push(cur);
             cur = cur.left;
         }
-        return val;
+
+        TreeNode node = s.pop();
+        int ans = node.val;
+        cur = node.right;
+
+        return ans;
     }
 
     /**
      * @return whether we have a next smallest number
      */
     public boolean hasNext() {
-        return !stack.isEmpty();
+        return !s.isEmpty() || cur != null;
     }
 }

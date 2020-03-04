@@ -22,9 +22,32 @@ import java.util.*;
  * ]
  */
 public class _107_BinaryTreeLevelOrderTraversal2 {
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        List<List<Integer>> res = new ArrayList<>();
+    List<List<Integer>> ans;
 
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        ans = new ArrayList<>();
+//        bfs(root);
+        dfs(root, 0);
+        Collections.reverse(ans);
+        return ans;
+    }
+
+    private void dfs(TreeNode root, int d) {
+        if (root == null) {
+            return;
+        }
+
+        while (ans.size() <= d) {
+            ans.add(new ArrayList<>());
+        }
+
+        ans.get(d).add(root.val);
+        // !!!Important d + 1
+        dfs(root.left, d + 1);
+        dfs(root.right, d + 1);
+    }
+
+    private void bfs(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
 
         if (root != null) {
@@ -48,10 +71,8 @@ public class _107_BinaryTreeLevelOrderTraversal2 {
                 }
             }
 
-            res.add(level);
+            ans.add(level);
         }
-
-        Collections.reverse(res);
-        return res;
     }
+
 }

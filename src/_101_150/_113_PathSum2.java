@@ -29,36 +29,35 @@ import java.util.List;
  * ]
  */
 public class _113_PathSum2 {
-    List<List<Integer>> res;
     List<Integer> path;
+    List<List<Integer>> ans;
 
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        res = new ArrayList<>();
         path = new ArrayList<>();
+        ans = new ArrayList<>();
 
-        helper(root, sum);
-        return res;
+        addPath(root, sum);
+        return ans;
     }
 
-    private void helper(TreeNode root, int sum) {
+    private void addPath(TreeNode root, int sum) {
         if (root == null) {
             return;
         }
 
-        path.add(root.val);
-
-        if (root.left == null && root.right == null && root.val == sum) {
-            /**
-             * !!! path need to add current node. Then remove it.
-             * Run small test cases before
-             * This ends one step before.
-             */
-            res.add(new ArrayList<>(path));
-        } else {
-          helper(root.left, sum - root.val);
-          helper(root.right, sum - root.val);
+        if (root.left == null && root.right == null) {
+            if (root.val == sum) {
+                path.add(root.val);
+                ans.add(new ArrayList<>(path));
+                path.remove(path.size() - 1);
+            }
+            return;
         }
 
+        int newSum = sum - root.val;
+        path.add(root.val);
+        addPath(root.left, newSum);
+        addPath(root.right, newSum);
         path.remove(path.size() - 1);
     }
 }

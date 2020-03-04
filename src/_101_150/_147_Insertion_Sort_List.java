@@ -27,26 +27,28 @@ import common.ListNode;
  */
 public class _147_Insertion_Sort_List {
     public ListNode insertionSortList(ListNode head) {
-        /**
-         * After dummy is sorted
-         */
-        ListNode dummy = new ListNode(-1);
+        ListNode dummy = new ListNode(0);
 
-        ListNode p = head;
+        ListNode cur = head;
+        ListNode pre = dummy;
 
-        while (p != null) {
-            ListNode insertPos = dummy;
+        while (cur != null) {
+            /**
+             * !!! update the pre position
+             */
 
-            while (insertPos.next != null && insertPos.next.val <= p.val) {
-                insertPos = insertPos.next;
+            if (cur.val < pre.val) {
+                pre = dummy;
+            }
+            while (pre.next != null && pre.next.val <= cur.val) {
+                pre = pre.next;
             }
 
-            ListNode temp = p.next;
+            ListNode next = cur.next;
+            cur.next = pre.next;
+            pre.next = cur;
 
-            p.next = insertPos.next;
-            insertPos.next = p;
-
-            p = temp;
+            cur = next;
         }
 
         return dummy.next;

@@ -15,29 +15,23 @@ import common.ListNode;
  */
 public class _24_SwapNodesInPairs {
     public ListNode swapPairs(ListNode head) {
-        ListNode dummy = new ListNode(-1);
+        ListNode dummy = new ListNode(0);
         dummy.next = head;
+        ListNode prev = dummy;
 
-        ListNode cur = dummy;
-
-        //TODO: test on leet
-        while (true) {
-            ListNode first = cur.next;
-
-            if (first == null || first.next == null) {
-                break;
-            }
-            ListNode second = first.next;
-
-            // in order, exchange two nodes
-            ListNode next = second.next;
+        while (prev.next != null && prev.next.next != null) {
+            ListNode first = prev.next;
+            ListNode sec = prev.next.next;
+            ListNode next = sec.next;
+            sec.next = null;
 
             first.next = next;
-            second.next = first;
-            cur.next = second;
+            sec.next = first;
+            prev.next = sec;
 
-            cur = first;
+            prev = first;
         }
+
         return dummy.next;
     }
 }

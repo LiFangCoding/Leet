@@ -2,19 +2,18 @@ package _1_50;
 
 import common.ListNode;
 
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
  * Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
- *
+ * <p>
  * Example:
- *
+ * <p>
  * Input:
  * [
- *   1->4->5,
- *   1->3->4,
- *   2->6
+ * 1->4->5,
+ * 1->3->4,
+ * 2->6
  * ]
  * Output: 1->1->2->3->4->4->5->6
  */
@@ -25,34 +24,36 @@ public class _23_MergeKSortedLists {
      */
     public ListNode mergeKLists1(ListNode[] lists) {
         /**
-         * Make sure to add comparator to the method
+         * !!! comparator
          */
         PriorityQueue<ListNode> pq = new PriorityQueue<>((l1, l2) -> Integer.compare(l1.val, l2.val));
 
         /**
-         * put all in the pq first
-         * Pay attention to null one.
+         * !!! node != null
          */
-        for (ListNode list : lists) {
-            if (list != null) {
-                pq.add(list);
+        for (ListNode node : lists) {
+            if (node != null) {
+                pq.add(node);
             }
         }
 
         ListNode dummy = new ListNode(0);
-        ListNode curr = dummy;
+        ListNode cur = dummy;
 
         while (!pq.isEmpty()) {
-            ListNode temp = pq.remove();
-            curr.next = temp;
-            curr = curr.next;
-            if (temp.next != null) {
-                pq.add(temp.next);
+            ListNode node = pq.remove();
+            if (node.next != null) {
+                pq.add(node.next);
+                node.next = null;
             }
+
+            cur.next = node;
+            cur = cur.next;
         }
 
         return dummy.next;
     }
+
 
     public ListNode mergeKLists2(ListNode[] lists) {
         /**
@@ -84,26 +85,26 @@ public class _23_MergeKSortedLists {
 
     private ListNode mergeTwo(ListNode left, ListNode right) {
         ListNode dummy = new ListNode(0);
-        ListNode curr = dummy;
+        ListNode cur = dummy;
 
         while (left != null && right != null) {
             if (left.val < right.val) {
-                curr.next = left;
+                cur.next = left;
                 left = left.next;
-                curr = curr.next;
+                cur = cur.next;
             } else {
-                curr.next = right;
+                cur.next = right;
                 right = right.next;
-                curr = curr.next;
+                cur = cur.next;
             }
         }
 
         if (left != null) {
-            curr.next = left;
+            cur.next = left;
         }
 
         if (right != null) {
-            curr.next = right;
+            cur.next = right;
         }
 
         return dummy.next;

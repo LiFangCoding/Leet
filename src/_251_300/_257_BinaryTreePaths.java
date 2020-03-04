@@ -25,19 +25,15 @@ import java.util.List;
  * Explanation: All root-to-leaf paths are: 1->2->5, 1->3
  */
 public class _257_BinaryTreePaths {
-    List<String> res;
+    List<String> ans;
     String path;
 
     public List<String> binaryTreePaths(TreeNode root) {
-        res = new ArrayList<>();
+        ans = new ArrayList<>();
         path = "";
 
-        if (root == null) {
-            return res;
-        }
-
         dfs(root);
-        return res;
+        return ans;
     }
 
     private void dfs(TreeNode root) {
@@ -46,7 +42,7 @@ public class _257_BinaryTreePaths {
         }
 
         if (root.left == null && root.right == null) {
-            res.add(path + root.val);
+            ans.add(path + root.val);
         }
 
         String temp = path;

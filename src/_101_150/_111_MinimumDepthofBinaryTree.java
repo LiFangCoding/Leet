@@ -22,27 +22,25 @@ import common.TreeNode;
  */
 public class _111_MinimumDepthofBinaryTree {
     public int minDepth(TreeNode root) {
-        /**
-         * 1
-         * 2   3
-         * 4     5
-         */
         if (root == null) {
             return 0;
         }
 
-        return helper(root);
-    }
+        if (root.left == null && root.right != null) {
+            return minDepth(root.right) + 1;
+        }
 
-    private int helper(TreeNode root) {
-        if (root == null) {
-            return Integer.MAX_VALUE;
+        if (root.left != null && root.right == null) {
+            return minDepth(root.left) + 1;
         }
 
         if (root.left == null && root.right == null) {
             return 1;
         }
 
-        return Math.min(helper(root.left), helper(root.right)) + 1;
+        int L = minDepth(root.left);
+        int R = minDepth(root.right);
+
+        return Math.min(L, R) + 1;
     }
 }
