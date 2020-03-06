@@ -28,6 +28,8 @@ import java.util.Queue;
 public class _200_NumberofIslands {
     int[] dx = {1, -1, 0, 0};
     int[] dy = {0, 0, 1, -1};
+    char land = '1';
+    char water = '0';
 
     int m;
     int n;
@@ -39,45 +41,37 @@ public class _200_NumberofIslands {
      * @return
      */
     public int numIslands(char[][] grid) {
-        if (grid == null || grid.length == 0 || grid[0] == null || grid[0].length == 0) {
+        if (grid == null || grid.length == 0
+            || grid[0] == null || grid[0].length == 0) {
             return 0;
         }
 
         m = grid.length;
         n = grid[0].length;
 
-        int count = 0;
+        int ans = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (grid[i][j] == '1') {
+                if (grid[i][j] == land) {
 //                    dfs(grid, i, j);
                     bfs(grid, i, j);
-                    count++;
+                    ans++;
                 }
             }
         }
 
-        return count;
+        return ans;
     }
 
     private void dfs(char[][] grid, int x, int y) {
-        /**
-         * !!! not valid is the x < 0 || y < 0. No = 0.
-         *
-         * The valid need the value to be '1'.
-         *
-         * Need to be careful the value should be '1', then it can continue
-         */
-        grid[x][y] = '0';
+      if (x < 0 || x >= grid.length || y < 0 || y >= grid[0].length || grid[x][y] == water) {
+        return;
+      }
 
-        for (int i = 0; i < dx.length; i++) {
-            int newx = x + dx[i];
-            int newy = y + dy[i];
-
-            if (newx >= 0 && newx < m && newy >= 0 && newy < n && grid[newx][newy] == '1') {
-                dfs(grid, newx, newy);
-            }
-        }
+      grid[x][y] = water;
+      for (int i = 0; i < dx.length; i++) {
+        dfs(grid, x + dx[i],  y + dy[i]);
+      }
     }
 
     private void bfs(char[][] grid, int x, int y) {

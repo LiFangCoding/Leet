@@ -23,27 +23,29 @@ import java.util.*;
  */
 public class _103_BinaryTree_Zigzag_Level_Order_Traversal {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> res = new ArrayList<>();
+        List<List<Integer>> ans = new ArrayList<>();
 
         Queue<TreeNode> queue = new LinkedList<>();
-        /**
-         * !!!
-         */
         if (root != null) {
             queue.add(root);
         }
 
-        boolean inorder = true;
+        int level = 0;
         while (!queue.isEmpty()) {
             int size = queue.size();
+            LinkedList<Integer> list = new LinkedList<>();
 
-            List<Integer> level = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 TreeNode cur = queue.remove();
                 /**
                  * !!! cur should not be null
                  */
-                level.add(cur.val);
+                if (level % 2 == 0) {
+                  list.add(cur.val);
+                } else {
+                  list.add(0, cur.val);
+                }
+
                 if (cur.left != null) {
                     queue.add(cur.left);
                 }
@@ -53,13 +55,10 @@ public class _103_BinaryTree_Zigzag_Level_Order_Traversal {
                 }
             }
 
-            if (!inorder) {
-                Collections.reverse(level);
-            }
-            res.add(level);
-            inorder = !inorder;
+            ans.add(list);
+            level++;
         }
 
-        return res;
+        return ans;
     }
 }
