@@ -51,7 +51,6 @@ public class _965_UnivaluedBinaryTree {
 
         dfs(root.left);
         dfs(root.right);
-
     }
 
     public boolean isUnivalTree_divide_conquer(TreeNode root) {
