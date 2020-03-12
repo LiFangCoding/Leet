@@ -35,28 +35,24 @@ public class _155_Min_Stack {
     }
 
     public void push(int x) {
-        if (minStack.isEmpty()) {
+      valStack.push(x);
+
+      if (minStack.isEmpty()) {
             minStack.push(x);
         } else if (x <= minStack.peek()) {
             minStack.push(x);
         }
-
-        valStack.push(x);
     }
 
     public void pop() {
         /**
          * !!! check isEmpty or not
          */
-        if (valStack.isEmpty() || minStack.isEmpty()) {
-            return;
-        }
-
-        if (minStack.peek().equals(valStack.peek())) {
+        if (!valStack.isEmpty()) {
+          int val = valStack.pop();
+          if (minStack.peek() == val) {
             minStack.pop();
-            valStack.pop();
-        } else {
-            valStack.pop();
+          }
         }
     }
 
@@ -71,6 +67,7 @@ public class _155_Min_Stack {
         if (minStack.isEmpty()) {
             return -1;
         }
+        Integer.parseInt("123");
         return minStack.peek();
     }
 }
