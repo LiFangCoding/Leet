@@ -39,6 +39,68 @@ public class _210_Course_Schedule2 {
         System.out.println(Arrays.toString(test.findOrder(4, A)));
     }
 
+    class Solution_DFS {
+        boolean hasCycle;
+        boolean[] onStack;
+        boolean[] marked;
+        Stack<Integer> reversePost;
+
+        public int[] findOrder(int n, int[][] pres) {
+            List<List<Integer>> adjs = new ArrayList<>(n);
+            for (int i = 0; i < n; i++) {
+                adjs.add(new ArrayList<>());
+            }
+
+            for (int[] pre : pres) {
+                int prevCourse = pre[1];
+                int laterCourse = pre[0];
+
+                adjs.get(prevCourse).add(laterCourse);
+            }
+
+            marked = new boolean[n];
+            onStack = new boolean[n];
+            reversePost = new Stack<>();
+            hasCycle = false;
+
+            for (int v = 0; v < n; v++) {
+                if (!marked[v]) {
+                    dfs(v, adjs);
+                }
+            }
+
+            if (hasCycle) {
+                return new int[0];
+            }
+
+            int[] ans = new int[n];
+            for (int i = 0; i < n; i++) {
+                ans[i] = reversePost.pop();
+            }
+
+            return ans;
+        }
+
+        private void dfs(int v, List<List<Integer>> adjs) {
+            marked[v] = true;
+            onStack[v] = true;
+
+            for (int w : adjs.get(v)) {
+                if (hasCycle) {
+                    return;
+                } else if (!marked[w]) {
+                    dfs(w, adjs);
+                } else if (onStack[w]) {
+                    hasCycle = true;
+                    return;
+                }
+            }
+
+            onStack[v] = false;
+            reversePost.add(v);
+        }
+    }
+
     public int[] findOrder(int n, int[][] prerequisites) {
         int[] res = new int[n];
 
