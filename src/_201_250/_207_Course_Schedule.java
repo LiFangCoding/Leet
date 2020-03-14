@@ -24,6 +24,54 @@ import java.util.*;
  *              also have finished course 1. So it is impossible.
  */
 public class _207_Course_Schedule {
+    //DFS
+    class Sol_DFS {
+      boolean[] marked;
+      boolean[] onStack;
+      boolean hasCycle;
+
+      public boolean canFinish(int n, int[][] pres) {
+        marked = new boolean[n];
+        onStack = new boolean[n];
+        hasCycle = false;
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+          adj.add(new ArrayList<>());
+        }
+
+        for (int[] pre : pres) {
+          adj.get(pre[1]).add(pre[0]);
+        }
+
+        for (int v = 0; v < n; v++) {
+          if (!marked[v]) {
+            dfs(v, adj);
+          }
+        }
+
+        return !hasCycle;
+      }
+
+      private void dfs(int v, List<List<Integer>> adj) {
+        onStack[v] = true;
+        marked[v] = true;
+
+        for (int w : adj.get(v)) {
+          if (hasCycle) {
+            return;
+          } else if (!marked[w]) {
+            dfs(w, adj);
+          } else if (onStack[w]) {
+            hasCycle = true;
+          }
+        }
+
+        onStack[v] = false;
+      }
+    }
+
+    //BFS
     public boolean canFinish(int n, int[][] prerequisites) {
         int[] indegree = new int[n];
         List<Integer>[] neighbors = new ArrayList[n];

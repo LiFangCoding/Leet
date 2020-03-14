@@ -63,7 +63,6 @@ public class _150_Evaluate_Reverse_Polish_Notation {
                 } else if (s.equals("+")) {
                     stack.push(first + second);
                 } else if (s.equals("-")) {
-
                     stack.push(first - second);
                 }
             } else {
