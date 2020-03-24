@@ -20,31 +20,35 @@ import java.util.List;
  * Output: [[1,2,6], [1,3,5], [2,3,4]]
  */
 public class _216_CombinationSum3 {
-    List<Integer> path;
-    List<List<Integer>> res;
+    List<Integer> cur;
+    List<List<Integer>> ans;
 
     public List<List<Integer>> combinationSum3(int k, int n) {
-        path = new ArrayList<>();
-        res = new ArrayList<>();
+        cur = new ArrayList<>();
+        ans = new ArrayList<>();
 
-        helper(1, k, n);
-        return res;
+        dfs(k, 1, n);
+        return ans;
     }
 
-    private void helper(int start, int k, int n) {
-        if (n < 0 || path.size() > k) {
+    // k = 3, n = 7
+    // [1, 2, 4]
+    private void dfs(int k, int s, int target) {
+        if (cur.size() == k) {
+            if (target == 0) {
+                ans.add(new ArrayList<>(cur));
+            }
             return;
         }
 
-        if (path.size() == k && n == 0) {
-            res.add(new ArrayList<>(path));
-            return;
-        }
+        for (int i = s; i <= 9; i++) {
+            if (i > target) {
+                break;
+            }
 
-        for (int i = start; i <= 9; i++) {
-            path.add(i);
-            helper(i + 1, k, n - i);
-            path.remove(path.size() - 1);
+            cur.add(i);
+            dfs(k, i + 1, target - i);
+            cur.remove(cur.size() - 1);
         }
     }
 }
