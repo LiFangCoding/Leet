@@ -20,36 +20,34 @@ import java.util.List;
  */
 public class _784_LetterCasePermutation {
     List<String> ans;
-    StringBuilder cur;
 
-    public List<String> letterCasePermutation(String S) {
+    public List<String> letterCasePermutation(String str) {
         ans = new ArrayList<>();
+        char[] chars = str.toCharArray();
 
-        char[] chars = S.toCharArray();
         dfs(chars, 0);
         return ans;
     }
 
     private void dfs(char[] chars, int s) {
-        if (cur.length() == chars.length) {
-            ans.add(cur.toString());
+        if (s == chars.length) {
+            ans.add(new String(chars));
             return;
         }
 
         if (Character.isDigit(chars[s])) {
-            cur.append(chars[s]);
+            // here is need to remove the char at end
             dfs(chars, s + 1);
         } else {
-            char c = chars[s];
-            int dis = ((c - 'a') >= 0 && (c - 'a') < 26) ? c - 'a' : c - 'A';
+            char temp = chars[s];
 
-            cur.append((char) (dis + 'a'));
+            chars[s] = Character.toLowerCase(temp);
             dfs(chars, s + 1);
-            cur.deleteCharAt(cur.length() - 1);
 
-            cur.append((char) (dis + 'A'));
+            chars[s] = Character.toUpperCase(temp);
             dfs(chars, s + 1);
-            cur.deleteCharAt(cur.length() - 1);
+
+            chars[s] = temp;
         }
     }
 }
