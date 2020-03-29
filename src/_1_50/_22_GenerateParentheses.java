@@ -17,35 +17,34 @@ import java.util.List;
  * ]
  */
 public class _22_GenerateParentheses {
-    List<String> res;
+    List<String> ans;
 
     public List<String> generateParenthesis(int n) {
-        res = new ArrayList<>();
-        if (n == 0) {
-            return res;
+        ans = new ArrayList<>();
+        if (n <= 0) {
+            return ans;
         }
 
-        getParen(n, n, "");
-        return res;
+        dfs(n, n, "");
+        return ans;
     }
 
-    /**
-     * leftn
-     * @param leftn  num of paren needed to place
-     * @param rightn
-     * @param path
-     */
-    private void getParen(int leftn, int rightn, String path) {
+    private void dfs(int l, int r, String cur) {
         // base case
-        if (leftn == 0 && rightn == 0) {
-            res.add(path);
-        } else {
-            if (leftn > 0) {
-                getParen(leftn - 1, rightn, path + "(");
+        if (l == 0 && r == 0) {
+            ans.add(cur);
+            return;
+        }
+
+        if (l == r) {
+            dfs(l - 1, r, cur + "(");
+        } else if (l < r) {
+            if (l > 0) {
+                dfs(l - 1, r, cur + "(");
             }
 
-            if (leftn < rightn) {
-                getParen(leftn, rightn - 1, path + ")");
+            if (r > 0) {
+                dfs(l, r - 1, cur + ")");
             }
         }
     }
