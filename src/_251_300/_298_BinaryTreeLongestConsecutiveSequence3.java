@@ -117,4 +117,35 @@ public class _298_BinaryTreeLongestConsecutiveSequence3 {
             }
         }
     }
+
+    private int ans;
+
+    public int longestConsecutive(TreeNode root) {
+        ans = 0;
+
+        getConse(root);
+        return ans;
+    }
+
+    private int getConse(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int curLen = 1;
+
+        int curLeft = getConse(root.left);
+        int curRight = getConse(root.right);
+
+        if (root.left != null && root.val + 1 == root.left.val) {
+            curLen += curLeft;
+        }
+
+        if (root.right != null && root.val + 1 == root.right.val) {
+            curLen = Math.max(curLen, 1 + curRight);
+        }
+
+        ans = Math.max(ans, curLen);
+        return curLen;
+    }
 }
