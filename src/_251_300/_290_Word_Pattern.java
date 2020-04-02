@@ -28,6 +28,35 @@ import java.util.Map;
  * You may assume pattern contains only lowercase letters, and str contains lowercase letters that may be separated by a single space.
  */
 public class _290_Word_Pattern {
+  public boolean wordPattern_more_clean(String pattern, String str) {
+    String[] words = str.split(" ");
+
+    Map<Character, String> map = new HashMap<>();
+
+    if (pattern.length() != words.length) {
+      return false;
+    }
+
+    int len = pattern.length();
+
+    for (int i = 0; i < len; i++) {
+      char c = pattern.charAt(i);
+      String word = words[i];
+
+      if (map.containsKey(c) && map.get(c).equals(word)) {
+        continue;
+      } else if (!map.containsKey(c) && !map.containsValue(word)) {
+        // this makes sure no one words input for two characters. So first if check only get(c) equals word
+        map.put(c, word);
+        continue;
+      } else {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
     public boolean wordPattern(String s1, String s2) {
         Map<Character, String> map1 = new HashMap<>();
         Map<String, Character> map2 = new HashMap<>();
