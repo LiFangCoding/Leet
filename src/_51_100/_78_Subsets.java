@@ -30,25 +30,27 @@ public class _78_Subsets {
         System.out.println(test.subsets(A));
     }
 
-    public List<List<Integer>> subsets(int[] nums) {
-        List<Integer> chosen = new ArrayList<>();
-        List<List<Integer>> res = new ArrayList<>();
+    List<Integer> cur;
+    List<List<Integer>> ans;
 
-        helper(nums, 0, chosen, res);
-        return res;
+    public List<List<Integer>> subsets(int[] nums) {
+        ans = new ArrayList<>();
+        cur = new ArrayList<>();
+
+        dfs(nums, 0);
+        return ans;
     }
 
-    /**
-     * if we choose 1, then candidates are [2,3]
-     * choose 2, candidates are [3]
-     */
-    public void helper(int[] nums, int start, List<Integer> chosen, List<List<Integer>> res) {
-        res.add(new ArrayList<>(chosen));
+    // [1,2,3]
+    // ans = [] [1] [1,2] [1,2,3] [1,3]  [2] [2,3]
+    private void dfs(int[] nums, int s) {
+        ans.add(new ArrayList<>(cur));
 
-        for (int i = start; i < nums.length; i++) {
-            chosen.add(nums[i]);
-            helper(nums, i + 1, chosen, res);
-            chosen.remove(chosen.size() - 1);
+        for (int i = s; i < nums.length; i++) {
+            // here is to add nums[i], not nums[s]
+            cur.add(nums[i]);
+            dfs(nums, i + 1);
+            cur.remove(cur.size() - 1);
         }
     }
 }

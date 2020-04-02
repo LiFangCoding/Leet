@@ -14,30 +14,30 @@ import java.util.List;
  * Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
  */
 public class _17_LetterCombinationsPhoneNum {
-    List<String> res;
+    List<String> ans;
     String[] map = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
     public List<String> letterCombinations(String digits) {
-        res =  new ArrayList<>();
+        ans = new ArrayList<>();
         /**
          * when len = 0, res = [] not [""]
          */
         if (digits == null || digits.length() == 0) {
-            return res;
+            return ans;
         }
-        getCombinations(digits, 0, "");
-        return res;
+        dfs(digits, 0, "");
+        return ans;
     }
 
-    private void getCombinations(String digits, int index, String path) {
-        if (index == digits.length()) {
-            res.add(path);
+    private void dfs(String digits, int s, String cur) {
+        if (s == digits.length()) {
+            ans.add(cur);
             return;
         }
 
-        int i = digits.charAt(index) - '0';
+        int i = digits.charAt(s) - '0';
         for (char c : map[i].toCharArray()) {
-            getCombinations(digits, index + 1, path + c);
+            dfs(digits, s + 1, cur + c);
         }
     }
 }

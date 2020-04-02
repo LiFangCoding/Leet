@@ -1,7 +1,5 @@
 package _251_300;
 
-import java.util.Arrays;
-
 /**
  * Given an unsorted array of integers, find the length of longest increasing subsequence.
  * <p>
@@ -27,21 +25,23 @@ public class _300_Longest_increasing_subsequence {
         if (A == null || A.length == 0) {
             return 0;
         }
-        // f[i] means char at i, the longest increasing subsequence
-        // [5, 2,3,-1,7,101]
-        int[] f = new int[A.length];
-        Arrays.fill(f, 1);
 
-        //!!! pay attention to the i, j index here
-        for (int i = 0; i < f.length; i++) {
+
+        int[] f = new int[A.length];
+        // better to define 1
+        int ans = 1;
+
+        for (int i = 0; i < A.length; i++) {
+            f[i] = 1;
+            // get value for f[i]
             for (int j = 0; j < i; j++) {
-                // Here, important is the A here
                 if (A[i] > A[j]) {
                     f[i] = Math.max(f[i], f[j] + 1);
                 }
             }
+            ans = Math.max(ans, f[i]);
         }
 
-        return Arrays.stream(f).max().getAsInt();
+        return ans;
     }
 }

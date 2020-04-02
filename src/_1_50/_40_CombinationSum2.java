@@ -33,57 +33,42 @@ import java.util.List;
  * ]
  */
 public class _40_CombinationSum2 {
-    List<List<Integer>> res;
-    List<Integer> path;
-
-    public static void main(String[] args) {
-        _40_CombinationSum2 test = new _40_CombinationSum2();
-        int[] candidates = {10, 1, 2, 7, 6, 1, 5};
-        int target = 8;
-
-        List<List<Integer>> res = test.combinationSum2(candidates, target);
-        System.out.println(Arrays.deepToString(res.toArray()));
-
-    }
+    List<List<Integer>> ans;
+    List<Integer> cur;
 
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        res = new ArrayList<>();
-        path = new ArrayList<>();
+        ans = new ArrayList<>();
+        cur = new ArrayList<>();
 
         if (candidates == null || candidates.length == 0) {
-            return res;
+            return ans;
         }
-
+        // important sort
         Arrays.sort(candidates);
-        helper(candidates, target, 0);
-        return res;
+        dfs(candidates, 0, target);
+        return ans;
     }
 
-    private void helper(int[] candidates, int target, int start) {
-        // base condition
+    private void dfs(int[] candidates, int s, int target) {
         if (target == 0) {
-            res.add(new ArrayList<>(path));
+            ans.add(new ArrayList<>(cur));
             return;
         }
 
-        if (target < 0) {
-            return;
-        }
-
-        int len = candidates.length;
-        for (int i = start; i < len; i++) {
-            /**
-             * Because we just care in this level, do not pick the num which can be same.
-             * So it starts from start position.
-             */
-            if (i != start && candidates[i] == candidates[i - 1]) {
+        for (int i = s; i < candidates.length; i++) {
+            // important for duplicates
+            if (i != s && candidates[i] == candidates[i - 1]) {
                 continue;
             }
 
-            int num = candidates[i];
-            path.add(num);
-            helper(candidates, target - num, i + 1);
-            path.remove(path.size() - 1);
+            if (candidates[i] > target) {
+                break;
+            }
+
+            cur.add(candidates[i]);
+            // here important to substract the value
+            dfs(candidates, i + 1, target - candidates[i]);
+            cur.remove(cur.size() - 1);
         }
     }
 }

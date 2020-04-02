@@ -23,28 +23,32 @@ import java.util.List;
  * ]
  */
 public class _90_subsets2 {
-    public List<List<Integer>> subsetsWithDup(int[] A) {
-        List<List<Integer>> res = new ArrayList<>();
+    List<List<Integer>> ans;
+    List<Integer> cur;
 
-        if (A == null || A.length == 0) {
-            return res;
-        }
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        ans = new ArrayList<>();
+        cur = new ArrayList<>();
 
-        Arrays.sort(A);
-        helper(0, A, new ArrayList<Integer>(), res);
-        return res;
+        Arrays.sort(nums);
+        dfs(nums, 0);
+        return ans;
     }
 
-    private void helper(int start, int[] A, ArrayList<Integer> chosen, List<List<Integer>> res) {
-        res.add(new ArrayList<>(chosen));
+    // [1, 2, 2]
+    // [] [1] [1,2] [1,2,2] [2] [2,2]
+    private void dfs(int[] nums, int s) {
+        // here is add cur
+        ans.add(new ArrayList<>(cur));
 
-        for (int i = start; i < A.length; i++) {
-            if (i != start && A[i] == A[i - 1]) {
+        for (int i = s; i < nums.length; i++) {
+            if (i != s && nums[i] == nums[i - 1]) {
                 continue;
             }
-            chosen.add(A[i]);
-            helper(i + 1, A, chosen, res);
-            chosen.remove(chosen.size() - 1);
+
+            cur.add(nums[i]);
+            dfs(nums, i + 1);
+            cur.remove(cur.size() - 1);
         }
     }
 }

@@ -20,55 +20,35 @@ import java.util.List;
  * ]
  */
 public class _46_Permutations {
+    List<Integer> cur;
+    List<List<Integer>> ans;
+    boolean[] marked;
+
     public List<List<Integer>> permute(int[] nums) {
-        List<Integer> path = new ArrayList<>();
-        List<List<Integer>> res = new ArrayList<>();
-        boolean[] used = new boolean[nums.length];
+        // remember to initialize the marked boolean array
+        cur = new ArrayList<>();
+        ans = new ArrayList<>();
+        marked = new boolean[nums.length];
 
-        helper(nums, used, path, res);
-        return res;
+        dfs(nums);
+        return ans;
     }
 
-    private void helper(int[] A, boolean[] used, List<Integer> path, List<List<Integer>> res) {
-        if (path.size() == A.length) {
-            res.add(new ArrayList<>(path));
-            return;
+    private void dfs(int[] nums) {
+        if (cur.size() == nums.length) {
+            ans.add(new ArrayList<>(cur));
         }
 
-        for (int i = 0; i < A.length; i++) {
-            if (used[i]) {
-                continue;
+        for (int i = 0; i < nums.length; i++) {
+            if (!marked[i]) {
+                marked[i] = true;
+                cur.add(nums[i]);
+                dfs(nums);
+                cur.remove(cur.size() - 1);
+                marked[i] = false;
             }
-            used[i] = true;
-            path.add(A[i]);
-            helper(A, used, path, res);
-            path.remove(path.size() - 1);
-            used[i] = false;
         }
     }
-
-    /**
-     * better do not use swap. Because swap will break the relationship that sorted array the same are grouped.
-     */
-//    private void helper(int[] nums, int start) {
-//        if (path.size() == nums.length) {
-//            res.add(new ArrayList<>(path));
-//        }
-//
-//        for (int i = start; i < nums.length; i++) {
-//            swap(nums, i, start);
-//            path.add(nums[start]);
-//            helper(nums, start + 1);
-//            swap(nums, i, start);
-//            path.remove(path.size() - 1);
-//        }
-//    }
-//
-//    private void swap(int[] A, int i, int j) {
-//        int temp = A[i];
-//        A[i] = A[j];
-//        A[j] = temp;
-//    }
 
     public static void main(String[] args) {
         int[] nums = {1, 2, 3};

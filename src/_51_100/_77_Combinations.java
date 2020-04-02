@@ -25,26 +25,32 @@ public class _77_Combinations {
         System.out.println(test.combine(4, 2));
     }
 
+    List<List<Integer>> ans;
+    List<Integer> cur;
+
     public List<List<Integer>> combine(int n, int k) {
-        List<List<Integer>> res = new ArrayList<>();
-        helper(n, k, 1, new ArrayList<Integer>(), res);
-        return res;
+        ans = new ArrayList<>();
+        cur = new ArrayList<>();
+
+        dfs(n, 1, k);
+        return ans;
     }
 
-    /**
-     * !!! this is combinations. Not same with permutation.
-     * Need start position
-     * No need boolean[] chosen. It is for permutation to see which is chosen.
-     */
-    public void helper(int n, int k, int start, List<Integer> chosen, List<List<Integer>> res) {
-        if (chosen.size() == k) {
-            res.add(new ArrayList<>(chosen));
+    private void dfs(int n, int s, int k) {
+        if (cur.size() == k) {
+            ans.add(new ArrayList<>(cur));
+            return;
         }
 
-        for (int i = start; i <= n; i++) {
-            chosen.add(i);
-            helper(n, k, i + 1, chosen, res);
-            chosen.remove(chosen.size() - 1);
+        // Will not be true. So can ignore it
+        // if (cur.size() > k) {
+        //     return;
+        // }
+
+        for (int i = s; i <= n; i++) {
+            cur.add(i);
+            dfs(n, i + 1, k);
+            cur.remove(cur.size() - 1);
         }
     }
 }

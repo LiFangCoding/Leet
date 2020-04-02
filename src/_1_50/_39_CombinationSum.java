@@ -32,57 +32,33 @@ import java.util.List;
  * ]
  */
 public class _39_CombinationSum {
-    List<List<Integer>> res;
-    List<Integer> path;
-
-    public static void main(String[] args) {
-        _39_CombinationSum test = new _39_CombinationSum();
-        int[] candidates = {2, 3, 6, 7};
-        int target = 7;
-
-        List<List<Integer>> res = test.combinationSum(candidates, target);
-        System.out.println(Arrays.deepToString(res.toArray()));
-
-        System.out.println(test.path);
-        System.out.println(test.res);
-
-        List<List<Integer>> res1 = test.combinationSum(candidates, target);
-        System.out.println(Arrays.deepToString(res1.toArray()));
-    }
+    List<List<Integer>> ans;
+    List<Integer> cur;
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        res = new ArrayList<>();
-        path = new ArrayList<>();
+        ans = new ArrayList<>();
+        cur = new ArrayList<>();
 
-        if (candidates == null || candidates.length == 0) {
-            return res;
-        }
-
-        helper(candidates, target, 0);
-        return res;
+        // to make break
+        Arrays.sort(candidates);
+        dfs(candidates, 0, target);
+        return ans;
     }
 
-    /**
-     * Without start index,
-     * for each method, finally add correct path into res
-     * candidates = [2,3,6,7], target = 7,
-     * res = {[2,2,3], [2,3,2], [3,2,2], 7}. Not correct.
-     */
-    private void helper(int[] candidates, int target, int start) {
-        if (target < 0) {
-            return;
-        }
-
+    private void dfs(int[] candidates, int s, int target) {
         if (target == 0) {
-            res.add(new ArrayList<>(path));
+            ans.add(new ArrayList<>(cur));
             return;
         }
 
-        for (int i = start; i < candidates.length; i++) {
-            int num = candidates[i];
-            path.add(num);
-            helper(candidates, target - num, i);
-            path.remove(path.size() - 1);
+        for (int i = s; i < candidates.length; i++) {
+            // choose candidates
+            if (candidates[i] > target) {
+                break;
+            }
+            cur.add(candidates[i]);
+            dfs(candidates, i, target - candidates[i]);
+            cur.remove(cur.size() - 1);
         }
     }
 }

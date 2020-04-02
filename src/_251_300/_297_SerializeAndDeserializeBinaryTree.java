@@ -72,4 +72,57 @@ public class _297_SerializeAndDeserializeBinaryTree {
         root.right = inPreOrder(slice);
         return root;
     }
+
+    public static void main(String[] args) {
+        String s = "hello, 2,";
+        String[] sArray = s.split(",");
+        System.out.println(sArray.length);
+        System.out.println(sArray);
+    }
+
+    class Sol2 {
+        int idx;
+
+        // Encodes a tree to a single string.
+        public String serialize(TreeNode root) {
+            StringBuilder sb = new StringBuilder();
+            getSerialize(root, sb);
+            return sb.toString();
+        }
+
+        private void getSerialize(TreeNode root, StringBuilder sb) {
+            if (root == null) {
+                sb.append("null,");
+                return;
+            }
+
+            sb.append(root.val + ",");
+            getSerialize(root.left, sb);
+            getSerialize(root.right, sb);
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode deserialize(String data) {
+            String[] vals = data.split(",");
+            idx = 0;
+            return build(vals);
+        }
+
+        private TreeNode build(String[] vals) {
+            if (idx > vals.length) {
+                return null;
+            }
+
+            String s = vals[idx++];
+            if (s.equals("null")) {
+                return null;
+            }
+
+            TreeNode root = new TreeNode(Integer.parseInt(s));
+            root.left = build(vals);
+            root.right = build(vals);
+
+            return root;
+        }
+    }
 }

@@ -25,4 +25,10 @@ public class _291_WordPattern2 {
     public boolean wordPatternMatch(String pattern, String str) {
         return false;
     }
+
+    public static void main(String[] args) {
+        String s = "abc";
+        char c = 'd';
+        String d = s + c;
+    }
 }
