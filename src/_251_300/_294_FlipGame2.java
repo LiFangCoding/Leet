@@ -17,38 +17,31 @@ import java.util.Map;
  * Derive your algorithm's runtime complexity.
  */
 public class _294_FlipGame2 {
-    private Map<String, Boolean> map = new HashMap<>();
+  Map<String, Boolean> map = new HashMap<>();
 
-    public boolean canWin(String s) {
-        if (s == null) {
-            return false;
-        }
-
-        char[] chars = s.toCharArray();
-        int len = chars.length;
-
-        for (int i = 0; i < len - 1; i++) {
-            if (chars[i] == chars[i + 1] && chars[i] == '+') {
-                chars[i] = '-';
-                chars[i + 1] = '-';
-                String nextStr = new String(chars);
-                chars[i] = '+';
-                chars[i + 1] = '+';
-
-                boolean nextwin = false;
-                if (map.containsKey(nextStr)) {
-                    nextwin = map.get(nextStr);
-                } else {
-                    nextwin = canWin(nextStr);
-                    map.put(nextStr, nextwin);
-                }
-
-                if (!nextwin) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+  public boolean canWin(String s) {
+    if (map.containsKey(s)) {
+      return map.get(s);
     }
+
+    char[] chars = s.toCharArray();
+    for (int i = 0; i < chars.length - 1; i++) {
+      if (chars[i] == chars[i + 1] && chars[i] == '+') {
+        chars[i] = '-';
+        chars[i + 1] = '-';
+        String choice = new String(chars);
+        chars[i] = '+';
+        chars[i + 1] = '+';
+
+        // canWin method will save into map directly, so no need to memo again
+        if (!canWin(choice)) {
+          map.put(s, true);
+          return true;
+        }
+      }
+    }
+
+    map.put(s, false);
+    return false;
+  }
 }

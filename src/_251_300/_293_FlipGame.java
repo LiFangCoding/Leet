@@ -21,10 +21,10 @@ import java.util.List;
  */
 public class _293_FlipGame {
     public List<String> generatePossibleNextMoves(String s) {
-        List<String> res = new ArrayList<>();
+        List<String> ans = new ArrayList<>();
 
         if (s == null || s.length() == 0) {
-            return res;
+            return ans;
         }
 
         char[] chars = s.toCharArray();
@@ -34,12 +34,12 @@ public class _293_FlipGame {
             if (chars[i] == chars[i + 1] && chars[i] == '+') {
                 chars[i] = '-';
                 chars[i + 1] = '-';
-                res.add(new String(chars));
+                ans.add(new String(chars));
                 chars[i] = '+';
                 chars[i + 1] = '+';
             }
         }
 
-        return res;
+        return ans;
     }
 }

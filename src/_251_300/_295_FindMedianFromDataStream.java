@@ -54,44 +54,31 @@ public class _295_FindMedianFromDataStream {
          * 2 3 4    5 6
          */
         PriorityQueue<Integer> minpq;
-        PriorityQueue<Integer> maxpq;
+      PriorityQueue<Integer> maxpq;
+      /** initialize your data structure here. */
+      public MedianFinder() {
+        // max on top is the left part. !!!
+        maxpq = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
+        // min on top is the right part. Confusing
+        minpq = new PriorityQueue<>();
+      }
 
-        /**
-         * initialize your data structure here.
-         */
-        public MedianFinder() {
-            minpq = new PriorityQueue<>();
-            maxpq = new PriorityQueue<>((i, j) -> Integer.compare(j, i));
+      // max_top should equal or larget than 1 of min_top
+      public void addNum(int num) {
+        maxpq.add(num);
+        minpq.add(maxpq.remove());
+
+        if (maxpq.size() < minpq.size()) {
+          maxpq.add(minpq.remove());
+        }
+      }
+
+      public double findMedian() {
+        if (minpq.size() == maxpq.size()) {
+          return (minpq.peek() + maxpq.peek()) / 2.0;
         }
 
-        public void addNum(int num) {
-
-            /**
-             * here is adding two times
-             * Do not use the size as variable since the size can change
-             */
-            if (maxpq.size() == 0 || num <= maxpq.peek()) {
-                maxpq.add(num);
-            } else {
-                minpq.add(num);
-            }
-
-            if (maxpq.size() > minpq.size() + 1) {
-                minpq.add(maxpq.remove());
-            } else if (maxpq.size() < minpq.size()) {
-                maxpq.add(minpq.remove());
-            }
-        }
-
-        public double findMedian() {
-            int minsize = minpq.size();
-            int maxsize = maxpq.size();
-
-            if (minsize == maxsize) {
-                return (minpq.peek() + maxpq.peek()) / 2.0;
-            } else {
-                return maxpq.peek();
-            }
-        }
+        return maxpq.peek();
+      }
     }
 }
