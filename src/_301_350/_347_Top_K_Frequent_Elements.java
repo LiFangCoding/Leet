@@ -26,6 +26,38 @@ public class _347_Top_K_Frequent_Elements {
         System.out.println(test.topKFrequent(A, k));
     }
 
+    public List<Integer> topKFrequent_bucket_sort(int[] A, int k) {
+        // key -> value
+        // num -> count
+        Map<Integer, Integer> map = new HashMap<>();
+        int maxCnt = 0;
+
+        for (int num : A) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+            maxCnt = Math.max(maxCnt, map.get(num));
+        }
+
+        List<List<Integer>> buckets = new ArrayList<>(maxCnt + 1);
+        for (int i = 0; i <= maxCnt; i++) {
+            buckets.add(new ArrayList<>());
+        }
+
+        map.forEach((key, val) ->
+                buckets.get(val).add(key));
+
+        List<Integer> ans = new ArrayList<>();
+        for (int i = maxCnt; i >= 0 && ans.size() < k; --i) {
+            for (int num : buckets.get(i)) {
+                ans.add(num);
+            }
+            if (ans.size() == k) {
+                break;
+            }
+        }
+
+        return ans;
+    }
+
     public List<Integer> topKFrequent(int[] A, int k) {
         // key -> value
         // num -> count
