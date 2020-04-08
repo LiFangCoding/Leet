@@ -21,6 +21,47 @@
  * Note: The length of each dimension in the given grid does not exceed 50.
  */
 public class _695_Max_Area_of_Island {
+    class Solution_more_clean {
+        int land = 1;
+        int water = 0;
+        int[] dx = {-1, 1, 0, 0};
+        int[] dy = {0, 0, -1, 1};
+
+        public int maxAreaOfIsland(int[][] grid) {
+            if (grid == null || grid.length == 0
+                    || grid[0] == null || grid[0].length == 0) {
+                return 0;
+            }
+
+            int ans = 0;
+
+            for (int x = 0; x < grid.length; x++) {
+                for (int y = 0; y < grid[0].length; y++) {
+                    if (grid[x][y] == land) {
+                        ans = Math.max(ans, dfs(grid, x, y));
+                    }
+                }
+            }
+
+            return ans;
+        }
+
+        private int dfs(int[][] grid, int x, int y) {
+            grid[x][y] = water;
+            int area = 1;
+
+            for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if (nx >= 0 && nx < grid.length && ny >= 0 && ny < grid[0].length && grid[nx][ny] == land) {
+                    area += dfs(grid, nx, ny);
+                }
+            }
+
+            return area;
+        }
+    }
+
     int count = 0;
     int m;
     int n;
