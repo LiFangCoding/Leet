@@ -5,10 +5,33 @@ public class _53_Maximum_Subarray {
    * [-2,1,-3,4,-1,2,1,-5,4]
    * 6
    * [4,-1,2,1] has the largest sum = 6.
+   *
    * @param A
    * @return
    */
   public int maxSubArray(int[] A) {
+    if (A == null || A.length == 0) {
+      return 0;
+    }
+
+    // [-2, -1]
+    // [-1, 2]
+    // [3]
+    int minSum = 0;
+    int curSum = 0;
+    int ans = Integer.MIN_VALUE;
+
+    for (int num : A) {
+      curSum += num;
+      ans = Math.max(ans, curSum - minSum);
+      minSum = Math.min(minSum, curSum);
+    }
+
+    return ans;
+  }
+
+
+  public int maxSubArray_dp(int[] A) {
     if (A == null || A.length == 0) {
       return 0;
     }

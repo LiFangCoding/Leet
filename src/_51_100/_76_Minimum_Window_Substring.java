@@ -1,57 +1,53 @@
 package _51_100;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class _76_Minimum_Window_Substring {
-  /**
-   * TODO
-   *
-   * @param s
-   * @param t
-   * @return
-   */
-  public String minWindow(String s, String t) {
-    /**
-     * c -> i how many needed. If i <= 0, means it is ok
-     */
-    HashMap<Character, Integer> map = new HashMap<>();
-    int count = 0;
-    int res = Integer.MIN_VALUE;
-
-    for (char c : t.toCharArray()) {
-      map.put(c, map.getOrDefault(c, 0) + 1);
-    }
-
-    StringBuilder sb = new StringBuilder();
-    for (int right = 0, left = 0; right < s.length(); right++) {
-      char c = s.charAt(right);
-
-      if (!map.containsKey(c)) {
-        continue;
-      }
-
-      map.put(c, map.get(c) - 1);
-
-      if (map.get(c) == 0) {
-        count++;
-        if (count == map.size()) {
-          while (left < right) {
-            char cleft = s.charAt(left);
-            if (!map.containsKey(cleft)) {
-              left++;
-            }
-
-            map.put(cleft, map.get(cleft) + 1);
-            if (map.get(cleft) > 0) {
-              count--;
-              break;
-            } else {
-              left++;
-            }
-          }
+    public String minWindow(String s, String t) {
+        if (s == null || t == null || s.length() < t.length()) {
+            return "";
         }
-      }
+
+        Map<Character, Integer> tmap = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            tmap.put(c, tmap.getOrDefault(c, 0) + 1);
+        }
+
+        char[] chars = s.toCharArray();
+        int len = chars.length;
+        String ans = "";
+        // cnt the occurance of chars
+        int cnt = 0;
+
+        Map<Character, Integer> windowMap = new HashMap<>();
+        for (int l = 0, r = 0; r < len; r++) {
+            if (tmap.containsKey(chars[r])) {
+                windowMap.put(chars[r], windowMap.getOrDefault(chars[r], 0) + 1);
+                if (windowMap.get(chars[r]) <= tmap.get(chars[r])) {
+                    cnt++;
+                }
+
+                while (cnt == t.length()) {
+                    // here need to find minimum
+                    String newAns = s.substring(l, r + 1);
+                    if (ans == "" || ans.length() > newAns.length()) {
+                        ans = newAns;
+                    }
+
+                    if (tmap.containsKey(chars[l])) {
+                        if (windowMap.get(chars[l]) <= tmap.get(chars[l])) {
+                            cnt--;
+                        }
+
+                        windowMap.put(chars[l], windowMap.get(chars[l]) - 1);
+                    }
+
+                    l++;
+                }
+            }
+        }
+
+        return ans;
     }
-    return null;
-  }
 }

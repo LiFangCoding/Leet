@@ -44,14 +44,11 @@ public class _547_Friend_Circles {
     }
 
     private void dfs(int i, int[][] M) {
-        if (vt[i] == 1) {
-            return;
-        }
-
+        // always check if i is valid before call it. So here do not need to check
         vt[i] = 1;
 
         for (int neigh = 0; neigh < n; neigh++) {
-            if (vt[neigh] == 0 && M[neigh][i] == 1) {
+            if (M[neigh][i] == 1 && vt[neigh] == 0) {
                 dfs(neigh, M);
             }
         }

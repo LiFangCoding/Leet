@@ -36,28 +36,26 @@ public class _3_longestSubstring {
             return 0;
         }
 
-        int len = s.length();
-        // char -> index
-        Map<Character, Integer> map = new HashMap<>();
-        int res = 0;
+        char[] chars = s.toCharArray();
+        // c -> index
+        Map<Character, Integer> map = new HashMap();
+        int ans = 0;
 
-        // [left, right]
-        int left = 0;
-        int right = 0;
-        while (right < len) {
-            // This is can alway forward right.
-            char charR = s.charAt(right);
-
-            if (map.containsKey(charR)) {
-                left = Math.max(left, map.get(charR) + 1);
+        for (int l = 0, r = 0; r < s.length(); r++) {
+            if (!map.containsKey(chars[r])) {
+                map.put(chars[r], r);
+            } else {
+                // here "abba". When last a comes, map.get(a) will make l to be 1 which is incorrect
+                // Make l do not go back
+                // Important
+                l = Math.max(l, map.get(chars[r]) + 1);
+                map.put(chars[r], r);
             }
 
-            res = Math.max(res, right - left + 1);
-            map.put(charR, right);
-            right++;
+            ans = Math.max(ans, r - l + 1);
         }
 
-        return res;
+        return ans;
     }
 
     /**
