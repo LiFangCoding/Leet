@@ -4,6 +4,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class _51_NQueens {
+  class Solution_shorter {
+    List<List<String>> ans;
+
+    public List<List<String>> solveNQueens(int n) {
+      ans = new ArrayList<>();
+      if (n == 0) {
+        return ans;
+      }
+
+      List<String> board = new ArrayList<>();
+      for (int i = 0; i < n; i++) {
+        StringBuilder sb = new StringBuilder();
+        for (int j = 0; j < n; j++) {
+          sb.append('.');
+        }
+        board.add(sb.toString());
+      }
+
+      boolean[] column = new boolean[n];
+      boolean[] ldiag = new boolean[2 * n - 1];
+      boolean[] rdiag = new boolean[2 * n - 1];
+
+      dfs(board, column, ldiag, rdiag, 0, n);
+      return ans;
+    }
+
+    private void dfs(List<String> board, boolean[] column, boolean[] ldiag, boolean[] rdiag, int row, int n) {
+      if (row == n) {
+        ans.add(new ArrayList<>(board));
+        return;
+      }
+
+      // iterate all the cols. i means column
+      for (int i = 0; i < n; i++) {
+        if (column[i] || ldiag[i + row] || rdiag[i - row + n - 1]) {
+          continue;
+        }
+
+        String s = board.get(row);
+        char[] chars = s.toCharArray();
+        chars[i] = 'Q';
+        board.set(row, new String(chars));
+        column[i] = ldiag[i + row] = rdiag[i - row + n - 1] = true;
+        dfs(board, column, ldiag, rdiag, row + 1, n);
+        column[i] = ldiag[i + row] = rdiag[i - row + n - 1] = false;
+        chars[i] = '.';
+        board.set(row, new String(chars));
+      }
+    }
+  }
+
   public List<List<String>> solveNQueens(int n) {
     List<List<String>> res = new ArrayList<>();
 
