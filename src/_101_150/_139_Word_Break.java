@@ -38,6 +38,30 @@ public class _139_Word_Break {
         System.out.println(test.wordBreak(s, wordDict));
     }
 
+  /**
+   * beat 90.50%
+   */
+  public boolean wordBreak_another(String s, List<String> wordDict) {
+    int n = s.length();
+    boolean[] dp = new boolean[n + 1];
+    dp[0] = true;
+
+    for (int i = 1; i <= n; ++i) {
+      for (String w : wordDict) {
+        int len = w.length();
+        if (i >= len && s.substring(i - len, i).equals(w)) {
+          dp[i] = dp[i] || dp[i - len];
+        }
+
+        if (dp[i]) {
+          break;
+        }
+      }
+    }
+
+    return dp[n];
+  }
+
     /**
      * O(n^2)
      * use dp.
@@ -50,11 +74,8 @@ public class _139_Word_Break {
      * dp[i]= (dp [j] + cantains(j ~ i - 1) for all j between 0 and i - 1
      * 0 - (i - 1)
      *
-     * @param s
-     * @param wordDict
-     * @return
+     * beat 96.73%
      */
-
     public boolean wordBreak(String s, List<String> wordDict) {
         int len = s.length();
         boolean[] dp = new boolean[len + 1];
