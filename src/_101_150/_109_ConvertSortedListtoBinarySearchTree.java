@@ -67,4 +67,51 @@ public class _109_ConvertSortedListtoBinarySearchTree {
 
         return root;
     }
+
+    // better have test case [10]
+    public TreeNode sortedListToBST_another_sol(ListNode head) {
+        // need base case. else [-10], mid will always be -10
+        if (head == null) {
+            return null;
+        }
+
+        // important for the listnode and treeNode diff
+        if (head.next == null) {
+            return new TreeNode(head.val);
+        }
+
+        ListNode beforeMid = getBeforeMid(head);
+        ListNode mid = beforeMid.next;
+        ListNode next = mid.next;
+
+        mid.next = null;
+        beforeMid.next = null;
+
+        TreeNode ans = new TreeNode(mid.val);
+        ans.left = sortedListToBST(head);
+        ans.right = sortedListToBST(next);
+        return ans;
+    }
+
+    // 1 -> 1   -1
+    // 1,2 -> 1  -1
+    // 1,2,3  -> 2  1
+    private ListNode getBeforeMid(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        // here cannot be fast = head.next
+        ListNode fast = head, slow = head, prev = dummy;
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            prev = prev.next;
+        }
+
+        return prev;
+    }
 }
