@@ -19,91 +19,162 @@ package _201_250;
  * All inputs are guaranteed to be non-empty strings.
  */
 public class _208_ImplementTrie {
-    Node root;
+    TrieNode root;
 
     /**
      * Initialize your data structure here.
      */
     public _208_ImplementTrie() {
-        root = new Node();
+        root = new TrieNode();
+    }
+
+    public static void main(String[] args) {
+        _208_ImplementTrie test = new _208_ImplementTrie();
+        test.insert("app");
+        test.insert("appe");
+        test.search("app");
     }
 
     /**
      * Inserts a word into the trie.
      */
-    public void insert(String s) {
-        if (s == null || s.length() == 0) {
-            return;
+    public void insert(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            // important: else override the isEnd to be false
+            if (cur.children[c - 'a'] == null) {
+                cur.children[c - 'a'] = new TrieNode();
+            }
+            cur = cur.children[c - 'a'];
         }
 
-        Node cur = root;
-        char[] chars = s.toCharArray();
-
-        for (int i = 0; i < chars.length; i++) {
-            char c = chars[i];
-            int idx = c - 'a';
-            if (cur.childs[idx] == null) {
-                cur.childs[idx] = new Node();
-            }
-
-            cur = cur.childs[idx];
-            if (i == chars.length - 1) {
-                cur.isleaf = true;
-            }
-        }
+        cur.isEnd = true;
     }
 
     /**
      * Returns if the word is in the trie.
      */
     public boolean search(String word) {
-        Node lastNode = searchHelper(word);
-        return lastNode != null && lastNode.isleaf;
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            int idx = c - 'a';
+            if (cur.children[idx] == null) {
+                return false;
+            }
+
+            cur = cur.children[idx];
+        }
+
+        return cur.isEnd;
     }
 
     /**
      * Returns if there is any word in the trie that starts with the given prefix.
      */
     public boolean startsWith(String prefix) {
-        Node lastNode = searchHelper(prefix);
-        return lastNode != null;
+        TrieNode cur = root;
+        for (char c : prefix.toCharArray()) {
+            if (cur.children[c - 'a'] == null) {
+                return false;
+            }
+            cur = cur.children[c - 'a'];
+        }
+        return true;
     }
 
-    /**
-     * Use trie to search the string s until last char.
-     * Return the node which is last char
-     * If not exist, return null
-     *
-     * @return
-     */
-    private Node searchHelper(String s) {
-        if (s == null || s.length() == 0) {
+    public class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        // be careful. Do not change the isEnd for other data during insert
+        boolean isEnd = false;
+    }
 
+    class Sol_before {
+        Node root;
+
+        /**
+         * Initialize your data structure here.
+         */
+        public Sol_before() {
+            root = new Node();
         }
 
-        Node cur = root;
-
-        char[] chars = s.toCharArray();
-
-
-        for (char c : chars) {
-            int idx = c - 'a';
-            if (cur.childs[idx] == null) {
-                return null;
+        /**
+         * Inserts a word into the trie.
+         */
+        public void insert(String s) {
+            if (s == null || s.length() == 0) {
+                return;
             }
 
-            cur = cur.childs[idx];
+            Node cur = root;
+            char[] chars = s.toCharArray();
+
+            for (int i = 0; i < chars.length; i++) {
+                char c = chars[i];
+                int idx = c - 'a';
+                if (cur.childs[idx] == null) {
+                    cur.childs[idx] = new Node();
+                }
+
+                cur = cur.childs[idx];
+                if (i == chars.length - 1) {
+                    cur.isleaf = true;
+                }
+            }
         }
 
-        return cur;
-    }
+        /**
+         * Returns if the word is in the trie.
+         */
+        public boolean search(String word) {
+            Node lastNode = searchHelper(word);
+            return lastNode != null && lastNode.isleaf;
+        }
 
-    public class Node {
-        public boolean isleaf = false;
-        public Node[] childs = new Node[26];
+        /**
+         * Returns if there is any word in the trie that starts with the given prefix.
+         */
+        public boolean startsWith(String prefix) {
+            Node lastNode = searchHelper(prefix);
+            return lastNode != null;
+        }
 
-        public Node() {
+        /**
+         * Use trie to search the string s until last char.
+         * Return the node which is last char
+         * If not exist, return null
+         *
+         * @return
+         */
+        private Node searchHelper(String s) {
+            if (s == null || s.length() == 0) {
 
+            }
+
+            Node cur = root;
+
+            char[] chars = s.toCharArray();
+
+
+            for (char c : chars) {
+                int idx = c - 'a';
+                if (cur.childs[idx] == null) {
+                    return null;
+                }
+
+                cur = cur.childs[idx];
+            }
+
+            return cur;
+        }
+
+        public class Node {
+            public boolean isleaf = false;
+            public Node[] childs = new Node[26];
+
+            public Node() {
+
+            }
         }
     }
 }
