@@ -34,4 +34,11 @@ package _251_300;
  */
 public class _289_GameOfLife {
     //TODO: 289
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder("Good Morning");
+        sb.insert(1, "Friend ");
+        System.out.println(sb.toString());
+
+        System.out.println();
+    }
 }
