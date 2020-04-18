@@ -1,6 +1,4 @@
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * There are N rooms and you start in room 0.  Each room has a distinct number in 0, 1, 2, ..., N-1, and each room may have some keys to access the next room. 
@@ -34,23 +32,23 @@ import java.util.Set;
  * The number of keys in all rooms combined is at most 3000.
  */
 public class _841_Keys_and_Rooms {
-    Set<Integer> vtSet;
-
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
-        vtSet = new HashSet<>();
-        dfs(rooms, 0);
+        boolean[] visited = new boolean[rooms.size()];
+        int cnt = dfs(rooms, 0, visited);
 
-        return vtSet.size() == rooms.size();
+        return cnt == rooms.size();
     }
 
-    // dfs and mark visited
-    private void dfs(List<List<Integer>> rooms, int src) {
-        vtSet.add(src);
+    private int dfs(List<List<Integer>> rooms, int src, boolean[] visited) {
+        int ans = 1;
+        visited[src] = true;
 
-        for (int room : rooms.get(src)) {
-            if (!vtSet.contains(room)) {
-                dfs(rooms, room);
+        for (int neigh : rooms.get(src)) {
+            if (!visited[neigh]) {
+                ans += dfs(rooms, neigh, visited);
             }
         }
+
+        return ans;
     }
 }
