@@ -32,9 +32,18 @@ public class _75_Sort_Colors {
             return;
         }
 
-        int len = A.length;
-        int left = 0;
-        int right = len - 1;
+        // the r's right all 2. l's left all 0. l can be 0 or 1.  r can be 0,1,2.
+        int l = 0, r = A.length - 1;
+        // sort in the range of l and r
+        for (int i = 0; i >= l && i <= r; ) {
+            if (A[i] == 2) {
+                swap(A, i, r--);
+            } else if (A[i] == 0) {
+                swap(A, i++, l++);
+            } else if (A[i] == 1) {
+                i++;
+            }
+        }
 
         /**
          * !!! pay attention.
@@ -44,18 +53,6 @@ public class _75_Sort_Colors {
          * If meet 2, swap it to 2s. Care swapped value. Since it can be 0,1,2
          * Then all are well sorted.
          */
-        for (int i = 0; i <= right; ) {
-            if (A[i] == 0) {
-                /**
-                 * !! if not i++, since swap can be 0. left will ++.
-                 */
-                swap(A, i, left++);
-            } else if (A[i] == 2) {
-                swap(A, i, right--);
-            } else {
-                i++;
-            }
-        }
     }
 
     private void swap(int[] A, int i, int j) {
