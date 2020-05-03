@@ -1,5 +1,7 @@
 package _201_250;
 
+import java.util.Random;
+
 /**
  * Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
  * <p>
@@ -15,45 +17,76 @@ package _201_250;
  * You may assume k is always valid, 1 ≤ k ≤ array's length.
  */
 public class _215_KthLargestElementInAnArray {
-    //TODO: understand 215
+    Random random = new Random();
+
     public int findKthLargest(int[] A, int k) {
-        int n = A.length;
-        return solve(0, n - 1, A, k);
+        int len = A.length;
+        k = len - k + 1;
+
+        return getKth(A, k, 0, A.length - 1);
     }
 
-    private int solve(int l, int r, int[] A, int k) {
+    private int getKth(int[] A, int k, int l, int r) {
         if (l == r) {
             return A[l];
         }
 
+        int idx = partition(A, l, r);
+
+        if (idx > k - 1) {
+            return getKth(A, k, l, idx - 1);
+        } else if (idx == k - 1) {
+            return A[idx];
+        } else {
+            return getKth(A, k, idx + 1, r);
+        }
+    }
+
+    private int partition(int[] A, int l, int r) {
+        // 在区间随机选择一个元素作为标定点
+        if (r > l) {
+            int randomIndex = l + 1 + random.nextInt(r - l);
+            swap(A, l, randomIndex);
+        }
+
+
         int pivot = A[l];
-        int i = l;
+        // left to i is all <= pivatal
+        int i = l + 1;
+        // right to the j all >=
         int j = r;
 
-        while (i < j) {
-            while (i < j && A[j] < pivot) {
-                j--;
-            }
 
-            if (i < j) {
-                A[i++] = A[j];
-            }
-
-            while (i < j && A[i] >= pivot) {
+        while (true) {
+            // find item on lo to swap.  [2,1].  Index 2 out of bounds for length 2
+            while (i <= j && A[i] < pivot) {
                 i++;
             }
 
-            if (i < j) {
-                A[j--] = A[i];
+            // find item on hi to swap. [2,1]. Need to compare the i <= j and make decison.
+            while (i <= j && A[j] > pivot) {
+                j--;
             }
+
+            // i > j or i >= j both works. Because before it will break when i <= j.
+            if (i > j) {
+                break;
+            }
+
+            swap(A, i++, j--);
         }
 
-        if (i + 1 == k) {
-            return pivot;
-        } else if (i + 1 > k) {
-            return solve(l, i - 1, A, k);
-        } else {
-            return solve(i + 1, r, A, k);
-        }
+        // put partitioning item v at a[j]
+        swap(A, l, j);
+
+        // now, a[lo .. j-1] <= a[j] <= a[j+1 .. hi]
+        return j;
+    }
+
+
+    private void swap(int[] A, int i, int j) {
+        int temp = A[i];
+        A[i] = A[j];
+        A[j] = temp;
     }
 }
