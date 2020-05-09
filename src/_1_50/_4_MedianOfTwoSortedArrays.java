@@ -20,7 +20,51 @@ package _1_50;
  * <p>
  * The median is (2 + 3)/2 = 2.5
  */
-//TODO
 public class _4_MedianOfTwoSortedArrays {
+    // [1,3] [2]  StackOverflowError. So add k == 1
+    public double findMedianSortedArrays(int[] A1, int[] A2) {
+        int m = A1.length, n = A2.length;
 
+        int len = m + n;
+        if (len % 2 == 1) {
+            return (findKth(A1, 0, m - 1, A2, 0, n - 1, len / 2 + 1));
+        }
+
+        return (findKth(A1, 0, m - 1, A2, 0, n - 1, len / 2) + findKth(A1, 0, m - 1, A2, 0, n - 1, len / 2 + 1)) / 2.0;
+    }
+
+
+    // kth smallest. Find by binary search. If the k / 2, A1[k / 2] is larger.
+    // if mid search, if it is small, all the k / 2 cannot be the kth. So throw away. If the
+    private int findKth(int[] A1, int l1, int r1, int[] A2, int l2, int r2, int k) {
+        // System.out.println("l1 is " + l1 + " r1 is " + r1 + " l2 is " + l2 + " r2 is " + r2 + " k is "  + k);
+
+        if (l1 > r1) {
+            return A2[l2 + k - 1];
+        }
+
+        if (l2 > r2) {
+            return A1[l1 + k - 1];
+        }
+
+        // when k is 1. need value. elase len1 = 0, len2 = 1
+        if (k == 1) {
+            return Math.min(A1[l1], A2[l2]);
+        }
+
+        // should be min.
+        int len1 = Math.min(r1 - l1 + 1, k / 2);
+
+        // java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1. [2,3,4] [1]
+        // int len2 = k - len1;
+        int len2 = Math.min(r2 - l2 + 1, k / 2);
+        int idx1 = l1 + len1 - 1;
+        int idx2 = l2 + len2 - 1;
+
+        if (A1[idx1] > A2[idx2]) {
+            return findKth(A1, l1, r1, A2, idx2 + 1, r2, k - len2);
+        } else {
+            return findKth(A1, idx1 + 1, r1, A2, l2, r2, k - len1);
+        }
+    }
 }
