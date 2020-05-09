@@ -55,6 +55,7 @@ public class _42_TrappingRainWater {
 
     /**
      * https://leetcode-cn.com/problems/trapping-rain-water/solution/trapping-rain-water-by-ikaruga/
+     * template : https://leetcode-cn.com/problems/largest-rectangle-in-histogram/solution/84-by-ikaruga/
      * O(n) time
      */
     public int trap_monoStack(int[] A) {
@@ -69,26 +70,21 @@ public class _42_TrappingRainWater {
         int ans = 0;
 
         for (int i = 0; i < len; i++) {
-            if (idxStk.isEmpty() || A[i] <= A[idxStk.peek()]) {
-                idxStk.push(i);
-            } else {
-                while (!idxStk.isEmpty() && A[i] > A[idxStk.peek()]) {
-                    // also need to compare with left and right to see
-                    int cur = idxStk.pop();
-                    if (idxStk.isEmpty()) {
-                        break;
-                    }
-
-                    int l = idxStk.peek();
-                    int r = i;
-                    int h = Math.min(A[l], A[r]) - A[cur];
-                    ans += (r - l - 1) * h;
-
+            while (!idxStk.isEmpty() && A[i] > A[idxStk.peek()]) {
+                // also need to compare with left and right to see
+                int cur = idxStk.pop();
+                if (idxStk.isEmpty()) {
+                    break;
                 }
 
-                // after that also need add into stack
-                idxStk.add(i);
+                int l = idxStk.peek();
+                int r = i;
+                int h = Math.min(A[l], A[r]) - A[cur];
+                ans += (r - l - 1) * h;
             }
+
+            // after that also need add into stack
+            idxStk.add(i);
         }
 
         return ans;
