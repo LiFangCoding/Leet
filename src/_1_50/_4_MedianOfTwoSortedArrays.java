@@ -34,6 +34,7 @@ public class _4_MedianOfTwoSortedArrays {
     }
 
 
+    // Always run simple test for recursion. ex: [1] [2]. Find median
     // kth smallest. Find by binary search. If the k / 2, A1[k / 2] is larger.
     // if mid search, if it is small, all the k / 2 cannot be the kth. So throw away. If the
     private int findKth(int[] A1, int l1, int r1, int[] A2, int l2, int r2, int k) {
