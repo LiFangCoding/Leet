@@ -1,6 +1,7 @@
 package _101_150;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
@@ -26,35 +27,6 @@ import java.util.HashMap;
  */
 
 public class _146_LRU_Cache {
-    /**
-     * double linked list
-     * tail is the lastest one
-     * When delete, usually delete the head
-     */
-    Node head = new Node(-1, -1);
-    Node tail = new Node(-1, -1);
-    HashMap<Integer, Node> map;
-    int capacity;
-
-    public _146_LRU_Cache(int capacity) {
-        map = new HashMap<>(capacity);
-        this.capacity = capacity;
-        head.next = tail;
-        tail.prev = head;
-    }
-
-    public int get(int key) {
-        if (!map.containsKey(key)) {
-            return -1;
-        }
-
-        Node newest = map.get(key);
-        disconnect(newest);
-        insertToTail(newest);
-
-        return newest.value;
-    }
-
     public static void main(String[] args) {
         _146_LRU_Cache cache = new _146_LRU_Cache(2);
         cache.put(1, 1);
@@ -70,61 +42,117 @@ public class _146_LRU_Cache {
 
     }
 
-    private void insertToTail(Node node) {
-        Node prev = tail.prev;
+    Map<Integer, Node> map;
+    DoubleList dList;
+    int cap;
 
-        prev.next = node;
-        node.prev = prev;
-
-        node.next = tail;
-        tail.prev = node;
+    public _146_LRU_Cache(int capacity) {
+        map = new HashMap<>();
+        dList = new DoubleList();
+        cap = capacity;
     }
 
-    private void disconnect(Node node) {
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
+    public int get(int key) {
+        if (!map.containsKey(key)) {
+            return -1;
+        }
 
-        node.prev = null;
-        node.next = null;
+        // map contains it. So need to get the val. Then move the order to be last.
+        Node node = map.get(key);
+        dList.moveToFirst(node);
+        return node.val;
     }
 
-    private class Node {
+    // When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+    // so need to delete one item
+    // change map first. Then change order to be first
+    public void put(int key, int value) {
+        // no need to care capactiy
+        if (map.containsKey(key)) {
+            Node node = map.get(key);
+            node.val = value;
+            dList.moveToFirst(node);
+            return;
+        }
+
+        // need to care capacity since add
+        if (map.size() == cap) {
+            // map also need remove the last node key in map
+            Node last = dList.removeLast();
+            map.remove(last.key);
+        }
+
+        Node node = new Node(key, value);
+        map.put(key, node);
+        dList.addFirst(node);
+    }
+
+    public class DoubleList {
+        // int size;
+        Node head, tail;
+
+        //<identifier> expected [in DoubleList.java]. Need ()
+        public DoubleList() {
+            // size = 0;
+            head = new Node(-1, -1);
+            tail = new Node(-1, -1);
+            head.next = tail;
+            tail.prev = head;
+        }
+
+        public void moveToFirst(Node x) {
+            remove(x);
+            addFirst(x);
+        }
+
+        // add to top
+        public void addFirst(Node x) {
+            // size++;
+
+            x.next = head.next;
+            x.prev = head;
+
+            head.next.prev = x;
+            head.next = x;
+        }
+
+        // must exist
+        public Node remove(Node x) {
+            // size--;
+
+            // always has prev and next != null
+            x.prev.next = x.next;
+            x.next.prev = x.prev;
+
+            x.prev = null;
+            x.next = null;
+            return x;
+        }
+
+        public Node removeLast() {
+            if (tail.prev == head) {
+                return null;
+            }
+
+            Node x = tail.prev;
+            return remove(x);
+        }
+
+        // public int size() {
+        //     return size;
+        // }
+    }
+
+    public class Node {
+        int val;
+        int key;
+
         Node prev;
         Node next;
 
-        int key;
-        int value;
-
-        public Node(int key, int value) {
+        public Node(int key, int val) {
             this.key = key;
-            this.value = value;
-            prev = null;
-            next = null;
-        }
-    }
-
-    public void put(int key, int value) {
-        if (!map.containsKey(key)) {
-            /**
-             * !!!Check if it reach capacity before, detached the node, then put node
-             */
-            if (map.size() == capacity) {
-                /**
-                 * map also need to remove the head.next
-                 * !!! Here is why we need key.
-                 */
-                map.remove(head.next.key);
-                disconnect(head.next);
-            }
-
-            Node newest = new Node(key, value);
-            map.put(key, newest);
-            insertToTail(newest);
-        } else {
-            Node newest = map.get(key);
-            newest.value = value;
-            disconnect(newest);
-            insertToTail(newest);
+            this.val = val;
         }
     }
 }
