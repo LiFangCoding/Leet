@@ -46,8 +46,10 @@ public class _1049_Last_Stone_Weight2 {
         int[] dp = new int[maxCapacity + 1];
         for (int i = 0; i < len; i++) {
             int curStone = stones[i];
+            System.out.println("cur Stone is " + curStone);
             for (int j = maxCapacity; j >= curStone; j--) {
                 dp[j] = Math.max(dp[j], dp[j - curStone] + curStone);
+                System.out.printf(" dp[%d] is %d, dp[%d] is %d%n", j - curStone, dp[j - curStone], j, dp[j]);
             }
         }
         return sum - 2 * dp[maxCapacity];
