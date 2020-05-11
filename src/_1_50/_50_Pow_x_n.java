@@ -23,56 +23,85 @@ package _1_50;
  */
 public class _50_Pow_x_n {
     public static void main(String[] args) {
-        _50_Pow_x_n test = new _50_Pow_x_n();
         System.out.println(Integer.MIN_VALUE);
         System.out.println(Integer.MIN_VALUE * -1);
-        System.out.println(test.myPow(1, -2147483648));
+        System.out.println(_50_Pow_x_n.Sol1.myPow(1, -2147483648));
     }
 
-    /**
-     * Be careful with the Integer.MIN_VALUE
-     * -1 * Integer.MIN_VALUE = Integer.MIN_VALUE
-     * -2147483648 * - 1 = -2147483648
-     */
-    public double myPow(double x, int n) {
-        return myPowHelper(x, n);
-    }
-
-    public double myPowHelper(double x, long n) {
-        if (n == 0) {
-            return 1;
-        }
-
-
-        // careful of the Integer.MIN_VALUE here here.
-        if (n < 0) {
-            return myPowHelper(1 / x, -n);
-        }
-
-        double half = myPowHelper(x, n / 2);
-
-        if (n % 2 == 0) {
-            return half * half;
-        } else {
-            return half * half * x;
-        }
-    }
-
-    public double myPow_Iterative(double x, int n) {
-        if (n < 0) {
-            return 1 / (x * myPow_Iterative(x, -(n + 1)));
-        }
-
-        double res = 1, tmp = x;
-
-        while (n != 0) {
-            if (n % 2 == 1) {
-                res *= tmp;
+    static class Sol1 {
+        public static double myPow(double x, int n) {
+            // be careful -n can overflow
+            if (x == 0) {
+                return 0;
             }
-            tmp *= tmp;
-            n /= 2;
+
+            if (n == 0) {
+                return 1;
+            }
+
+            if (n < 0) {
+                return (1 / x) * myPow(1 / x, -(n + 1));
+            }
+
+            double half = myPow(x, n / 2);
+            if (n % 2 == 0) {
+                return half * half;
+            } else {
+                return half * half * x;
+            }
+        }
+    }
+
+
+    class Sol2 {
+        /**
+         * Be careful with the Integer.MIN_VALUE
+         * -1 * Integer.MIN_VALUE = Integer.MIN_VALUE
+         * -2147483648 * - 1 = -2147483648
+         */
+        public double myPow(double x, int n) {
+            return myPowHelper(x, n);
         }
 
-        return res;
+        // here is long
+        public double myPowHelper(double x, long n) {
+            if (n == 0) {
+                return 1;
+            }
+
+
+            // careful of the Integer.MIN_VALUE here here.
+            if (n < 0) {
+                return myPowHelper(1 / x, -n);
+            }
+
+            double half = myPowHelper(x, n / 2);
+
+            if (n % 2 == 0) {
+                return half * half;
+            } else {
+                return half * half * x;
+            }
+        }
+    }
+
+    class Sol3 {
+        public double myPow_Iterative(double x, int n) {
+            if (n < 0) {
+                return 1 / (x * myPow_Iterative(x, -(n + 1)));
+            }
+
+            double res = 1, tmp = x;
+
+            while (n != 0) {
+                if (n % 2 == 1) {
+                    res *= tmp;
+                }
+                tmp *= tmp;
+                n /= 2;
+            }
+
+            return res;
+        }
     }
 }
