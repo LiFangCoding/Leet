@@ -22,6 +22,56 @@ import java.util.*;
  * Try to solve it in O(n log k) time and O(n) extra space.
  */
 public class _692_Top_K_Frequent_Words {
+    public static class Sol_PQ {
+        /**
+         * nlogk
+         * n
+         */
+        public List<String> topKFrequent(String[] words, int k) {
+            List<String> ans = new ArrayList<>();
+
+            // string, freq
+            // if map need the sort. can consider Use treeMap
+            Map<String, Integer> map = new HashMap<>();
+            for (String word : words) {
+                map.put(word, map.getOrDefault(word, 0) + 1);
+            }
+
+            // top k largetst and so on. So if small, remove out.  minpq. freq small to high. word higher to lower
+            PriorityQueue<String> minPq = new PriorityQueue<>((x, y) -> {
+                if (!map.get(x).equals(map.get(y))) {
+                    return Integer.compare(map.get(x), map.get(y));
+                } else {
+                    return y.compareTo(x);
+                }
+            });
+
+            // here is set
+            for (String word : map.keySet()) {
+                minPq.add(word);
+                if (minPq.size() > k) {
+                    minPq.remove();
+                }
+            }
+
+            // This cannot make sure the correct order
+            // for (String s : minPq) {
+            //     ans.add(s);
+            // }
+
+            while (!minPq.isEmpty()) {
+                ans.add(minPq.remove());
+            }
+
+            Collections.reverse(ans);
+            return ans;
+        }
+    }
+
+    /**
+     * nlogn
+     * n
+     */
     public static class Solution_sort {
         public List<String> topKFrequent(String[] words, int k) {
             List<String> ans = new ArrayList<>();
