@@ -74,8 +74,6 @@ public class _692_Top_K_Frequent_Words {
      */
     public static class Solution_sort {
         public List<String> topKFrequent(String[] words, int k) {
-            List<String> ans = new ArrayList<>();
-
             // string, freq
             // if map need the sort. can consider Use treeMap
             Map<String, Integer> map = new HashMap<>();
@@ -83,8 +81,11 @@ public class _692_Top_K_Frequent_Words {
                 map.put(word, map.getOrDefault(word, 0) + 1);
             }
 
+            List<String> candidates = new ArrayList<>(map.keySet());
+
+            // need to collection sort by freqs
             // Requirement: frequency from highest to lowest. If two words have the same frequency, then the word with the lower alphabetical order comes first.
-            Arrays.sort(words, (x, y) -> {
+            Collections.sort(candidates, (x, y) -> {
                 if (!map.get(x).equals(map.get(y))) {
                     return Integer.compare(map.get(y), map.get(x));
                 } else {
@@ -99,18 +100,7 @@ public class _692_Top_K_Frequent_Words {
             // 2
             // ["love","love"]  expected: ["i","love"]
             // ans res is the word without same. words contains duplicate
-            for (int idx = 0; idx < words.length; idx++) {
-                if (idx > 0 && words[idx].equals(words[idx - 1])) {
-                    continue;
-                }
-                if (ans.size() < k) {
-                    ans.add(words[idx]);
-                } else {
-                    break;
-                }
-            }
-
-            return ans;
+            return new ArrayList<>(candidates.subList(0, k));
         }
     }
 }
