@@ -31,21 +31,21 @@ import common.TreeNode;
  */
 public class _236_Lowest_Common_Ancestor_of_BinaryTree {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        Data data = helper(root, p, q);
-        return data.node;
+        Res res = helper(root, p, q);
+        return res.node;
     }
 
-    private Data helper(TreeNode root, TreeNode p, TreeNode q) {
+    private Res helper(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) {
-            return new Data(null, 0);
+            return new Res(null, 0);
         }
 
-        Data left = helper(root.left, p, q);
+        Res left = helper(root.left, p, q);
         if (left.count == 2) {
             return left;
         }
 
-        Data right = helper(root.right, p, q);
+        Res right = helper(root.right, p, q);
         if (right.count == 2) {
             return right;
         }
@@ -53,17 +53,17 @@ public class _236_Lowest_Common_Ancestor_of_BinaryTree {
         int count = left.count + right.count + (root.val == p.val ? 1 : 0) + (root.val == q.val ? 1 : 0);
 
         if (count == 2) {
-            return new Data(root, 2);
+            return new Res(root, 2);
         } else {
-            return new Data(null, count);
+            return new Res(null, count);
         }
     }
 
-    public class Data {
+    public class Res {
         public TreeNode node;
         public int count;
 
-        public Data(TreeNode node, int count) {
+        public Res(TreeNode node, int count) {
             this.node = node;
             this.count = count;
         }
