@@ -32,9 +32,16 @@ import common.TreeNode;
  * 0 <= edges[i][j] <= edges.length
  * The given edges form an undirected tree.
  */
-public class _1245_Tree_Diameter {
+public class _543_Diameter_Of_BinaryTree {
     int ans;
 
+    /**
+     * 时间复杂度：O(N)，其中 NN 为二叉树的节点数，即遍历一棵二叉树的时间复杂度，每个结点只被访问一次。
+     * <p>
+     * 空间复杂度：O(Height)，其中 HeightHeight 为二叉树的高度。
+     * 由于递归函数在递归过程中需要为每一层递归函数分配栈空间，所以这里需要额外的空间且该空间取决于递归的深度，
+     * 而递归的深度显然为二叉树的高度，并且每次递归调用的函数里又只用了常数个变量，所以所需空间复杂度为 O(Height)
+     */
     public int diameterOfBinaryTree(TreeNode root) {
         // [] -1 exp: 0
         if (root == null) {
