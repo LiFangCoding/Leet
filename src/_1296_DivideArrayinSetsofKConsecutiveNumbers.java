@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.TreeMap;
 
 /**
@@ -48,6 +50,8 @@ public class _1296_DivideArrayinSetsofKConsecutiveNumbers {
         for (int num : A) {
             m.put(num, m.getOrDefault(num, 0) + 1);
         }
+
+        Queue<int[]> queue = new LinkedList<>();
 
         while (m.size() != 0) {
             int s = m.firstKey();

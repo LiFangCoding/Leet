@@ -1,5 +1,8 @@
 package _51_100;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class _96_Unique_Binary_Search_Trees {
     /**
      * Important:
@@ -21,5 +24,40 @@ public class _96_Unique_Binary_Search_Trees {
         }
 
         return f[n];
+    }
+
+    class Soltion_dp {
+        Map<String, Integer> map;
+
+        public int numTrees(int n) {
+            if (n == 0) {
+                return 0;
+            }
+
+            map = new HashMap<>();
+            return num(1, n);
+        }
+
+        // can has duplicate cal
+        private int num(int l, int r) {
+            String key = " " + l + "," + r;
+            if (map.containsKey(key)) {
+                return map.get(key);
+            }
+            if (l > r) {
+                return 1;
+            }
+
+            int ans = 0;
+            for (int i = l; i <= r; i++) {
+                int lRes = num(l, i - 1);
+                int rRes = num(i + 1, r);
+
+                ans += lRes * rRes;
+            }
+
+            map.put(key, ans);
+            return ans;
+        }
     }
 }
