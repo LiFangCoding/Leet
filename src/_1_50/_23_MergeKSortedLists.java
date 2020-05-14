@@ -19,8 +19,10 @@ import java.util.PriorityQueue;
  */
 public class _23_MergeKSortedLists {
     /**
-     * T = O(N * logk)
-     * N is the toal num of nodes. K is the nunm of lists.
+     * 时间复杂度：考虑优先队列中的元素不超过 k 个，那么插入和删除的时间代价为 O(logk)，
+     * 这里最多有 kn 个点，对于每个点都被插入删除各一次，
+     * 故总的时间代价即渐进时间复杂度为 O(kn \times \log k)O(kn×logk)。
+     * 空间复杂度：这里用了优先队列，优先队列中的元素不超过 k 个，故渐进空间复杂度为 O(k)
      */
     public ListNode mergeKLists1(ListNode[] lists) {
         /**
@@ -54,59 +56,56 @@ public class _23_MergeKSortedLists {
         return dummy.next;
     }
 
-
-    public ListNode mergeKLists2(ListNode[] lists) {
+    class Sol_merge {
         /**
-         * T = O(N * logk)
-         * N is the toal num of nodes. K is the nunm of lists.
+         * 考虑递归「向上回升」的过程——第一轮合并 k/2组，每一组代价2n
+         * 一共 logk 层
+         * 每一组 k * n
+         * 时间复杂度 kn * log k
+         * O(logk) 空间复杂度栈
          */
-
-        if (lists == null) {
-            return null;
-        }
-
-        return mergeHelper(lists, 0, lists.length - 1);
-    }
-
-    private ListNode mergeHelper(ListNode[] lists, int start, int end) {
-        if (start == end) {
-            return lists[start];
-        }
-
-        if (start > end) {
-            return null;
-        }
-
-        int mid = start + (end - start) / 2;
-        ListNode left = mergeHelper(lists, start, mid);
-        ListNode right = mergeHelper(lists, mid + 1, end);
-        return mergeTwo(left, right);
-    }
-
-    private ListNode mergeTwo(ListNode left, ListNode right) {
-        ListNode dummy = new ListNode(0);
-        ListNode cur = dummy;
-
-        while (left != null && right != null) {
-            if (left.val < right.val) {
-                cur.next = left;
-                left = left.next;
-                cur = cur.next;
-            } else {
-                cur.next = right;
-                right = right.next;
-                cur = cur.next;
+        public ListNode mergeKLists(ListNode[] lists) {
+            if (lists == null) {
+                return null;
             }
+
+            return mergeHelper(lists, 0, lists.length - 1);
         }
 
-        if (left != null) {
-            cur.next = left;
+        private ListNode mergeHelper(ListNode[] lists, int l, int r) {
+            if (l == r) {
+                return lists[l];
+            }
+
+            if (l > r) {
+                return null;
+            }
+
+            int mid = l + (r - l) / 2;
+            ListNode left = mergeHelper(lists, l, mid);
+            ListNode right = mergeHelper(lists, mid + 1, r);
+            return mergeTwo(left, right);
         }
 
-        if (right != null) {
-            cur.next = right;
-        }
+        private ListNode mergeTwo(ListNode l1, ListNode l2) {
+            ListNode dummy = new ListNode(0);
+            ListNode cur = dummy;
 
-        return dummy.next;
+            while (l1 != null && l2 != null) {
+                if (l1.val < l2.val) {
+                    cur.next = l1;
+                    l1 = l1.next;
+                    cur = cur.next;
+                } else {
+                    cur.next = l2;
+                    l2 = l2.next;
+                    cur = cur.next;
+                }
+            }
+
+            cur.next = l1 != null ? l1 : l2;
+
+            return dummy.next;
+        }
     }
 }
