@@ -21,30 +21,23 @@ package _201_250;
  * Given target = 20, return false.
  */
 public class _240_Search_a_2D_MatrixII {
-    /**
-     * !!! []
-     * 0
-     */
-    public boolean searchMatrix(int[][] A, int target) {
-        /**
-         * !!!chain check important
-         */
-        if (A == null || A.length == 0 || A[0] == null || A[0].length == 0) {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // martix == null || matrix.length == 0, we will not have matrix[0]
+        if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
             return false;
         }
-        int rows = A.length;
-        int cols = A[0].length;
-        if (rows == 0 || cols == 0) {
-            return false;
-        }
+        int rows = matrix.length, cols = matrix[0].length;
 
-        for (int i = rows - 1, j = 0; i >= 0 && j < cols; ) {
-            if (A[i][j] == target) {
+        int row = rows - 1, col = 0;
+
+        while (row >= 0 && col < cols) {
+            int val = matrix[row][col];
+            if (val == target) {
                 return true;
-            } else if (A[i][j] < target) {
-                j++;
+            } else if (val > target) {
+                row--;
             } else {
-                i--;
+                col++;
             }
         }
 
