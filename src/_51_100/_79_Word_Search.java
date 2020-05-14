@@ -19,62 +19,59 @@ package _51_100;
  * Given word = "ABCB", return false.
  */
 public class _79_Word_Search {
+    boolean[][] visited;
+    int[] dx = {-1, 1, 0, 0};
+    int[] dy = {0, 0, 1, -1};
+
     public boolean exist(char[][] board, String word) {
-        if (word == null || word.length() == 0 || board == null) {
-            return false;
-        }
+        // need initilize here
+        int m = board.length, n = board[0].length;
 
-        int m = board.length;
-        int n = board[0].length;
-        if (m == 0 || n == 0) {
-            return false;
-        }
+        visited = new boolean[m][n];
 
-        boolean[][] visited = new boolean[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (helper(i, j, visited, "", board, word)) {
+                // if (board[i][j] == word.charAt(0)) {
+                if (search(board, i, j, word, 0)) {
                     return true;
                 }
+                // }
             }
         }
 
         return false;
     }
 
-    public boolean helper(int x, int y, boolean[][] visited, String chosen, char[][] board, String word) {
-        if (board[x][y] != word.charAt(chosen.length())) {
+    // search from one point, see if it is ok
+    private boolean search(char[][] board, int x, int y, String word, int idx) {
+        // here is word.length(), not word.length
+        // cannot think it will go further. If == len.  [["a"]]  "a". it is false. exp is true
+        if (idx == word.length() - 1) {
+            return board[x][y] == word.charAt(idx);
+        }
+
+        if (board[x][y] != word.charAt(idx)) {
             return false;
         }
-        /**
-         * check current sol is ok
-         */
-        if (chosen.length() == word.length() - 1) {
-            return true;
-        }
 
-        int[] dx = {-1, 1, 0, 0};
-        int[] dy = {0, 0, 1, -1};
-        int m = board.length;
-        int n = board[0].length;
-
-        /**
-         * cannot go back.
-         * check further has solution
-         */
+        // mark as visited, need to bracktrack. no nothing change
         visited[x][y] = true;
-        for (int i = 0; i < dx.length; i++) {
-            int newx = x + dx[i];
-            int newy = y + dy[i];
 
-            if (visited[newx][newy] || newx < 0 || newx >= m || newy < 0 || newy >= n) {
+        for (int k = 0; k < 4; k++) {
+            int newx = x + dx[k];
+            int newy = y + dy[k];
+
+            if (newx < 0 || newx >= board.length || newy < 0 || newy >= board[0].length) {
                 continue;
             }
 
-            if (helper(newx, newy, visited, chosen + board[x][y], board, word)) {
-                return true;
+            if (!visited[newx][newy]) {
+                if (search(board, newx, newy, word, idx + 1)) {
+                    return true;
+                }
             }
         }
+
         visited[x][y] = false;
         return false;
     }
