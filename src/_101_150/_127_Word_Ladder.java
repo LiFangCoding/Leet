@@ -38,68 +38,75 @@ import java.util.*;
  */
 public class _127_Word_Ladder {
     public static void main(String[] args) {
-        _127_Word_Ladder test = new _127_Word_Ladder();
-        System.out.println(test.ladderLength("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log", "cog")));
-        System.out.println(test.ladderLength("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log")));
-
-        System.out.println(test.ladderLength_DBFS("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log", "cog")));
-        System.out.println(test.ladderLength_DBFS("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log")));
+//        _127_Word_Ladder test = new _127_Word_Ladder();
+//        System.out.println(new Sol_One_BFS().ladderLength("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log", "cog")));
+//        System.out.println(test.ladderLength("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log")));
+//
+//        System.out.println(test.ladderLength_DBFS("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log", "cog")));
+//        System.out.println(test.ladderLength_DBFS("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log")));
     }
 
-    public int ladderLength(String start, String end, List<String> wordList) {
-        Set<String> set = new HashSet<>(wordList);
+    class Sol_One_BFS {
+        Set<String> set;
 
-        if (start.equals(end)) {
-            return 1;
+        public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+            set = new HashSet<>(wordList);
+
+            Queue<String> q = new LinkedList<>();
+            Set<String> marked = new HashSet<>();
+
+            if (beginWord != null) {
+                q.add(beginWord);
+                marked.add(beginWord);
+            }
+
+            int level = 0;
+            while (!q.isEmpty()) {
+                level++;
+                int size = q.size();
+                while (size-- > 0) {
+                    String cur = q.remove();
+
+                    if (cur.equals(endWord)) {
+                        return level;
+                    }
+
+                    for (String neigh : neighs(cur)) {
+                        if (!marked.contains(neigh)) {
+                            q.add(neigh);
+                            marked.add(neigh);
+                        }
+                    }
+                }
+            }
+
+            // here always return ans. If not found, should return 0.
+            return 0;
         }
 
-        Set<String> marked = new HashSet<>();
-        Queue<String> q = new LinkedList<>();
-        /**
-         * !!! Initialize
-         */
-        marked.add(start);
-        q.add(start);
+        private List<String> neighs(String s) {
+            List<String> ans = new ArrayList<>();
 
-        int len = 1;
-        while (!q.isEmpty()) {            //开始bfs
-            len++;
-            int size = q.size();
-            for (int i = 0; i < size; i++) {        //枚举当前步数队列的情况
-                String word = q.remove();
-                for (String nextWord : getNextWords(word, set)) {
-                    if (marked.contains(nextWord)) {
+            char[] A = s.toCharArray();
+            int len = A.length;
+
+            for (int i = 0; i < len; i++) {
+                for (char c = 'a'; c <= 'z'; c++) {
+                    if (c == A[i]) {
                         continue;
                     }
-                    if (nextWord.equals(end)) {
-                        return len;
+
+                    String nextWord = s.substring(0, i) + c + s.substring(i + 1);
+                    if (set.contains(nextWord)) {
+                        ans.add(nextWord);
                     }
-
-                    marked.add(nextWord);                //存入新单词
-                    q.offer(nextWord);
                 }
             }
-        }
 
-        return 0;
+            return ans;
+        }
     }
 
-    private List<String> getNextWords(String word, Set<String> dict) {
-        List<String> nextWords = new ArrayList<>();
-        for (int i = 0; i < word.length(); i++) {
-            for (char c = 'a'; c <= 'z'; c++) {                    //枚举替换字母
-                //枚举替换位置
-                if (c == word.charAt(i)) {
-                    continue;
-                }
-                String nextWord = word.substring(0, i) + c + word.substring(i + 1);
-                if (dict.contains(nextWord)) {                //如果dict中包含新单词，存入nextWords
-                    nextWords.add(nextWord);
-                }
-            }
-        }
-        return nextWords;                                    //构造当前单词的全部下一步方案
-    }
 
     //TODO: make it to Double bfs
     public int ladderLength_DBFS(String start, String end, List<String> wordList) {
