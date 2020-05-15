@@ -47,35 +47,35 @@ public class _127_Word_Ladder {
     }
 
     public int ladderLength(String start, String end, List<String> wordList) {
-        Set<String> dict = new HashSet<>(wordList);
+        Set<String> set = new HashSet<>(wordList);
 
         if (start.equals(end)) {
             return 1;
         }
 
-        Set<String> visited = new HashSet<>();
+        Set<String> marked = new HashSet<>();
         Queue<String> q = new LinkedList<>();
         /**
          * !!! Initialize
          */
-        visited.add(start);
+        marked.add(start);
         q.add(start);
 
-        int length = 1;
+        int len = 1;
         while (!q.isEmpty()) {            //开始bfs
-            length++;
+            len++;
             int size = q.size();
             for (int i = 0; i < size; i++) {        //枚举当前步数队列的情况
                 String word = q.remove();
-                for (String nextWord : getNextWords(word, dict)) {
-                    if (visited.contains(nextWord)) {
+                for (String nextWord : getNextWords(word, set)) {
+                    if (marked.contains(nextWord)) {
                         continue;
                     }
                     if (nextWord.equals(end)) {
-                        return length;
+                        return len;
                     }
 
-                    visited.add(nextWord);                //存入新单词
+                    marked.add(nextWord);                //存入新单词
                     q.offer(nextWord);
                 }
             }
@@ -84,8 +84,8 @@ public class _127_Word_Ladder {
         return 0;
     }
 
-    private ArrayList<String> getNextWords(String word, Set<String> dict) {
-        ArrayList<String> nextWords = new ArrayList<>();
+    private List<String> getNextWords(String word, Set<String> dict) {
+        List<String> nextWords = new ArrayList<>();
         for (int i = 0; i < word.length(); i++) {
             for (char c = 'a'; c <= 'z'; c++) {                    //枚举替换字母
                 //枚举替换位置
