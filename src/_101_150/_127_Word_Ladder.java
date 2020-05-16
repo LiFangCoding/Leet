@@ -46,6 +46,7 @@ public class _127_Word_Ladder {
 //        System.out.println(test.ladderLength_DBFS("hit", "cog", Arrays.asList("hot", "dot", "dog", "lot", "log")));
     }
 
+    // https://leetcode-cn.com/problems/word-ladder/solution/suan-fa-shi-xian-he-you-hua-javashuang-xiang-bfs23/
     class Sol_One_BFS {
         Set<String> set;
 
