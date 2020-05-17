@@ -46,19 +46,29 @@ import java.util.*;
  * There may be multiple valid order of letters, return any one of them is fine.
  */
 public class _269_AlienDictionary {
-    /**
-     * TODO haojun.
-     */
     public String alienOrder(String[] words) {
-        //1.构建图
+        //1.构建图. graph usaully character and set of character
         Map<Character, Set<Character>> map = new HashMap<>();
 
         for (int i = 0; i < words.length - 1; i++) {
-            for (int j = 0; j < words[i].length() && j < words[i + 1].length(); j++) {
+            // 这里改成这样就是为了防止 abc
+            int len = Math.max(words[i].length(), words[i + 1].length());
+
+            for (int j = 0; j < len; j++) {
+                // 这里是个坑 要防止 abc -> ab 这种情况
+                if (j >= words[i].length()) {
+                    break;
+                }
+                if (j >= words[i + 1].length()) {
+                    // return "" directly
+                    return "";
+                }
+
                 //如果字符相同，比较下一个
                 if (words[i].charAt(j) == words[i + 1].charAt(j)) {
                     continue;
                 }
+
                 //保存第一个不同的字符顺序
                 Set<Character> set = map.getOrDefault(words[i].charAt(j), new HashSet<>());
                 set.add(words[i + 1].charAt(j));
@@ -83,6 +93,7 @@ public class _269_AlienDictionary {
                 degrees[val - 'a']++;
             }
         }
+
         //创建StringBuilder保存拓扑排序
         StringBuilder sb = new StringBuilder();
         //创建一个Queue保存入度为0的节点
