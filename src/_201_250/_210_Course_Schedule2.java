@@ -30,13 +30,68 @@ import java.util.*;
  * You may assume that there are no duplicate edges in the input prerequisites.
  */
 public class _210_Course_Schedule2 {
-    public static void main(String[] args) {
-        _210_Course_Schedule2 test = new _210_Course_Schedule2();
-        int[][] A = {{1, 0}};
-        System.out.println(Arrays.toString(test.findOrder(2, A)));
+    class Solution_BFS {
+        public int[] findOrder(int n, int[][] prerequisites) {
+            int[] ans = new int[n];
 
-        A = new int[][]{{1, 0}, {2, 0}, {3, 1}, {3, 2}};
-        System.out.println(Arrays.toString(test.findOrder(4, A)));
+            int[] indegree = new int[n];
+            List<Integer>[] neighs = new List[n];
+
+            for (int i = 0; i < n; i++) {
+                neighs[i] = new ArrayList<>();
+            }
+
+            for (int[] req : prerequisites) {
+                int start = req[1];
+                int end = req[0];
+
+                indegree[end]++;
+                neighs[start].add(end);
+            }
+
+            Queue<Integer> q = new LinkedList<>();
+            Set<Integer> marked = new HashSet<>();
+
+            for (int i = 0; i < n; i++) {
+                /**
+                 * Here is the empty array if no sol exist
+                 */
+                if (indegree[i] == 0) {
+                    q.add(i);
+                    marked.add(i);
+                }
+            }
+
+            int cnt = 0;
+            while (!q.isEmpty()) {
+                int curCourse = q.remove();
+                ans[cnt++] = curCourse;
+
+                /**
+                 * Need to decrese the indegree.
+                 * Should run small test cases
+                 */
+                for (int course : neighs[curCourse]) {
+                    if (marked.contains(course)) {
+                        return new int[0];
+                    }
+
+                    /**
+                     * Important
+                     */
+                    indegree[course]--;
+                    if (indegree[course] == 0) {
+                        q.add(course);
+                        marked.add(course);
+                    }
+                }
+            }
+
+            if (cnt == n) {
+                return ans;
+            }
+            return new int[0];
+        }
     }
 
     class Solution_DFS {
@@ -99,67 +154,5 @@ public class _210_Course_Schedule2 {
             onStack[v] = false;
             reversePost.add(v);
         }
-    }
-
-    public int[] findOrder(int n, int[][] prerequisites) {
-        int[] res = new int[n];
-
-        int[] indegree = new int[n];
-        List<Integer>[] neighs = new List[n];
-
-        for (int i = 0; i < n; i++) {
-            neighs[i] = new ArrayList<>();
-        }
-
-        for (int[] req : prerequisites) {
-            int start = req[1];
-            int end = req[0];
-
-            indegree[end]++;
-            neighs[start].add(end);
-        }
-
-        Queue<Integer> q = new LinkedList<>();
-        Set<Integer> vt = new HashSet<>();
-
-        for (int i = 0; i < n; i++) {
-            /**
-             * Here is the empty array if no sol exist
-             */
-            if (indegree[i] == 0) {
-                q.add(i);
-                vt.add(i);
-            }
-        }
-
-        int count = 0;
-        while (!q.isEmpty()) {
-            int cur = q.remove();
-            res[count++] = cur;
-
-            /**
-             * Need to decrese the indegree.
-             * Should run small test cases
-             */
-            for (int course : neighs[cur]) {
-                if (vt.contains(course)) {
-                    return new int[0];
-                }
-
-                /**
-                 * Important
-                 */
-                indegree[course]--;
-                if (indegree[course] == 0) {
-                    q.add(course);
-                    vt.add(course);
-                }
-            }
-        }
-
-        if (count == n) {
-            return res;
-        }
-        return new int[0];
     }
 }
