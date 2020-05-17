@@ -1,9 +1,6 @@
 package _301_350;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Remove the minimum number of invalid parentheses in order to make the input string valid. Return all possible results.
@@ -112,18 +109,36 @@ public class _301_Remove_Invalid_Parentheses {
         }
 
         private boolean isValid(String s) {
-            int count = 0;
+            int cnt = 0;
             for (char c : s.toCharArray()) {
                 if (c == '(') {
-                    ++count;
+                    ++cnt;
                 } else if (c == ')') {
-                    --count;
-                    if (count < 0) {
+                    --cnt;
+                    if (cnt < 0) {
                         return false;
                     }
                 }
             }
-            return count == 0;
+            return cnt == 0;
+        }
+
+        private boolean isValid_stack(String s) {
+            Stack<Character> stack = new Stack<>();
+
+            for (char c : s.toCharArray()) {
+                if (c == '(') {
+                    stack.push(c);
+                } else if (c == ')') {
+                    if (stack.isEmpty()) {
+                        return false;
+                    }
+
+                    stack.pop();
+                }
+            }
+
+            return stack.isEmpty();
         }
 
 
@@ -139,7 +154,7 @@ public class _301_Remove_Invalid_Parentheses {
 
             for (int i = st; i < s.length(); ++i) {
                 // 去重
-                if (i != st && s.charAt(i) == s.charAt(i - 1)) {
+                if (i > st && s.charAt(i) == s.charAt(i - 1)) {
                     continue;
                 }
 
