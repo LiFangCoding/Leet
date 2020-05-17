@@ -50,7 +50,8 @@ public class _210_Course_Schedule2 {
             }
 
             Queue<Integer> q = new LinkedList<>();
-            Set<Integer> marked = new HashSet<>();
+            // without marked also ok
+//            Set<Integer> marked = new HashSet<>();
 
             for (int i = 0; i < n; i++) {
                 /**
@@ -58,7 +59,7 @@ public class _210_Course_Schedule2 {
                  */
                 if (indegree[i] == 0) {
                     q.add(i);
-                    marked.add(i);
+//                    marked.add(i);
                 }
             }
 
@@ -72,9 +73,9 @@ public class _210_Course_Schedule2 {
                  * Should run small test cases
                  */
                 for (int course : neighs[curCourse]) {
-                    if (marked.contains(course)) {
-                        return new int[0];
-                    }
+//                    if (marked.contains(course)) {
+//                        return new int[0];
+//                    }
 
                     /**
                      * Important
@@ -82,7 +83,7 @@ public class _210_Course_Schedule2 {
                     indegree[course]--;
                     if (indegree[course] == 0) {
                         q.add(course);
-                        marked.add(course);
+//                        marked.add(course);
                     }
                 }
             }
