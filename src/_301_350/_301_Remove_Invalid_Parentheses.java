@@ -72,6 +72,19 @@ public class _301_Remove_Invalid_Parentheses {
         }
     }
 
+    /**
+     * 此题与之前的生成括号方式互为相反的过程，生成时我们需要记录已加入的左边和右边括号个数，删除时我们也需要。
+     * 在此题中，解题步骤如下：
+     * <p>
+     * 我们需要先找出不合法的左括号个数和右括号个数
+     * 利用dfs不断删除"（"或者"）"，直到不合法个数为0
+     * 检验删除后的括号串是否合法。
+     * <p>
+     * 作者：shaft
+     * 链接：https://leetcode-cn.com/problems/remove-invalid-parentheses/solution/shen-du-you-xian-sou-suo-jie-ti-by-shaft/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     */
     class Sol_DFS {
         List<String> ans;
 
