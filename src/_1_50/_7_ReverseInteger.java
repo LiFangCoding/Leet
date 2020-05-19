@@ -26,24 +26,25 @@ public class _7_ReverseInteger {
      */
     public static int reverse(int n) {
         boolean positive = n > 0;
-        int res = 0;
+        int ans = 0;
 
         while (n != 0) {
-            int pop = n % 10;
+            // -12 % 10 == -2
+            int digit = n % 10;
             n = n / 10;
 
-            if (positive && res > (Integer.MAX_VALUE - pop) / 10) {
+            if (positive && ans > (Integer.MAX_VALUE - digit) / 10) {
                 return 0;
             }
 
-            if (!positive && res < (Integer.MIN_VALUE - pop) / 10) {
+            if (!positive && ans < (Integer.MIN_VALUE - digit) / 10) {
                 return 0;
             }
 
-            res = res * 10 + pop;
+            ans = ans * 10 + digit;
         }
 
-        return res;
+        return ans;
     }
 
     public static void main(String[] args) {
