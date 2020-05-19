@@ -83,7 +83,11 @@ public class _139_Word_Break {
         Set<String> set = new HashSet<>(wordDict);
         int maxLen = getMaxLength(set);
 
-        for (int i = 1; i <= len; i++) {
+      //dp[i] 表示第 i 个字符前，所有的字符是否可以按字典拆分成单词
+      // 其中第 i - 1 个字符是上一个词的结尾字母，第 i 个字符是一个新词的开头字母
+      // 初始值 dp[0] = true ，表示第 0 个字符是一个新词的开头字母
+      // 所求的答案为 dp[s.size()] ，表示这个字符串是否可以拆分成字典中
+      for (int i = 1; i <= len; i++) {
             for (int j = Math.max(0, (i - maxLen)); j <= i - 1; j++) {
                 if (set.contains(s.substring(j, i)) && dp[j]) {
                     dp[i] = true;
