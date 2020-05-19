@@ -94,32 +94,44 @@ public class _6_ZigZagConversion {
 
     /**
      * O(n)
+     *
      * @param s
      * @return
      */
-    public String convert(String s, int nRows) {
-        if (s == null || s.length() == 0 || nRows <= 0) {
+    public String convert(String s, int n) {
+        if (s == null || s.length() == 0 || n <= 0) {
             return "";
         }
 
-        if (nRows == 1) {
+        // special case n = 1. dis = 0. 超出内存限制
+        if (n == 1) {
             return s;
         }
 
-        StringBuilder res = new StringBuilder();
-        int size = 2 * nRows - 2;
+        int dis = 2 * n - 2;
+        StringBuilder sb = new StringBuilder();
+        char[] A = s.toCharArray();
+        int len = A.length;
 
-        for (int i = 0; i < nRows; i++) {
-            for (int j = i; j < s.length(); j += size) {
-                res.append(s.charAt(j));
-                int nextIdx = j + size - 2 * i;
-                if (i != 0 && i != nRows - 1 && nextIdx < s.length()) {
-                    res.append(s.charAt(nextIdx));
+        for (int row = 0; row < n; row++) {
+            if (row == 0 || row == n - 1) {
+                for (int first = row; first < len; first += dis) {
+                    sb.append(A[first]);
+                }
+            } else {
+                for (int first = row, second = dis - row; first < len || second < len; first += dis, second += dis) {
+                    if (first < len) {
+                        sb.append(A[first]);
+                    }
+
+                    if (second < len) {
+                        sb.append(A[second]);
+                    }
                 }
             }
         }
 
-       return res.toString();
+        return sb.toString();
     }
 
     public static void main(String[] args) {
