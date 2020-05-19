@@ -15,40 +15,41 @@ package _1_50;
  */
 public class _5_LongestPalindromicSubstring {
     // expand around center
-    public static String longestPalindrome(String s) {
+    public String longestPalindrome(String s) {
         if (s == null || s.length() == 0) {
             return "";
         }
 
         int len = s.length();
-        String res = "";
+        String ans = "";
 
         for (int i = 0; i < len; i++) {
-            String panlin1 = expandCenter(s, i, i);
-            String panlin2 = expandCenter(s, i, i + 1);
-            if (panlin1.length() > res.length()) {
-                res = panlin1;
+            String odd = expandCenter(s, i, i);
+            if (ans.length() < odd.length()) {
+                ans = odd;
             }
 
-            if (panlin2.length() > res.length()) {
-                res = panlin2;
+            String even = expandCenter(s, i, i + 1);
+
+            if (ans.length() < even.length()) {
+                ans = even;
             }
         }
 
-        return res;
+        return ans;
     }
 
-    // expand center from left and right index
+    // expand center from l and r index
     // "aba"
-    private static String expandCenter(String s, int left, int right) {
-        while (left >= 0 && right < s.length()) {
-            if (s.charAt(left) != s.charAt(right)) {
+    private String expandCenter(String s, int l, int r) {
+        while (l >= 0 && r < s.length()) {
+            if (s.charAt(l) != s.charAt(r)) {
                 break;
             }
-            left--;
-            right++;
+            l--;
+            r++;
         }
 
-        return s.substring(left + 1, right);
+        return s.substring(l + 1, r);
     }
 }
