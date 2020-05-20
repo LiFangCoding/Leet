@@ -14,42 +14,50 @@ package _1_50;
  * Output: "bb"
  */
 public class _5_LongestPalindromicSubstring {
+  //TODO: more practice
+
+  /**
+   * T = n^2
+   * S =
+   */
+  class Sol_Expand {
     // expand around center
     public String longestPalindrome(String s) {
-        if (s == null || s.length() == 0) {
-            return "";
+      if (s == null || s.length() == 0) {
+        return "";
+      }
+
+      int len = s.length();
+      String ans = "";
+
+      for (int i = 0; i < len; i++) {
+        String odd = expandCenter(s, i, i);
+        if (ans.length() < odd.length()) {
+          ans = odd;
         }
 
-        int len = s.length();
-        String ans = "";
+        String even = expandCenter(s, i, i + 1);
 
-        for (int i = 0; i < len; i++) {
-            String odd = expandCenter(s, i, i);
-            if (ans.length() < odd.length()) {
-                ans = odd;
-            }
-
-            String even = expandCenter(s, i, i + 1);
-
-            if (ans.length() < even.length()) {
-                ans = even;
-            }
+        if (ans.length() < even.length()) {
+          ans = even;
         }
+      }
 
-        return ans;
+      return ans;
     }
 
     // expand center from l and r index
     // "aba"
     private String expandCenter(String s, int l, int r) {
-        while (l >= 0 && r < s.length()) {
-            if (s.charAt(l) != s.charAt(r)) {
-                break;
-            }
-            l--;
-            r++;
+      while (l >= 0 && r < s.length()) {
+        if (s.charAt(l) != s.charAt(r)) {
+          break;
         }
+        l--;
+        r++;
+      }
 
-        return s.substring(l + 1, r);
+      return s.substring(l + 1, r);
     }
+  }
 }

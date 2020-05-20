@@ -46,54 +46,6 @@ package _1_50;
 public class _6_ZigZagConversion {
     /**
      * O(n)
-     * @param s
-     * @param nRows
-     * @return
-     */
-    public String convert_my(String s, int nRows) {
-        if (s == null || s.length() == 0 || nRows <= 0) {
-            return "";
-        }
-
-        if (nRows == 1) {
-            return s;
-        }
-
-        StringBuilder res = new StringBuilder();
-        int len = s.length();
-
-        int size = 2 * nRows - 2;
-
-        // for the ith row
-        for (int i = 0; i < nRows; i++) {
-            int first = i;
-            int second = size - first;
-
-            while (true) {
-                if (first >= len) {
-                    break;
-                }
-
-                res.append(s.charAt(first));
-                first += size;
-
-                // here rows is 0 -> nRows -1
-                if (i != 0 && i != nRows - 1) {
-                    if (second >= len) {
-                        break;
-                    }
-
-                    res.append(s.charAt(second));
-                    second += size;
-                }
-            }
-        }
-
-        return res.toString();
-    }
-
-    /**
-     * O(n)
      *
      * @param s
      * @return
@@ -138,9 +90,9 @@ public class _6_ZigZagConversion {
         _6_ZigZagConversion test = new _6_ZigZagConversion();
         String s = "PAYPALISHIRING";
 
-        System.out.println(test.convert_my(s, 5).equals(test.convert(s, 5)));
-        System.out.println(test.convert_my(s, 4).equals(test.convert(s, 4)));
-        System.out.println(test.convert_my(s, 3).equals(test.convert(s, 3)));
-        System.out.println(test.convert_my(s, 1).equals(test.convert(s, 1)));
+        System.out.println(test.convert(s, 5).equals(test.convert(s, 5)));
+        System.out.println(test.convert(s, 4).equals(test.convert(s, 4)));
+        System.out.println(test.convert(s, 3).equals(test.convert(s, 3)));
+        System.out.println(test.convert(s, 1).equals(test.convert(s, 1)));
     }
 }
