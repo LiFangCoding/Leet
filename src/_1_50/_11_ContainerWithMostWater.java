@@ -11,32 +11,40 @@ public class _11_ContainerWithMostWater {
      * T = O(n^2)
      * S = O(1)
      */
-    public int maxArea(int[] height) {
-        int maxarea = 0;
-        int len = height.length;
+    public int maxArea(int[] A) {
+        int ans = 0;
+        int len = A.length;
         for (int i = 0; i < len; i++) {
             for (int j = i + 1; j < len; j++) {
-                maxarea = Math.max(maxarea, Math.min(height[i], height[j]) * (j - i));
+                ans = Math.max(ans, Math.min(A[i], A[j]) * (j - i));
             }
         }
-        return maxarea;
+        return ans;
     }
 
     /**
      * T = O(n)
      * S = O(1)
      */
-    public int maxArea2(int[] height) {
-        int maxarea = 0, l = 0, r = height.length - 1;
-        while (l < r) {
-            maxarea = Math.max(maxarea, Math.min(height[l], height[r]) * (r - l));
+    public int maxArea2(int[] A) {
+      int len = A.length;
+      int l = 0, r = len - 1;
+      int ans = 0;
 
-            if (height[l] < height[r]) {
-                l++;
-            } else {
-                r--;
-            }
+      while (l < r) {
+        int dis = r - l;
+        ans = Math.max(ans, dis * Math.min(A[l], A[r]));
+
+        if (A[l] < A[r]) {
+          l++;
+        } else if (A[l] > A[r]) {
+          r--;
+        } else {
+          l++;
+          r--;
         }
-        return maxarea;
+      }
+
+      return ans;
     }
 }
