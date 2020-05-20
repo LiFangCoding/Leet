@@ -47,7 +47,7 @@ public class _9_PalindromNumber {
      * No need to consider the overflow.
      * Igore the number ending with 0. Then reverse will always has data.
      */
-    public boolean isPalindrome2(int num) {
+    public boolean isPalindrome2(int x) {
         /**
          * 0
          * 2
@@ -60,22 +60,23 @@ public class _9_PalindromNumber {
          * 323
          * 3012
          */
-        if (num == 0) {
+        if (x == 0) {
             return true;
         }
 
-        // Be careful num = 0 will also need test.
-        if (num < 0 || num % 10 == 0) {
+        // Be careful x = 0 will also need test.
+      // -121, 121-. 10 01 false
+        if (x < 0 || x % 10 == 0) {
             return false;
         }
 
         int secondhalf = 0;
-        while (secondhalf <= num) {
-            secondhalf = secondhalf * 10 + num % 10;
-            if (secondhalf == num || secondhalf == num / 10) {
+        while (secondhalf <= x) {
+            secondhalf = secondhalf * 10 + x % 10;
+            if (secondhalf == x || secondhalf == x / 10) {
                 return true;
             }
-            num = num / 10;
+            x = x / 10;
         }
         return false;
     }

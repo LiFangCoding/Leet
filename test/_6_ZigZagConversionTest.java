@@ -8,16 +8,12 @@ class _6_ZigZagConversionTest {
 
     @Test
     void test() {
-        assertEquals("04135726", test.convert_my("01234567", 3));
+        assertEquals("04135726", test.convert("01234567", 3));
 
         String s = "PAYPALISHIRING";
-        assertEquals("PAHNAPLSIIGYIR", test.convert_my(s, 3));
+        assertEquals("PAHNAPLSIIGYIR", test.convert(s, 3));
 
         s = "PAYPALISHIRING";
-        assertEquals("PINALSIGYAHRPI", test.convert_my(s, 4));
-
-
-
-
+        assertEquals("PINALSIGYAHRPI", test.convert(s, 4));
     }
 }

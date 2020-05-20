@@ -80,9 +80,6 @@ public class _8_StringToInteger_atoi {
             //正数 -2147483647
             //负数 -2147483648
             int limit = positive ? -MAX : MIN;
-            //过滤0
-//            while (i < str.length() && str.charAt(i) == '0')  i++;
-            //取每一位,在非字符截止
 
             int ans = 0;
             while (i < str.length() && isValid(str.charAt(i))) {
@@ -152,7 +149,7 @@ public class _8_StringToInteger_atoi {
                 ans = -1 * ans;
             }
 
-
+            // here convert back to int
             return (int) ans;
         }
     }
