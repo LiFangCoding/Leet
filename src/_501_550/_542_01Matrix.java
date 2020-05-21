@@ -1,3 +1,5 @@
+package _501_550;
+
 /**
  * Given a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.
  *
@@ -38,7 +40,7 @@
 public class _542_01Matrix {
   public int[][] updateMatrix(int[][] matrix) {
     if (matrix == null || matrix.length == 0 || matrix[0] == null ||
-        matrix[0].length == 0) {
+            matrix[0].length == 0) {
       return new int[0][0];
     }
 

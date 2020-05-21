@@ -1,3 +1,5 @@
+package _651_700;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,7 @@ public class _667_Map_Sum_Pairs {
     // 2
     test.sum("ap");
   }
+
   TrieTree trietree;
   Map<String, Integer> map;
 
