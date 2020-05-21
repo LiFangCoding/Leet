@@ -50,6 +50,7 @@ public class _5_LongestPalindromicSubstring {
     // "aba"
     private String expandCenter(String s, int l, int r) {
       while (l >= 0 && r < s.length()) {
+        // if change to s.toCharArray A. A[l], A[r]. It will be 5 times slow
         if (s.charAt(l) != s.charAt(r)) {
           break;
         }
