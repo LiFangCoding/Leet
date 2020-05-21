@@ -14,59 +14,71 @@ package _51_100;
  * ]
  */
 public class _59_Spiral_Matrix_2 {
-  //TODO: little more
+  /**
+   * 0ms
+   * T=n^2
+   * S=n^2
+   */
   class Sol_Intuitive {
     public int[][] generateMatrix(int n) {
       int[][] ans = new int[n][n];
 
-      int upRow = 0, downRow = n - 1, lCol = 0, rCol = n - 1;
+      int t = 0, d = n - 1, l = 0, r = n - 1;
       int val = 1;
 
       while (true) {
-        // first check if it is valid to scan
-        if (lCol > rCol) {
+        if (l > r || t > d) {
           break;
         }
-        for (int col = lCol; col <= rCol; col++) {
-          ans[upRow][col] = val++;
+        //        // first check if it is valid to scan
+        //        if (l > r) {
+        //          break;
+        //        }
+        for (int col = l; col <= r; col++) {
+          ans[t][col] = val++;
         }
-        upRow++;
+        t++;
 
-        if(upRow > downRow) {
-          break;
+        //        if(t > d) {
+        //          break;
+        //        }
+        for (int row = t; row <= d; row++) {
+          ans[row][r] = val++;
         }
-        for (int row = upRow; row <= downRow; row++) {
-          ans[row][rCol] = val++;
-        }
-        rCol--;
+        r--;
 
-        if (rCol < lCol) {
-          break;
+        //        if (r < l) {
+        //          break;
+        //        }
+        for (int col = r; col >= l; col--) {
+          ans[d][col] = val++;
         }
-        for (int col = rCol; col >= lCol; col--) {
-          ans[downRow][col] = val++;
-        }
-        downRow--;
+        d--;
 
-        if (downRow < upRow) {
-          break;
+        //        if (d < t) {
+        //          break;
+        //        }
+        for (int row = d; row >= t; row--) {
+          ans[row][l] = val++;
         }
-        for (int row = downRow; row >= upRow; row--) {
-          ans[row][lCol] = val++;
-        }
-        lCol++;
+        l++;
       }
 
       return ans;
     }
   }
 
+  /**
+   * 0ms
+   * T = n^2
+   * S = n^2
+   */
   class Sol_dir {
     public int[][] generateMatrix(int n) {
       int[][] matrix = new int[n][n];
 
-      int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-      int[] steps = {n, n - 1, n - 1, n - 2};
+      int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+      int[] steps = { n, n - 1, n - 1, n - 2 };
 
       int idx = 0;
       int num = 1;
