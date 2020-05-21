@@ -16,6 +16,11 @@ package _401_450;
  */
 public class _415_AddStrings {
 
+  /**
+   * 2ms
+   * T = n
+   * S = n
+   */
   class Sol_Directly {
     public String addStrings(String s1, String s2) {
       // A1 is char array of s1
