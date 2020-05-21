@@ -19,69 +19,109 @@ package _1_50;
  * You must not use any built-in BigInteger library or convert the inputs to integer directly.
  */
 public class _43_MultiplyStrings {
-    public static void main(String[] args) {
-        _43_MultiplyStrings test = new _43_MultiplyStrings();
+    /**
+     * T = m + n
+     * S = m + n
+     */
+    class Sol_reverse {
+        public String multiply(String s1, String s2) {
+            String str;
+            char[] A1 = s1.toCharArray();
+            char[] A2 = s2.toCharArray();
 
-        System.out.println(test.multiply("12", "1"));
+            int len1 = A1.length, len2 = A2.length;
 
-        String expected = "419553";
-        System.out.println(test.multiply("123", "3411"));
+            int[] a = new int[len1], b = new int[len2], c = new int[len1 + len2];
+
+            for (int i = 0; i < len1; i++) {
+                a[len1 - i - 1] = A1[i] - '0';
+            }
+
+            for (int i = 0; i < len2; i++) {
+                b[len2 - i - 1] = A2[i] - '0';
+            }
+
+            for (int i = 0; i < len1; i++) {
+                for (int j = 0; j < len2; j++) {
+                    c[i + j] += a[i] * b[j];
+                    c[i + j + 1] += c[i + j] / 10;
+                    c[i + j] %= 10;
+                }
+            }
+
+            int l = c.length - 1;
+            // l >= 0 should be first. because avoid index outbound
+            while (l >= 0 && c[l] == 0) {
+                l--;
+            }
+
+            if (l < 0) {
+                return "0";
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = l; i >= 0; i--) {
+                sb.append(c[i]);
+            }
+
+            return sb.toString();
+        }
     }
 
     /**
-     * p 0 1 2
-     * 1 0 2
-     * 3 1 1
-     * <p>
-     * 1  0  2
-     * 1 0  2
-     * 3 0 6
+     * 4ms
+     * T = m + n
+     * S = m + n
      */
-    //TODO
-    public String multiply(String s1, String s2) {
-        if (s1 == null || s2 == null) {
-            return "";
-        }
-
-        char[] chars1 = s1.toCharArray();
-        char[] chars2 = s2.toCharArray();
-
-        int m = chars1.length;
-        int n = chars2.length;
-
-        int[] digits = new int[m + n];
-
-        for (int i = m - 1; i >= 0; i--) {
-            for (int j = n - 1; j >= 0; j--) {
-                int pos1 = i + j + 1;
-                int pos2 = pos1 - 1;
-
-                int d1 = chars1[i] - '0';
-                int d2 = chars2[j] - '0';
-
-                digits[pos1] += d1 * d2;
-                digits[pos2] += digits[pos1] / 10;
-                digits[pos1] = digits[pos1] % 10;
+    class Sol_no_need_reverse {
+        /**
+         * p 0 1 2
+         * 1 0 2
+         * 3 1 1
+         * <p>
+         * 1  0  2
+         * 1 0  2
+         * 3 0 6
+         */
+        public String multiply(String s1, String s2) {
+            if (s1 == null || s2 == null) {
+                return "";
             }
-        }
 
-        StringBuilder sb = new StringBuilder();
+            char[] A1 = s1.toCharArray();
+            char[] A2 = s2.toCharArray();
 
-        int i = 0;
+            int m = A1.length;
+            int n = A2.length;
 
-        while (i < digits.length) {
-            if (digits[i] == 0) {
+            // have int[] array to store the elements is important
+            // 结果最多为 m + n 位数
+            int[] c = new int[m + n];
+
+            for (int i = m - 1; i >= 0; i--) {
+                for (int j = n - 1; j >= 0; j--) {
+                    int mul = (A1[i] - '0') * (A2[j] - '0');
+                    int p1 = i + j;
+                    int p2 = p1 + 1;
+
+                    int sum = mul + c[p2];
+                    c[p2] = sum % 10;
+                    c[p1] += sum / 10;
+                }
+            }
+
+            int i = 0;
+            while (i < c.length && c[i] == 0) {
                 i++;
-            } else {
-                break;
             }
-        }
 
-        if (i == digits.length) {
-            return "0";
-        } else {
-            for (; i < digits.length; i++) {
-                sb.append(digits[i]);
+            if (i == c.length) {
+                return "0";
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (; i < c.length; i++) {
+                sb.append(c[i]);
             }
 
             return sb.toString();
