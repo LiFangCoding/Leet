@@ -23,36 +23,39 @@ package _1_50;
  * Output: 0
  */
 public class _35_SearchInsertPosition {
-    /**
-     * T = O(log n)
-     * S = O(1)
-     * Find the first num that is larger than or equal with val. The index is the res.
-     * If not exist, return array len.
-     */
-    public int searchInsert(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-
-        int start = 0;
-        int end = nums.length - 1;
-
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-
-            if (nums[mid] < target) {
-                start = mid;
-            } else {
-                end = mid;
-            }
-        }
-
-        if (nums[start] >= target) {
-            return start;
-        } else if (nums[end] >= target) {
-            return end;
-        } else {
-            return nums.length;
-        }
+  /**
+   * T = O(log n)
+   * S = O(1)
+   * Find the first num that is larger than or equal with val. The index is the res.
+   * If not exist, return array len.
+   */
+  public int searchInsert(int[] A, int target) {
+    // find first position >= val
+    if (A == null || A.length == 0) {
+      return 0;
     }
+
+    int l = 0;
+    int r = A.length - 1;
+
+    while (l + 1 < r) {
+      int mid = l + (r - l) / 2;
+
+      if (A[mid] < target) {
+        l = mid;
+      } else {
+        r = mid;
+      }
+    }
+
+    if (A[l] >= target) {
+      return l;
+    }
+
+    if (A[r] >= target) {
+      return r;
+    }
+
+    return r + 1;
+  }
 }
