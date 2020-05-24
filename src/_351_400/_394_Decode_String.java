@@ -1,5 +1,7 @@
 package _351_400;
 
+import java.util.Stack;
+
 /**
  * Given an encoded string, return its decoded string.
  * <p>
@@ -22,7 +24,7 @@ package _351_400;
  */
 public class _394_Decode_String {
     /**
-     * (DFS)
+     * 0ms
      * T = len(string)×k^n
      * S = N + ans space
      * 用递归的思想来解决这个问题， 当遇到一个括号时，就将括号内的字符串截取出来作为一个新的子问题递归求解，比如对于s = "3[a2[c]]"，我们可以将a2[c]]作为一个新问题来求解，并将该子问题求解的结果加到上一层的答案中去。
@@ -71,6 +73,46 @@ public class _394_Decode_String {
             }
 
             return sb.toString();
+        }
+    }
+
+    /**
+     * 如果递归层数太多则上面的算法有可能会造成栈溢出，我们可以用栈来模拟上述的递归过程，
+     * 每当遇到一个括号序列时，说明我们要递归进入下一层，
+     * 那么我们就把该序列重复的次数num和在该序列前已经计算好的答案字cur分别压入栈中，
+     * 当把这个括号序列处理完后，我们从两个栈的栈顶分别取出来之前的num和cur来计算出新的答案cur。
+     */
+    class Sol_Stack {
+        public String decodeString(String s) {
+            Stack<Integer> nums = new Stack<>();
+            Stack<String> strs = new Stack<>();
+
+            String cur = "";
+            int num = 0;
+            char[] A = s.toCharArray();
+
+            for (int i = 0; i < s.length(); i++) {
+                if (A[i] == '[') {
+                    nums.push(num);
+                    strs.push(cur);
+                    num = 0;
+                    cur = "";
+                } else if (A[i] == ']') {
+                    int t = nums.pop();
+
+                    String tmp = cur;
+                    cur = strs.pop();
+                    while (t-- > 0) {
+                        cur += tmp;
+                    }
+                } else if (Character.isDigit(A[i])) {
+                    num = num * 10 + A[i] - '0';
+                } else {
+                    cur += A[i];
+                }
+            }
+
+            return cur;
         }
     }
 }
