@@ -20,50 +20,73 @@ public class _85_Maximal_Rectangle {
     /**
      * TODO: 单调栈注意
      *
-     * @param M
+     * @param
      * @return
      */
-    public int maximalRectangle(char[][] M) {
-        int m = M.length;
-        int n = m == 0 ? 0 : M[0].length;
-        int[][] height = new int[m][n + 1];
-
+    public int maximalRectangle(char[][] matrix) {
+        if (matrix.length == 0) {
+            return 0;
+        }
+        int[] heights = new int[matrix[0].length];
         int maxArea = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (M[i][j] == 0) {
-                    height[i][j] = 0;
+        for (int row = 0; row < matrix.length; row++) {
+            //遍历每一列，更新高度
+            for (int col = 0; col < matrix[0].length; col++) {
+                if (matrix[row][col] == '1') {
+                    heights[col] += 1;
                 } else {
-                    height[i][j] = i == 0 ? 1 : height[i - 1][j] + 1;
+                    heights[col] = 0;
                 }
             }
+            //调用上一题的解法，更新函数
+            maxArea = Math.max(maxArea, largestRectangleArea(heights));
         }
-
-        for (int i = 0; i < m; i++) {
-            int area = maxAreaInHist(height[i]);
-            if (area > maxArea) {
-                maxArea = area;
-            }
-        }
-
         return maxArea;
     }
 
-    private int maxAreaInHist(int[] height) {
-        Stack<Integer> stack = new Stack<Integer>();
-
-        int i = 0;
-        int max = 0;
-
-        while (i < height.length) {
-            if (stack.isEmpty() || height[stack.peek()] <= height[i]) {
-                stack.push(i++);
+    public int largestRectangleArea(int[] heights) {
+        int maxArea = 0;
+        Stack<Integer> stack = new Stack<>();
+        int p = 0;
+        while (p < heights.length) {
+            //栈空入栈
+            if (stack.isEmpty()) {
+                stack.push(p);
+                p++;
             } else {
-                int t = stack.pop();
-                max = Math.max(max, height[t]
-                        * (stack.isEmpty() ? i : i - stack.peek() - 1));
+                int top = stack.peek();
+                //当前高度大于栈顶，入栈
+                if (heights[p] >= heights[top]) {
+                    stack.push(p);
+                    p++;
+                } else {
+                    //保存栈顶高度
+                    int height = heights[stack.pop()];
+                    //左边第一个小于当前柱子的下标
+                    int leftLessMin = stack.isEmpty() ? -1 : stack.peek();
+                    //右边第一个小于当前柱子的下标
+                    int RightLessMin = p;
+                    //计算面积
+                    int area = (RightLessMin - leftLessMin - 1) * height;
+                    maxArea = Math.max(area, maxArea);
+                }
             }
         }
-        return max;
+        while (!stack.isEmpty()) {
+            //保存栈顶高度
+            int height = heights[stack.pop()];
+            //左边第一个小于当前柱子的下标
+            int leftLessMin = stack.isEmpty() ? -1 : stack.peek();
+            //右边没有小于当前高度的柱子，所以赋值为数组的长度便于计算
+            int RightLessMin = heights.length;
+            int area = (RightLessMin - leftLessMin - 1) * height;
+            maxArea = Math.max(area, maxArea);
+        }
+        return maxArea;
     }
+
+// 作者：windliang
+// 链接：https://leetcode-cn.com/problems/maximal-rectangle/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-1-8/
+// 来源：力扣（LeetCode）
+// 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 }
