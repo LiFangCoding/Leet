@@ -16,6 +16,7 @@ import java.util.Set;
  */
 public class _128_LongestConsecutiveSequence {
   /**
+   * 5ms
    * T = n
    * 这个优化算法与暴力算法仅有两处不同：这些数字用一个 HashSet 保存（或者用 Python 里的 Set），
    * 实现 O(1) 时间的查询，
