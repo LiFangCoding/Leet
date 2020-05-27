@@ -29,11 +29,11 @@ package _101_150;
 public class _122_BestTimetoBuyandSellStock2 {
     public static void main(String[] args) {
         _122_BestTimetoBuyandSellStock2 test = new _122_BestTimetoBuyandSellStock2();
-        System.out.println("res should be " + 7);
+        System.out.println("ans should be " + 7);
         System.out.println(test.maxProfit(new int[]{7, 1, 5, 3, 6, 4}));
-        System.out.println("res should be " + 4);
+        System.out.println("ans should be " + 4);
         System.out.println(test.maxProfit(new int[]{1, 2, 3, 4, 5}));
-        System.out.println("res should be " + 0);
+        System.out.println("ans should be " + 0);
         System.out.println(test.maxProfit(new int[]{7, 6, 4, 3, 1}));
     }
 

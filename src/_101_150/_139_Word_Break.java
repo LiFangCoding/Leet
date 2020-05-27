@@ -69,7 +69,7 @@ public class _139_Word_Break {
      * <p>
      * <p>
      * dp[i] means the first ith can be wordbreak.
-     * The res is dp[len]
+     * The ans is dp[len]
      * <p>
      * dp[i]= (dp [j] + cantains(j ~ i - 1) for all j between 0 and i - 1
      * 0 - (i - 1)
