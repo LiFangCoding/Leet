@@ -19,6 +19,32 @@ package _151_200;
  *              Total amount you can rob = 2 + 9 + 1 = 12.
  */
 public class _198_HouseRobber {
+  class Sol_easy_no_bug {
+    public int rob(int[] A) {
+      if (A == null || A.length == 0) {
+        return 0;
+      }
+
+      int len = A.length;
+      //f[i] = max(f[i - 2] + A[i] ,f[i - 1])
+      int[] f = new int[len];
+
+      int ans = 0;
+      for (int i = 0; i < len; i++) {
+        if (i == 0) {
+          f[i] = A[i];
+        } else if (i == 1) {
+          f[i] = Math.max(f[i - 1], A[i]);
+        } else {
+          f[i] = Math.max(f[i - 2] + A[i], f[i - 1]);
+        }
+        ans = Math.max(ans, f[i]);
+      }
+
+      return ans;
+    }
+  }
+
   public int rob(int[] A) {
     if (A == null || A.length == 0) {
       return 0;
