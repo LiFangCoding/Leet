@@ -1,9 +1,6 @@
 package _101_150;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
@@ -43,38 +40,73 @@ import java.util.Set;
  * []
  */
 public class _140_word_break2 {
-    List<String> res;
-    String path;
+    /**
+     * TLE
+     * T = n ^ n
+     * S = n ^ 3
+     * 考虑最坏情况 ss = "aaaaaaa"，ss 的每一个前缀都在字典中，回溯树的大小会达到 n^n
+     * <p>
+     * 空间复杂度：O(n^3)，最坏情况下，回溯的深度可以达到 n 层，每层可能包含 n 个字符串，且每个字符串的长度都为 n 。
+     * https://leetcode-cn.com/problems/word-break-ii/solution/dan-ci-chai-fen-ii-by-leetcode/
+     */
+    class Sol_Brute_Force {
+        public List<String> wordBreak(String s, Set<String> wordDict) {
+            Set<String> set = new HashSet<>(wordDict);
+            return word_Break(s, set, 0);
+        }
 
-    //TODO
-    public List<String> wordBreak(String s, List<String> wordDict) {
-        int len = s.length();
-        boolean[] dp = new boolean[len + 1];
-        dp[0] = true;
-        Set<String> set = new HashSet<>(wordDict);
-        int maxLen = getMaxLength(set);
-
-        for (int i = 1; i <= len; i++) {
-            for (int j = Math.max(0, (i - maxLen)); j <= i - 1; j++) {
-                if (set.contains(s.substring(j, i)) && dp[j]) {
-                    dp[i] = true;
-                    break;
+        public List<String> word_Break(String s, Set<String> wordDict, int start) {
+            LinkedList<String> res = new LinkedList<>();
+            if (start == s.length()) {
+                res.add("");
+            }
+            for (int end = start + 1; end <= s.length(); end++) {
+                if (wordDict.contains(s.substring(start, end))) {
+                    List<String> list = word_Break(s, wordDict, end);
+                    for (String l : list) {
+                        res.add(s.substring(start, end) + (l.equals("") ? "" : " ") + l);
+                    }
                 }
             }
+            return res;
         }
-
-        res = new ArrayList<String>();
-//        path = "";
-//        dfs(s, dp);
-//        return ans;
-        return null;
     }
 
-    private int getMaxLength(Set<String> dict) {
-        int max = 0;
-        for (String s : dict) {
-            max = Math.max(max, s.length());
+    /**
+     * T = 14ms
+     * T = n ^ 3? yxc说是指数级复杂度
+     * 回溯树的大小最多 n^2. 创建列表需要 nn 的时间
+     * If we use void, we have to iterate all the backtrack tree. Cannot use memo.
+     */
+    class Sol_Recursio_Memo {
+        public List<String> wordBreak(String s, List<String> words) {
+            Set<String> set = new HashSet<>(words);
+            return word_Break(s, set, 0);
         }
-        return max;
+
+        HashMap<Integer, List<String>> map = new HashMap<>();
+
+        public List<String> word_Break(String s, Set<String> wordDict, int start) {
+            if (map.containsKey(start)) {
+                return map.get(start);
+            }
+
+            LinkedList<String> res = new LinkedList<>();
+            if (start == s.length()) {
+                res.add("");
+            }
+
+            for (int i = start + 1; i <= s.length(); i++) {
+                if (wordDict.contains(s.substring(start, i))) {
+                    List<String> list = word_Break(s, wordDict, i);
+                    for (String l : list) {
+                        res.add(s.substring(start, i) + (l.equals("") ? "" : " ") + l);
+                    }
+                }
+            }
+
+            map.put(start, res);
+            return res;
+        }
     }
 }

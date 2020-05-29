@@ -46,11 +46,11 @@ package _101_150;
  */
 public class _134_Gas_Station {
     /**
+     * 0ms
      * O(n)
-     *
-     * @param gas
-     * @param cost
-     * @return
+     * 如果total>=0的话，我们至少可以找到一个点Ns使得我们能够从Ns开始环绕一周（正确性稍后证明），
+     * 我们找的方式如下：使用cur代表当前油箱内有多少油，每次cur += gas[i] - cost[i]，
+     * 当cur < 0的时候，说明我们无法从0开始走到i + 1，那么就让i + 1变成新的起点，同时让cur = 0。
      */
     public int canCompleteCircuit(int[] gas, int[] cost) {
         if (gas == null || gas.length == 0) {
@@ -59,22 +59,26 @@ public class _134_Gas_Station {
 
         int len = gas.length;
 
-        int total = 0;
+        /**
+         * if sum < 0, means impossible to have a circuit
+         * If sum >= 0, it must have one circuit
+         */
+        int sum = 0;
         for (int i = 0; i < len; i++) {
-            total += gas[i] - cost[i];
+            sum += gas[i] - cost[i];
         }
 
-        if (total < 0) {
+        if (sum < 0) {
             return -1;
         }
 
         int res = 0;
-        int count = 0;
+        int curSum = 0;
         for (int i = 0; i < len; i++) {
-            count += gas[i] - cost[i];
+            curSum += gas[i] - cost[i];
 
-            if (count < 0) {
-                count = 0;
+            if (curSum < 0) {
+                curSum = 0;
                 res = i + 1;
             }
         }
@@ -83,11 +87,9 @@ public class _134_Gas_Station {
     }
 
     /**
+     * 86ms
      * O(n ^ 2)
-     *
-     * @param gas
-     * @param cost
-     * @return
+     * 很自然想到的O(n^2)的算法，枚举每一个加油站作为起点，判断从该起点开始能否换绕一圈。
      */
     public int canCompleteCircuit_brute(int[] gas, int[] cost) {
         if (gas == null || gas.length == 0) {
