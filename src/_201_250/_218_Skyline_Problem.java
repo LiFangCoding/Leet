@@ -1,6 +1,6 @@
 package _201_250;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * A city's skyline is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance. Now suppose you are given the locations and height of all the buildings as shown on a cityscape photo (Figure A), write a program to output the skyline formed by these buildings collectively (Figure B).
@@ -23,7 +23,56 @@ import java.util.List;
  */
 public class _218_Skyline_Problem {
     //TODO: add the skyline problem
+    List<List<Integer>> res = new ArrayList<>();
+
+    List<int[]> points = new ArrayList<>();
+
     public List<List<Integer>> getSkyline(int[][] buildings) {
-        return null;
+        if (buildings == null || buildings.length == 0 || buildings[0].length == 0) {
+            return res;
+        }
+
+        for (int[] building : buildings) {
+            // [[2,9,10]...]
+            // 左顶点存为负数
+            points.add(new int[]{building[0], -building[2]});
+            // 右顶点存为正数
+            points.add(new int[]{building[1], building[2]});
+        }
+
+        // 根据横坐标对列表排序，相同横坐标的点纵坐标小的排在前面
+        Collections.sort(points, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] a, int[] b) {
+                if (a[0] != b[0]) {
+                    return a[0] - b[0];
+                } else {
+                    return a[1] - b[1];
+                }
+            }
+        });
+
+        // 构建大根堆，按照纵坐标来判断大小, 堆顶放最大height
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b.compareTo(a));
+        int preHeight = 0;
+        pq.offer(preHeight);
+        for (int[] point : points) {
+            if (point[1] < 0) {
+                // 将左顶点加入堆中
+                pq.offer(-point[1]);
+            } else {
+                // 将右顶点对应的左顶点移去
+                pq.remove(point[1]);
+            }
+
+            Integer currMaxHeight = pq.peek();
+            if (currMaxHeight != preHeight) {
+                // 如果堆的新顶部和上个height高度不一样，说明有高度差，则加入一个新的height
+                res.add(Arrays.asList(point[0], currMaxHeight));
+                preHeight = currMaxHeight;
+            }
+        }
+
+        return res;
     }
 }
