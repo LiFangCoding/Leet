@@ -42,6 +42,10 @@ public class _308_Range_Sum_Query_2D_Mutable {
          * @return: nothing
          */
         public NumMatrix(int[][] matrix) {
+            if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
+                return;
+            }
+
             n = matrix.length;
             m = matrix[0].length;
             arr = new int[n][m];
