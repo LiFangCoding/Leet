@@ -33,12 +33,119 @@ package _251_300;
  * In this question, we represent the board using a 2D array. In principle, the board is infinite, which would cause problems when the active area encroaches the border of the array. How would you address these problems?
  */
 public class _289_GameOfLife {
-    //TODO: 289
-    public static void main(String[] args) {
-        StringBuilder sb = new StringBuilder("Good Morning");
-        sb.insert(1, "Friend ");
-        System.out.println(sb.toString());
 
-        System.out.println();
+    class Sol_inPlace {
+        // before live and after is live 2.
+        int live = 1, die = 0, liveTodie = 2, dieToLive = -1;
+        int[] dx = {-1, 1, 0, 0, -1, -1, 1, 1};
+        int[] dy = {0, 0, 1, -1, 1, -1, 1, -1};
+
+        public void gameOfLife(int[][] board) {
+            if (board == null || board.length == 0 || board[0] == null || board[0].length == 0) {
+                return;
+            }
+
+            int rows = board.length;
+            int cols = board[0].length;
+
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    board[i][j] = getVal(board, i, j);
+                }
+            }
+
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    board[i][j] = (board[i][j] == live || board[i][j] == dieToLive) ? live : die;
+                }
+            }
+        }
+
+        private int getVal(int[][] board, int x, int y) {
+            int liveCnt = 0;
+
+            for (int i = 0; i < dx.length; i++) {
+                int newx = x + dx[i];
+                int newy = y + dy[i];
+
+                if (newx >= 0 && newx < board.length && newy >= 0 && newy < board[0].length) {
+                    int newVal = board[newx][newy];
+                    if (newVal == live || newVal == liveTodie) {
+                        liveCnt++;
+                    }
+                }
+            }
+
+            if (board[x][y] == live) {
+                if (liveCnt < 2 || liveCnt > 3) {
+                    return liveTodie;
+                } else {
+                    return live;
+                }
+            }
+
+            // dead cell
+            return liveCnt == 3 ? dieToLive : die;
+        }
+    }
+
+    /**
+     * 0ms
+     * T = m * n
+     * S = m * n
+     */
+    class Sol_Using_Extra_Space {
+        int live = 1, die = 0;
+        int[] dx = {-1, 1, 0, 0, -1, -1, 1, 1};
+        int[] dy = {0, 0, 1, -1, 1, -1, 1, -1};
+
+        public void gameOfLife(int[][] board) {
+            if (board == null || board.length == 0 || board[0] == null || board[0].length == 0) {
+                return;
+            }
+
+            int rows = board.length;
+            int cols = board[0].length;
+
+            int[][] cloned = new int[rows][cols];
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    cloned[i][j] = board[i][j];
+                }
+            }
+
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    board[i][j] = getVal(cloned, i, j);
+                }
+            }
+        }
+
+        private int getVal(int[][] board, int x, int y) {
+            int liveCnt = 0;
+
+            for (int i = 0; i < dx.length; i++) {
+                int newx = x + dx[i];
+                int newy = y + dy[i];
+
+                if (newx >= 0 && newx < board.length && newy >= 0 && newy < board[0].length) {
+                    int newVal = board[newx][newy];
+                    if (newVal == live) {
+                        liveCnt++;
+                    }
+                }
+            }
+
+            if (board[x][y] == live) {
+                if (liveCnt < 2 || liveCnt > 3) {
+                    return die;
+                } else {
+                    return live;
+                }
+            }
+
+            // dead cell
+            return liveCnt == 3 ? live : die;
+        }
     }
 }

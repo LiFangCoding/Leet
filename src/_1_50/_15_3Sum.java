@@ -24,8 +24,13 @@ import java.util.List;
  */
 public class _15_3Sum {
     public List<List<Integer>> threeSum1(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+
+        if (nums == null || nums.length == 0) {
+            return ans;
+        }
+
         Arrays.sort(nums);
-        List<List<Integer>> res = new ArrayList<>();
         for (int i = 0; i < nums.length - 2; i++) {
             /**
              * skip duplicate triples with the same first number
@@ -44,7 +49,7 @@ public class _15_3Sum {
                 } else if (sum < 0) {
                     left++;
                 } else {
-                    res.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    ans.add(Arrays.asList(nums[i], nums[left], nums[right]));
 
                     left++;
                     right--;
@@ -61,6 +66,6 @@ public class _15_3Sum {
             }
         }
 
-        return res;
+        return ans;
     }
 }

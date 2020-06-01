@@ -37,4 +37,35 @@ package _251_300;
  * Remember that you won't have direct access to the adjacency matrix.
  */
 public class _277_FindTheDCelebrity {
+    /**
+     * 35ms
+     * T = n
+     * S = 1
+     * 首先loop一遍找到一个人i使得对于所有j(j>=i)都不认识i。
+     * 然后再loop一遍判断是否有人不认识i或者i认识某个人。
+     */
+    public int findCelebrity(int n) {
+        int ans = 0;
+        for (int i = 1; i < n; i++) {
+            if (knows(ans, i)) {
+                ans = i;
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (ans != i && knows(ans, i)) {
+                return -1;
+            }
+            if (ans != i && !knows(i, ans)) {
+                return -1;
+            }
+        }
+        return ans;
+    }
+
+    // api method in leetcode
+    private boolean knows(int i, int j) {
+        return true;
+    }
+
 }
