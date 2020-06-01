@@ -4,6 +4,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class _51_NQueens {
+  /**
+   * 3ms
+   */
+  class Sol_Clean {
+    boolean[] cols;
+    boolean[] dia;
+    boolean[] rev;
+    List<List<String>> ans;
+
+    public List<List<String>> solveNQueens(int n) {
+      cols = new boolean[n];
+      // x + y. range is from 0 - 2n -2.
+      dia = new boolean[2 * n];
+      // x - y +  n - 1
+      rev = new boolean[2 * n];
+
+      ans = new ArrayList<>();
+      solve(n, 0, new ArrayList<>());
+
+      return ans;
+    }
+
+    private void solve(int n, int row, List<String> path) {
+      if (row == n) {
+        ans.add(new ArrayList<>(path));
+        return;
+      }
+
+      for (int col = 0; col < n; col++) {
+        if (!cols[col] && !dia[row + col] && !rev[row - col + n - 1]) {
+          cols[col] = dia[row + col] = rev[row - col + n - 1] = true;
+          StringBuilder sb = new StringBuilder();
+          for (int k = 0; k < n; k++) {
+            if (k != col) {
+              sb.append('.');
+            } else {
+              sb.append('Q');
+            }
+          }
+          path.add(sb.toString());
+          solve(n, row + 1, path);
+          path.remove(path.size() - 1);
+          cols[col] = dia[row + col] = rev[row - col + n - 1] = false;
+        }
+      }
+    }
+  }
+
+  /**
+   * 3ms
+   */
   class Solution_shorter {
     List<List<String>> ans;
 
