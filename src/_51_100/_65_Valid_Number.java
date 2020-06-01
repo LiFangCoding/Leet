@@ -28,55 +28,55 @@ package _51_100;
  * Of course, the context of these characters also matters in the input.
  */
 public class _65_Valid_Number {
-    public static void main(String[] args) {
-        _65_Valid_Number test = new _65_Valid_Number();
-        System.out.println(test.isNumber("0"));
+  //TODO
+
+  /**
+   * 3ms
+   */
+  public boolean isNumber(String s) {
+    if (s == null || s.length() == 0) {
+      return false;
     }
 
-    public boolean isNumber(String s) {
-        if (s == null || s.length() == 0) {
-            return false;
+    char[] sc = s.trim().toCharArray();
+    boolean hasDot = false;
+    boolean hasE = false;
+    boolean hasDigit = false;
+    boolean hasDigitAfterE = false;
+
+    for (int i = 0; i < sc.length; i++) {
+      char c = sc[i];
+      if (Character.isDigit(c)) {
+        hasDigit = true;
+        if (hasE) {
+          hasDigitAfterE = true;
         }
+        continue;
+      }
 
-        char[] sc = s.trim().toCharArray();
-        boolean hasDot = false;
-        boolean hasE = false;
-        boolean hasDigit = false;
-        boolean hasDigitAfterE = false;
-
-        for (int i = 0; i < sc.length; i++) {
-            char c = sc[i];
-            if (Character.isDigit(c)) {
-                hasDigit = true;
-                if (hasE) {
-                    hasDigitAfterE = true;
-                }
-                continue;
-            }
-
-            switch (c) {
-                case '+': // intend to fall through
-                case '-':
-                    if (i != 0 && sc[i - 1] != 'e') {
-                        return false;
-                    }
-                    break;
-                case 'e':
-                    if (hasE || !hasDigit) {
-                        return false;
-                    }
-                    hasE = true;
-                    break;
-                case '.':
-                    if (hasDot || hasE) {
-                        return false;
-                    }
-                    hasDot = true;
-                    break;
-                default:
-                    return false;
-            }
+      switch (c) {
+      case '+': // intend to fall through
+      case '-':
+        if (i != 0 && sc[i - 1] != 'e') {
+          return false;
         }
-        return hasE ? hasDigit && hasDigitAfterE : hasDigit;
+        break;
+      case 'e':
+        if (hasE || !hasDigit) {
+          return false;
+        }
+        hasE = true;
+        break;
+      case '.':
+        if (hasDot || hasE) {
+          return false;
+        }
+        hasDot = true;
+        break;
+      default:
+        return false;
+      }
     }
+    return hasE ? hasDigit && hasDigitAfterE : hasDigit;
+  }
 }
