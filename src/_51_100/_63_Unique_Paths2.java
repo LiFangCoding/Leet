@@ -8,31 +8,43 @@ package _51_100;
  * Now consider if some obstacles are added to the grids. How many unique paths would there be?
  */
 public class _63_Unique_Paths2 {
-    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int m = obstacleGrid.length;
-        int n = obstacleGrid[0].length;
+  /**
+   * 1 ms
+   * T = m * n
+   */
+  int obs = 1;
 
-        int[][] dp = new int[m][n];
-        /**
-         * special case for 0,0
-         */
-        if (obstacleGrid[0][0] == 0) {
-            dp[0][0] = 1;
-        }
-
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (obstacleGrid[i][j] == 1) {
-                    continue;
-                }
-                if (i > 0) {
-                    dp[i][j] += dp[i - 1][j];
-                }
-                if (j > 0) {
-                    dp[i][j] += dp[i][j - 1];
-                }
-            }
-        }
-        return dp[m - 1][n - 1];
+  public int uniquePathsWithObstacles(int[][] grid) {
+    if (grid == null || grid.length == 0 || grid[0] == null || grid.length == 0) {
+      return 0;
     }
+
+    int rows = grid.length, cols = grid[0].length;
+    // f[i][j] means how many ways to arrive i and j
+    // f[i][j] = f[i - 1][j] + f[i][j - 1] if not obs. if obs, 0
+    int[][] f = new int[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (grid[i][j] == obs) {
+          f[i][j] = 0;
+          continue;
+        }
+
+        if (i == 0 && j == 0) {
+          f[i][j] = 1;
+        } else {
+          if (i > 0) {
+            f[i][j] += f[i - 1][j];
+          }
+
+          if (j > 0) {
+            f[i][j] += f[i][j - 1];
+          }
+        }
+      }
+    }
+
+    return f[rows - 1][cols - 1];
+  }
 }
