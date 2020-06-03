@@ -15,16 +15,36 @@ import common.ListNode;
  * Output: 1->2->3
  */
 public class _83_Remove_Duplicates_from_Sorted_List {
+  class Sol_newer {
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null) {
-            return null;
+      ListNode cur = head;
+
+      while (cur != null) {
+        int val = cur.val;
+
+        ListNode p = cur.next;
+        while (p != null && p.val == val) {
+          p = p.next;
         }
 
-        ListNode cur = head;
+        cur.next = p;
+        cur = cur.next;
+      }
 
-        while (cur.next != null) {
-            if (cur.next.val == cur.val) {
-                ListNode newNext = cur.next;
+      return head;
+    }
+  }
+
+  public ListNode deleteDuplicates(ListNode head) {
+    if (head == null) {
+      return null;
+    }
+
+    ListNode cur = head;
+
+    while (cur.next != null) {
+      if (cur.next.val == cur.val) {
+        ListNode newNext = cur.next;
                 while (newNext != null && newNext.val == cur.val) {
                     newNext = newNext.next;
                 }
