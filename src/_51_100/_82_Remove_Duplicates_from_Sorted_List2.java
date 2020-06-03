@@ -15,16 +15,52 @@ import common.ListNode;
  * Output: 2->3
  */
 public class _82_Remove_Duplicates_from_Sorted_List2 {
+  /**
+   * 1ms
+   * T = n
+   */
+  class Sol_booleanVal {
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null) {
-            return null;
+      if (head == null) {
+        return head;
+      }
+
+      ListNode dummy = new ListNode(-1);
+      dummy.next = head;
+      ListNode prev = dummy;
+      ListNode cur = prev.next;
+
+      while (cur != null) {
+        boolean dup = false;
+        while (cur != null && cur.next != null && cur.val == cur.next.val) {
+          dup = true;
+          cur = cur.next;
         }
 
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode cur = dummy;
+        if (dup) {
+          cur = cur.next;
+          prev.next = cur;
+        } else {
+          prev.next = cur;
+          prev = prev.next;
+          cur = cur.next;
+        }
+      }
 
-        while (cur != null && cur.next != null && cur.next.next != null) {
+      return dummy.next;
+    }
+  }
+
+  public ListNode deleteDuplicates(ListNode head) {
+    if (head == null) {
+      return null;
+    }
+
+    ListNode dummy = new ListNode(0);
+    dummy.next = head;
+    ListNode cur = dummy;
+
+    while (cur != null && cur.next != null && cur.next.next != null) {
             if (cur.next.val == cur.next.next.val) {
                 int duplicate = cur.next.val;
                 ListNode newNext = cur.next.next;
