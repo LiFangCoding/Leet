@@ -1,8 +1,6 @@
 package _101_150;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -23,47 +21,87 @@ import java.util.List;
  * Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in the triangle.
  */
 public class _120_Triangle {
-    public static void main(String[] args) {
-        _120_Triangle test = new _120_Triangle();
-        List<List<Integer>> t = new ArrayList<>();
-        t.add(Arrays.asList(2));
-        t.add(Arrays.asList(3, 4));
-        t.add(Arrays.asList(6, 5, 7));
-        t.add(Arrays.asList(4, 1, 8, 3));
-        System.out.println(test.minimumTotal(t));
-    }
 
     /**
-     * f(i,j)=(i,j)+min(f(i-1,j),f(i-1,j-1))
+     * 11ms
+     * T= n
      */
-    public int minimumTotal(List<List<Integer>> t) {
-        if (t == null || t.size() == 0) {
-            return 0;
+    class Sol_inPlace {
+        public int minimumTotal(List<List<Integer>> T) {
+            int rows = T.size();
+            for (int row = 1; row < rows; row++) {
+                for (int col = 0; col < T.get(row).size(); col++) {
+                    int minSum = Integer.MAX_VALUE;
+
+                    int curVal = T.get(row).get(col);
+
+                    if (col - 1 >= 0) {
+                        minSum = Math.min(minSum, T.get(row - 1).get(col - 1) + curVal);
+                    }
+
+                    // !!! row - 1 size
+                    if (col < T.get(row - 1).size()) {
+                        minSum = Math.min(minSum, T.get(row - 1).get(col) + curVal);
+                    }
+
+                    T.get(row).set(col, minSum);
+                }
+            }
+
+            int ans = Integer.MAX_VALUE;
+            for (int val : T.get(rows - 1)) {
+                ans = Math.min(ans, val);
+            }
+
+            return ans;
         }
+    }
 
-        int len = t.size();
-        List<Integer> prev = new ArrayList<>();
-        List<Integer> cur;
+    class Sol_copy {
+        /**
+         * 14ms
+         * T = n
+         * S = n
+         * f(i,j)=(i,j)+min(f(i-1,j),f(i-1,j-1))
+         */
+        public int minimumTotal(List<List<Integer>> T) {
+            List<List<Integer>> f = new ArrayList<>();
 
-        for (int i = 0; i < len; i++) {
-            if (i == 0) {
-                prev = t.get(0);
-            } else {
-                cur = new ArrayList<>();
+            for (int row = 0; row < T.size(); row++) {
+                List<Integer> sum = new ArrayList<>();
 
-                for (int j = 0; j < t.get(i).size(); j++) {
-                    if (j == 0) {
-                        cur.add(prev.get(0) + t.get(i).get(j));
-                    } else if (j == t.get(i).size() - 1) {
-                        cur.add(prev.get(j - 1) + t.get(i).get(j));
+                for (int col = 0; col < T.get(row).size(); col++) {
+                    int curVal = T.get(row).get(col);
+                    if (row == 0) {
+                        sum.add(curVal);
                     } else {
-                        cur.add(Math.min(prev.get(j), prev.get(j - 1)) + t.get(i).get(j));
+                        if (col == 0) {
+                            sum.add(f.get(row - 1).get(col) + curVal);
+                        } else if (col == T.get(row).size() - 1) {
+                            sum.add(f.get(row - 1).get(col - 1) + curVal);
+                        } else {
+                            int left = f.get(row - 1).get(col - 1) + curVal;
+                            // System.out.println("row is " + row + "col is " + col);
+                            // System.out.println("row - 1 cols are " + f.get(row - 1).size());
+
+                            int right = f.get(row - 1).get(col) + curVal;
+                            sum.add(Math.min(left, right));
+                        }
                     }
                 }
-                prev = cur;
-            }
-        }
 
-        return prev.stream().min(Comparator.comparing(Integer::valueOf)).get();
+                // pay attention. Thhe sum should be ourside of for col loop
+                f.add(sum);
+            }
+
+            int ans = f.get(T.size() - 1).get(0);
+
+            for (int val : f.get(T.size() - 1)) {
+                ans = Math.min(val, ans);
+            }
+
+            return ans;
+        }
     }
+
 }
