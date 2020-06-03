@@ -42,9 +42,12 @@ package _101_150;
  */
 public class _115_DistinctSubsequences {
   /**
+   * 8ms
+   * T = m * n
    * dp[i][j] means the ways that first i chars of s can form the first j chars of t
-   *
+   * <p>
    * f[i][j] = f[i - 1][j - 1] (if s[i] == s[j]) + f[i-1][j]
+   *
    * @param s
    * @param t
    * @return
@@ -54,28 +57,28 @@ public class _115_DistinctSubsequences {
             return 0;
         }
 
-        int len1 = s.length();
-        int len2 = t.length();
+      int len1 = s.length();
+      int len2 = t.length();
 
-        int[][] dp = new int[len1 + 1][len2 + 1];
+      int[][] dp = new int[len1 + 1][len2 + 1];
 
-        for (int i = 0; i <= len1; i++) {
-            dp[i][0] = 1;
-        }
+      for (int i = 0; i <= len1; i++) {
+        dp[i][0] = 1;
+      }
+      //        no need
+      //        for (int j = 1; j <= len2; j++) {
+      //          dp[0][j] = 0;
+      //        }
 
+      /**
+       * !!!  i, j is the ith, jth character.
+       *
+       * should be 1 - len.
+       */
+      for (int i = 1; i <= len1; i++) {
         for (int j = 1; j <= len2; j++) {
-          dp[0][j] = 0;
-        }
-
-        /**
-         * !!!  i, j is the ith, jth character.
-         *
-         * should be 1 - len.
-         */
-        for (int i = 1; i <= len1; i++) {
-            for (int j = 1; j <= len2; j++) {
-                if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+          if (s.charAt(i - 1) == t.charAt(j - 1)) {
+            dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
                 } else {
                     dp[i][j] = dp[i - 1][j];
                 }
