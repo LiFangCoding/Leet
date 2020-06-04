@@ -27,26 +27,25 @@ package _101_150;
  * Explanation: In this case, no transaction is done, i.e. max profit = 0.
  */
 public class _123__BestTimetoBuyandSellStock3 {
-    public static void main(String[] args) {
-        _123__BestTimetoBuyandSellStock3 test = new _123__BestTimetoBuyandSellStock3();
-        System.out.println("ans should be " + 6);
-        System.out.println(test.maxProfit(new int[]{3, 3, 5, 0, 0, 3, 1, 4}));
-        System.out.println("ans should be " + 4);
-        System.out.println(test.maxProfit(new int[]{1, 2, 3, 4, 5}));
-        System.out.println("ans should be " + 0);
-        System.out.println(test.maxProfit(new int[]{7, 6, 4, 3, 1}));
+  /**
+   * 4ms
+   * T = n
+   * S = n
+   * 在整个区间的每一点切开， 然后分别计算左子区间和右子区间的最大值，然后再用O(n)时间找到整个区间的最大值。
+   * 遍历一遍数组，求[0,i−1]区间的最大利润f(i)，具体做法是找当前最低价格low，判断是要以low买入当天卖出，还是不动
+   * 从后往前遍历，求[i,n−1][i,n−1]区间的最大利润g(i)g(i)，具体做法是找当前最高价格high，判断是要当天买入以high卖出，还是不动
+   * 遍历，求最大利润max(f(i)+g(i))
+   */
+  public int maxProfit(int[] prices) {
+    int len = prices.length;
+    int ans = 0;
+    if (len < 2) {
+      return ans;
     }
-
-    public int maxProfit(int[] prices) {
-        int len = prices.length;
-        int res = 0;
-        if (len < 2) {
-            return res;
-        }
-        /**
-         * from 0 - ith day, the maximum profit
-         * f[i] = max(f[i - 1], prices[i] - minof (0 ~ i - 1))
-         */
+    /**
+     * from 0 - ith day, the maximum profit
+     * f[i] = max(f[i - 1], prices[i] - minof (0 ~ i - 1))
+     */
         int[] f = new int[len];
         /**
          * g[i] = from ith day to last day, the max profit
@@ -67,9 +66,9 @@ public class _123__BestTimetoBuyandSellStock3 {
         }
 
         for (int i = 0; i < len; i++) {
-            res = Math.max(res, f[i] + g[i]);
+          ans = Math.max(ans, f[i] + g[i]);
         }
 
-        return res;
+    return ans;
     }
 }
