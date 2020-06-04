@@ -62,6 +62,9 @@ public class _174_DungeonGame {
           if (j < n - 1)
             f[i][j] = Math.min(f[i][j], f[i][j + 1] - dungeon[i][j]);
 
+          // make as 1. Think about the [30, -5].
+          // f for 30 is should be 1. Even f for -5 is 6.
+          // because when he goes to 30, he need at least 1 blood.
           f[i][j] = f[i][j] <= 0 ? 1 : f[i][j];
         }
 
