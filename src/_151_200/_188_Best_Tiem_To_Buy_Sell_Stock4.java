@@ -23,8 +23,32 @@ package _151_200;
 public class _188_Best_Tiem_To_Buy_Sell_Stock4 {
     /**
      * TODO: haojun. Hard
+     * https://www.acwing.com/solution/content/6308/
+     * <p>
+     * See later:
+     * https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/solution/yi-ge-tong-yong-fang-fa-tuan-mie-6-dao-gu-piao-w-5/
      */
     public int maxProfit(int k, int[] prices) {
-        return -1;
+      if (prices.length == 0) {
+        return 0;
+      }
+
+      int n = prices.length;
+      k = Math.min(k, n / 2);
+      int[][] dp = new int[2][n];
+
+      for (int t = 1; t <= k; t++) {
+        // 直接用max_val记录最大的dp[k-1][j] - prices[j]
+        int maxVal = dp[(t - 1) % 2][0] - prices[0];
+
+        // 省掉了一次枚举
+        for (int i = 1; i < n; i++) {
+          dp[t % 2][i] = Math.max(dp[t % 2][i - 1], maxVal + prices[i]);
+          // 更新max_val
+          maxVal = Math.max(maxVal, dp[(t - 1) % 2][i] - prices[i]);
+        }
+      }
+
+      return dp[k % 2][n - 1];
     }
 }
