@@ -57,7 +57,10 @@ public class _248_Strobogrammatic_Num_3 {
     }
 
     private boolean checkValid(String num, String low, String high) {
-      if (num.isEmpty() && num.charAt(0) == '0' && num.length() > 1) {
+      if (num.isEmpty()) {
+        return false;
+      }
+      if (num.charAt(0) == '0' && num.length() > 1) {
         return false;
       }
       //      boolean lenCorrect = num.length() >= low.length() && num.length() <= high.length();
