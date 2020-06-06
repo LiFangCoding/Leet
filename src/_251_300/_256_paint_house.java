@@ -16,7 +16,34 @@ package _251_300;
  *              Minimum cost: 2 + 5 + 3 = 10.
  */
 public class _256_paint_house {
+    /**
+     * 2ms
+     * T = n
+     * dp[i][j]表示第i行第j列的最小cost。
+     * 由于相邻两行不能在同一列选择，所以dp[i][j]来自dp[i-1][j+1]或者dp[i-1][j+2]。
+     * 考虑到j+1和j+2不能越界，取模3即可。
+     */
     public int minCost(int[][] costs) {
-        return -1;
+        int n = costs.length;
+
+        if (n == 0) {
+            return 0;
+        }
+
+        // f[i][j] 表示第i行第j列的最小cost
+        int[][] f = new int[n][costs[0].length];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < costs[0].length; j++) {
+                f[i][j] = costs[i][j];
+            }
+        }
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < 3; j++) {
+                f[i][j] += Math.min(f[i - 1][(j + 1) % 3], f[i - 1][(j + 2) % 3]);
+            }
+        }
+
+        return Math.min(Math.min(f[n - 1][0], f[n - 1][1]), f[n - 1][2]);
     }
 }
