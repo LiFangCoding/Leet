@@ -1,5 +1,6 @@
 package _251_300;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,12 +38,58 @@ import java.util.List;
 public class _271_EncodeAndDecodeStrings {
     //TODO: haojun need more time
     // Encodes a list of strings to a single string.
+
+    /**
+     * 28ms
+     * T = n
+     *
+     * @param strs
+     * @return
+     */
     public String encode(List<String> strs) {
-        return null;
+        StringBuilder ans = new StringBuilder();
+
+        for (String s : strs) {
+            for (char c : s.toCharArray()) {
+                // : itself
+                if (c == ':') {
+                    ans.append("::");
+                } else {                         //ordinary character
+                    ans.append(c);
+                }
+            }
+            ans.append(":;");                    // ; connector
+        }
+
+        return ans.toString();
     }
 
-    // Decodes a single string to a list of strings.
-    public List<String> decode(String s) {
-        return null;
+    /**
+     * @param str a string
+     * @return dcodes a single string to a list of strings
+     */
+    public List<String> decode(String str) {
+        // Write your code here
+        List<String> ans = new ArrayList<>();
+        char[] sc = str.toCharArray();
+        StringBuilder item = new StringBuilder();
+
+        int i = 0;
+        while (i < str.length()) {
+            if (sc[i] == ':') {                  //escape
+                if (sc[i + 1] == ';') {          // ; connector
+                    ans.add(item.toString());
+                    item = new StringBuilder();
+                    i += 2;
+                } else {                         // : itself
+                    item.append(sc[i + 1]);
+                    i += 2;
+                }
+            } else {                             //ordinary character
+                item.append(sc[i]);
+                i += 1;
+            }
+        }
+        return ans;
     }
 }
