@@ -26,8 +26,28 @@ package _251_300;
  *    6         c2     c2     c1
  */
 public class _276_PaintFence {
-    //TODO
+    /**
+     * 0ms
+     * T = n
+     * 采用动态规划的思想。 dpi=(k-1)×(dpi-1+dpi-2) dpi-1×(k-1)代表当前格子的颜色和前一个不同的方案 dpi-2×(k-1)代表当前格子的颜色和前一个相同的方案
+     * https://www.jiuzhang.com/solution/paint-fence/
+     * https://www.acwing.com/solution/content/8128/
+     */
     public int numWays(int n, int k) {
-        return -1;
+        // Write your code here
+        int[] dp = {0, k, k * k, 0};
+        if (n <= 2) {
+            return dp[n];
+        }
+        if (k == 1) {
+            return 0;
+        }
+        for (int i = 2; i < n; i++) {
+            dp[3] = (k - 1) * (dp[1] + dp[2]);
+            dp[1] = dp[2];
+            dp[2] = dp[3];
+        }
+
+        return dp[3];
     }
 }
