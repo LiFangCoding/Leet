@@ -42,30 +42,34 @@ public class _332_Reconstruct_Itinerary {
      * https://www.acwing.com/solution/content/359/
      * https://leetcode-cn.com/problems/reconstruct-itinerary/solution/javadfsjie-fa-by-pwrliang/
      */
+    Map<String, PriorityQueue<String>> g = new HashMap<>();
+    List<String> ans = new LinkedList<>();
+
     public List<String> findItinerary(List<List<String>> tickets) {
         // 因为逆序插入，所以用链表
-        List<String> ans = new LinkedList<>();
         if (tickets == null || tickets.size() == 0) {
             return ans;
         }
 
-        Map<String, PriorityQueue<String>> graph = new HashMap<>();
-        for (List<String> pair : tickets) {
-            // 因为涉及删除操作，我们用链表
-            PriorityQueue<String> nbr = graph.computeIfAbsent(pair.get(0), k -> new PriorityQueue<>());
-            nbr.add(pair.get(1));
+        for (List<String> ticket : tickets) {
+            if (!g.containsKey(ticket.get(0))) {
+                g.put(ticket.get(0), new PriorityQueue<>());
+            }
+            g.get(ticket.get(0)).add(ticket.get(1));
         }
-        visit(graph, "JFK", ans);
+
+        dfs("JFK");
         return ans;
     }
 
-    // DFS方式遍历图，当走到不能走为止，再将节点加入到答案
-    private void visit(Map<String, PriorityQueue<String>> graph, String src, List<String> ans) {
-        PriorityQueue<String> nbr = graph.get(src);
-        while (nbr != null && nbr.size() > 0) {
-            String dest = nbr.poll();
-            visit(graph, dest, ans);
+    private void dfs(String v) {
+        PriorityQueue<String> pq = g.get(v);
+        // Important : pq is not null
+        while (pq != null && pq.size() != 0) {
+            String next = pq.remove();
+            dfs(next);
         }
-        ans.add(0, src); // 逆序插入
+
+        ans.add(0, v);
     }
 }
