@@ -33,6 +33,7 @@ import java.util.Queue;
  */
 public class _317_Shortest_Distance_from_All_buildings {
   /**
+   * 37ms
    * 本题采用bfs的方法，记录每个起点到每个空点的距离，并且相加起来，找到最小值即可。
    *
    * @param grid
