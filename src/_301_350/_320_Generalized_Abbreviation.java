@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class _320_Generalized_Abbreviation {
   /**
+   * 19ms
    * 通过DFS对所有缩写的可能进行搜索，从字符串的第一个字符开始，依次搜索该字位符进行和不进行缩写操作后可能的情况，直到搜索至最后一位。
    */
   public List<String> generateAbbreviations(String word) {
