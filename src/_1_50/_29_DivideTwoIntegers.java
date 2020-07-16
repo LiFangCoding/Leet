@@ -28,6 +28,9 @@ public class _29_DivideTwoIntegers {
         System.out.println(false ^ true);
         System.out.println(false ^ false);
 
+        System.out.println(10 << 2);
+        System.out.println(-10 << 2);
+
 //        _29_DivideTwoIntegers test = new _29_DivideTwoIntegers();
 //        int res = test.divide(-1, 1);
 //        System.out.println(res);
@@ -40,8 +43,9 @@ public class _29_DivideTwoIntegers {
             return Integer.MAX_VALUE;
         }
 
-        int res = 0;
+        int ans = 0;
         int sign = -1;
+
         boolean bothPos = dividend > 0 && divisor > 0;
         boolean bothNeg = dividend < 0 && divisor < 0;
         if (bothPos || bothNeg) {
@@ -60,10 +64,10 @@ public class _29_DivideTwoIntegers {
                 times <<= 1;
             }
 
-            res += times;
+            ans += times;
             m -= substractVal;
         }
 
-        return sign * res;
+        return sign * ans;
     }
 }

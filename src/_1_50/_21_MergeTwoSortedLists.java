@@ -24,6 +24,7 @@ public class _21_MergeTwoSortedLists {
                 cur.next= l2;
                 l2 = l2.next;
             }
+
             cur = cur.next;
         }
 

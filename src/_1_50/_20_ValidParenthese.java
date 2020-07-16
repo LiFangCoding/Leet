@@ -49,10 +49,12 @@ public class _20_ValidParenthese {
       } else if (c == '{') {
         stack.push('}');
       } else {
-        if (stack.isEmpty()) {
+
+          if (stack.isEmpty()) {
           return false;
         }
-        char right = stack.pop();
+
+          char right = stack.pop();
         if (c != right) {
           return false;
         }

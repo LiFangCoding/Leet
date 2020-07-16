@@ -46,35 +46,33 @@ public class _27_RemoveElement {
             return 0;
         }
 
-        int res = 0;
+        int idx = 0;
 
         for (int num : A) {
             if (num != val) {
-                A[res++] = num;
+                A[idx++] = num;
             }
         }
 
-        return res;
+        return idx;
     }
 
-    public int removeElement(int[] nums, int val) {
-        if (nums == null || nums.length == 0) {
+    public int removeElement(int[] A, int val) {
+        if (A == null || A.length == 0) {
             return 0;
         }
 
-        int len = nums.length;
+        int len = A.length;
 
-        int i = 0;
-        int cur = 0;
-
-        while (cur < len) {
-            if (nums[cur] != val) {
-                nums[i++] = nums[cur];
+        int newIdx = 0;
+        for (int i = 0; i < len; i++) {
+            if (A[i] == val) {
+                continue;
             }
 
-            cur++;
+            A[newIdx++] = A[i];
         }
 
-        return i;
+        return newIdx;
     }
 }

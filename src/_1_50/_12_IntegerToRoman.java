@@ -1,8 +1,5 @@
 package _1_50;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
  *

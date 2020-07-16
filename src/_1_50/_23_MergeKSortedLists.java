@@ -28,25 +28,25 @@ public class _23_MergeKSortedLists {
         /**
          * !!! comparator
          */
-        PriorityQueue<ListNode> pq = new PriorityQueue<>((l1, l2) -> Integer.compare(l1.val, l2.val));
+        PriorityQueue<ListNode> minPq = new PriorityQueue<>((l1, l2) -> Integer.compare(l1.val, l2.val));
 
         /**
          * !!! node != null
          */
         for (ListNode node : lists) {
             if (node != null) {
-                pq.add(node);
+                minPq.add(node);
             }
         }
 
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
 
-        while (!pq.isEmpty()) {
-            ListNode node = pq.remove();
+        while (!minPq.isEmpty()) {
+            ListNode node = minPq.remove();
             if (node.next != null) {
-                pq.add(node.next);
-                node.next = null;
+                minPq.add(node.next);
+//                node.next = null;
             }
 
             cur.next = node;

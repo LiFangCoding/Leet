@@ -26,7 +26,7 @@ public class _14_LongestCommonPrefix {
             return "";
         }
 
-        StringBuilder res = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         int strLen = A[0].length();
 
         /**
@@ -40,14 +40,14 @@ public class _14_LongestCommonPrefix {
                  * If the index is the maximum length, then this is the result.
                  */
                 if (i == A[j].length() || A[j].charAt(i) != c) {
-                    return res.toString();
+                    return sb.toString();
                 }
             }
 
-            res.append(c);
+            sb.append(c);
         }
 
-        return res.toString();
+        return sb.toString();
     }
 
     /**

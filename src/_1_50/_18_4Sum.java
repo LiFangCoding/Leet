@@ -23,28 +23,30 @@ import java.util.List;
  * ]
  */
 public class _18_4Sum {
-    public List<List<Integer>> fourSum(int[] nums, int target) {
-        List<List<Integer>> res = new ArrayList<>();
-        if (nums == null || nums.length == 0) {
-            return res;
+    public List<List<Integer>> fourSum(int[] A, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (A == null || A.length == 0) {
+            return ans;
         }
 
-        Arrays.sort(nums);
-        for (int i = 0; i < nums.length - 3; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) {
+        Arrays.sort(A);
+        for (int i = 0; i < A.length - 3; i++) {
+            // skip first value
+            if (i > 0 && A[i] == A[i - 1]) {
                 continue;
             }
 
-            for (int j = i + 1; j < nums.length - 2; j++) {
-                if (j > i + 1 && nums[j] == nums[j - 1]) {
+            // skip second vaalue
+            for (int j = i + 1; j < A.length - 2; j++) {
+                if (j > i + 1 && A[j] == A[j - 1]) {
                     continue;
                 }
 
                 int left = j + 1;
-                int right = nums.length - 1;
+                int right = A.length - 1;
 
                 while (left < right) {
-                    int sum = nums[i] + nums[j] + nums[left] + nums[right];
+                    int sum = A[i] + A[j] + A[left] + A[right];
 
                     if (sum < target) {
                         left++;
@@ -54,20 +56,22 @@ public class _18_4Sum {
                         /**
                          * Here is the value not index.
                          */
-                        res.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
+                        ans.add(Arrays.asList(A[i], A[j], A[left], A[right]));
+
                         left++;
                         right--;
-                        while (left < right && nums[left] == nums[left - 1]) {
+                        while (left < right && A[left] == A[left - 1]) {
                             left++;
                         }
 
-                        while (right > left && nums[right] == nums[right + 1]) {
+                        while (right > left && A[right] == A[right + 1]) {
                             right--;
                         }
                     }
                 }
             }
         }
-        return res;
+
+        return ans;
     }
 }
