@@ -60,16 +60,16 @@ public class _25_ReverseNodesInKGroup {
      * @param head
      */
     private ListNode reverse(ListNode head) {
-        ListNode prev = null;
-        ListNode cur = head;
+        ListNode first = null;
+        ListNode second = head;
 
-        while (cur != null) {
-            ListNode next = cur.next;
-            cur.next = prev;
-            prev = cur;
-            cur = next;
+        while (second != null) {
+            ListNode next = second.next;
+            second.next = first;
+            first = second;
+            second = next;
         }
 
-        return prev;
+        return first;
     }
 }

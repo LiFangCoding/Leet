@@ -49,15 +49,15 @@ public class _40_CombinationSum2 {
         return ans;
     }
 
-    private void dfs(int[] candidates, int s, int target) {
+    private void dfs(int[] candidates, int start, int target) {
         if (target == 0) {
             ans.add(new ArrayList<>(cur));
             return;
         }
 
-        for (int i = s; i < candidates.length; i++) {
+        for (int i = start; i < candidates.length; i++) {
             // important for duplicates
-            if (i != s && candidates[i] == candidates[i - 1]) {
+            if (i != start && candidates[i] == candidates[i - 1]) {
                 continue;
             }
 

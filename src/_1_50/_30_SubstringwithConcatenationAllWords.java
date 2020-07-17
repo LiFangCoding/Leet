@@ -23,9 +23,7 @@ import java.util.*;
  * Output: []
  */
 public class _30_SubstringwithConcatenationAllWords {
-
     //TODO
-
     /**
      * 8ms
      */

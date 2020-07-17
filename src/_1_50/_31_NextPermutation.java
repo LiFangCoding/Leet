@@ -71,9 +71,9 @@ public class _31_NextPermutation {
          * 如果存在这样的 j，则从末尾找到第一个位置 i > j，使得 nums[i] > nums[j]。
          * 交换 nums[i] 与 nums[j]，然后将数组从 j + 1 到末尾部分逆转。
          * 时间复杂度
-         * 线性遍历数组常数次，时间复杂度为 O(n)O(n)。
+         * 线性遍历数组常数次，时间复杂度为 O(n)
          * 空间复杂度
-         * 没有使用任何额外的数组空间，故空间复杂度为 O(1)O(1)。
+         * 没有使用任何额外的数组空间，故空间复杂度为 O(1)
          *
          * 作者：wzc1995
          * 链接：https://www.acwing.com/solution/content/103/

@@ -24,11 +24,11 @@ public class _41_FirstMissingPositive {
      * 1ms
      * T = O(n)
      * S = O(1)
-     *
+     * <p>
      * (桶排序) O(n) Time, O(1)Space
      * 不用额外空间的桶排序：保证1出现在nums[0]的位置上，2出现在nums[1]的位置上，…，n出现在nums[n-1]的位置上，其他的数字不管。例如[3,4,-1,1]将被排序为[1,-1,3,4]
      * 遍历nums，找到第一个不在应在位置上的1到n的数。例如，排序后的[1,-1,3,4]中第一个 nums[i] != i + 1 的是数字2（注意此时i=1）。
-     * 时间复杂度分析：代码中第二层while循环，每循环一次，会将一个数放在正确的位置上，所以总共最多执行 nn 次，所以总时间复杂度 O(n)O(n)。
+     * 时间复杂度分析：代码中第二层while循环，每循环一次，会将一个数放在正确的位置上，所以总共最多执行 n 次，所以总时间复杂度 O(n)。
      */
     public int firstMissingPositive(int[] A) {
         if (A == null || A.length == 0) {
@@ -69,27 +69,5 @@ public class _41_FirstMissingPositive {
         int temp = A[i];
         A[i] = A[j];
         A[j] = temp;
-    }
-
-    /**
-     * T = O(n^2)
-     * S = O(1)
-     * @param A
-     * @return
-     */
-    public int firstMissingPositive_bruteForce(int[] A) {
-        for (int i = 1; i <= A.length + 1; i++) {
-            for(int j = 0; j < A.length; j++){
-                if(A[j] == i) {
-                    break;
-                }
-                //找到最后一位也不是，返回i
-                if(j == A.length - 1 && A[j] != i) {
-                    return i;
-                }
-            }
-        }
-        //数组为空的情况
-        return 1;
     }
 }

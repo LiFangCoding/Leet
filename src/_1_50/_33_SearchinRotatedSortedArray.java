@@ -21,57 +21,96 @@ package _1_50;
  * Output: -1
  */
 public class _33_SearchinRotatedSortedArray {
-    public static void main(String[] args) {
-        _33_SearchinRotatedSortedArray test = new _33_SearchinRotatedSortedArray();
+    class Sol_compare_Start {
+        public int search(int[] A, int target) {
+            if (A == null || A.length == 0) {
+                return -1;
+            }
 
-        int[] nums = {4, 5, 6, 7, 0, 1, 2};
+            int l = 0;
+            int r = A.length - 1;
 
-        int expected = 4;
+            while (l + 1 < r) {
+                int mid = l + (r - l) / 2;
 
-        System.out.println(test.search(nums, 0));
-    }
+                if (A[mid] == target) {
+                    return mid;
+                }
 
-    public int search(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
+                // Find where is mid. So we can know which part is sorted. Then determine scope
+                if (A[mid] >= A[0]) {
+                    //mid is in the first part of array
+                    if (target >= A[0] && target < A[mid]) {
+                        r = mid;
+                    } else {
+                        l = mid;
+                    }
+                } else {
+                    // mid is in the second part of array
+                    if (target > A[mid] && target < A[0]) {
+                        l = mid;
+                    } else {
+                        r = mid;
+                    }
+                }
+            }
+
+            if (A[l] == target) {
+                return l;
+            }
+
+            if (A[r] == target) {
+                return r;
+            }
+
             return -1;
         }
+    }
 
-        int start = 0;
-        int end = nums.length - 1;
-
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-
-            if (nums[mid] == target) {
-                return mid;
+    class Sol_compare_end {
+        public int search(int[] A, int target) {
+            if (A == null || A.length == 0) {
+                return -1;
             }
 
-            // Find where is mid. So we can know which part is sorted. Then determine scope
-            if (nums[mid] >= nums[0]) {
-                //mid is in the first part of array
-                if (target >= nums[0] && target < nums[mid]) {
-                    end = mid;
-                } else {
-                    start = mid;
+            int l = 0;
+            int r = A.length - 1;
+            int endVal = A[r];
+
+            while (l + 1 < r) {
+                int mid = l + (r - l) / 2;
+
+                if (A[mid] == target) {
+                    return mid;
                 }
-            } else {
-                // mid is in the second part of array
-                if (target > nums[mid] && target < nums[0]) {
-                    start = mid;
+
+                // Find where is mid. So we can know which part is sorted. Then determine scope
+                if (A[mid] <= endVal) {
+                    //mid is in the first part of array
+                    if (target <= endVal && target >= A[mid]) {
+                        l = mid;
+                    } else {
+                        r = mid;
+                    }
                 } else {
-                    end = mid;
+                    // mid is in the second part of array
+                    if (target >= A[l] && target <= A[mid]) {
+                        r = mid;
+                    } else {
+                        l = mid;
+                    }
                 }
             }
-        }
 
-        if (nums[start] == target) {
-            return start;
-        }
+            if (A[l] == target) {
+                return l;
+            }
 
-        if (nums[end] == target) {
-            return end;
-        }
+            if (A[r] == target) {
+                return r;
+            }
 
-        return -1;
+            return -1;
+        }
     }
 }

@@ -21,7 +21,7 @@ package _1_50;
  * The median is (2 + 3)/2 = 2.5
  */
 public class _4_MedianOfTwoSortedArrays {
-    //TODO: more practice
+    //TODO
     // [1,3] [2]  StackOverflowError. So add k == 1
     public double findMedianSortedArrays(int[] A1, int[] A2) {
         int m = A1.length, n = A2.length;

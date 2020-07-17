@@ -18,7 +18,6 @@ import java.util.Stack;
  */
 public class _32_LongestValidParentheses {
     //TODO
-
     /**
      * 1ms
      * T = n
@@ -30,7 +29,7 @@ public class _32_LongestValidParentheses {
             char[] A = s.toCharArray();
             int len = A.length;
 
-            // 我们定义一个 dpdp 数组，其中第 ii 个元素表示以下标为 ii 的字符结尾的最长有效子字符串的长度。
+            // 我们定义一个 dp 数组，其中第 i 个元素表示以下标为 i 的字符结尾的最长有效子字符串的长度。
             int[] f = new int[len];
 
             int ans = 0;

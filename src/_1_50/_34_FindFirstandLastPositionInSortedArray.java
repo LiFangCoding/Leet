@@ -21,59 +21,59 @@ public class _34_FindFirstandLastPositionInSortedArray {
      * T = O(log n)
      * S = O(1)
      *
-     * @param nums
+     * @param A
      * @param target
      * @return
      */
-    public int[] searchRange(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
+    public int[] searchRange(int[] A, int target) {
+        if (A == null || A.length == 0) {
             return new int[]{-1, -1};
         }
 
-        int[] res = new int[2];
+        int[] ans = new int[2];
 
-        int start = 0;
-        int end = nums.length - 1;
+        int l = 0;
+        int r = A.length - 1;
 
         // Find first position
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
+        while (l + 1 < r) {
+            int mid = l + (r - l) / 2;
 
-            if (nums[mid] >= target) {
-                end = mid;
+            if (A[mid] >= target) {
+                r = mid;
             } else {
-                start = mid;
+                l = mid;
             }
         }
 
-        if (nums[start] == target) {
-            res[0] = start;
-        } else if (nums[end] == target) {
-            res[0] = end;
+        if (A[l] == target) {
+            ans[0] = l;
+        } else if (A[r] == target) {
+            ans[0] = r;
         } else {
             return new int[]{-1, -1};
         }
 
-        start = res[0];
-        end = nums.length - 1;
+        l = ans[0];
+        r = A.length - 1;
 
 
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
+        while (l + 1 < r) {
+            int mid = l + (r - l) / 2;
 
-            if (nums[mid] <= target) {
-                start = mid;
+            if (A[mid] <= target) {
+                l = mid;
             } else {
-                end = mid;
+                r = mid;
             }
         }
 
-        if (nums[end] == target) {
-            res[1] = end;
-        } else if (nums[start] == target) {
-            res[1] = start;
+        if (A[r] == target) {
+            ans[1] = r;
+        } else if (A[l] == target) {
+            ans[1] = l;
         }
 
-        return res;
+        return ans;
     }
 }

@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Given a set of candidate numbers (candidates) (without duplicates) and a target number (target), find all unique combinations in candidates where the candidate numbers sums to target.
+ * Given a set of candidate numbers (candidates) (without duplicates) and a target number (target),
+ * find all unique combinations in candidates where the candidate numbers sums to target.
  * <p>
  * The same repeated number may be chosen from candidates unlimited number of times.
  * <p>
@@ -45,13 +46,13 @@ public class _39_CombinationSum {
         return ans;
     }
 
-    private void dfs(int[] candidates, int s, int target) {
+    private void dfs(int[] candidates, int start, int target) {
         if (target == 0) {
             ans.add(new ArrayList<>(cur));
             return;
         }
 
-        for (int i = s; i < candidates.length; i++) {
+        for (int i = start; i < candidates.length; i++) {
             // choose candidates
             if (candidates[i] > target) {
                 break;
