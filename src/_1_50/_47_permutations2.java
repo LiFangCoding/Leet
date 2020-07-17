@@ -18,6 +18,7 @@ import java.util.List;
  * ]
  */
 public class _47_permutations2 {
+    //TODO
     List<List<Integer>> ans;
     List<Integer> cur;
     boolean[] marked;
@@ -27,6 +28,8 @@ public class _47_permutations2 {
         cur = new ArrayList<>();
         marked = new boolean[nums.length];
 
+
+        // important
         Arrays.sort(nums);
         dfs(nums);
         return ans;
@@ -39,10 +42,11 @@ public class _47_permutations2 {
         }
 
         for (int i = 0; i < nums.length; i++) {
-            // Same number can be only used once at each depth.
+            // Same number can be only used once at each depth. skip the duplicate one
             if (i > 0 && nums[i] == nums[i - 1] && !marked[i - 1]) {
                 continue;
             }
+
             if (!marked[i]) {
                 marked[i] = true;
                 cur.add(nums[i]);

@@ -19,7 +19,10 @@ package _1_50;
  * You must not use any built-in BigInteger library or convert the inputs to integer directly.
  */
 public class _43_MultiplyStrings {
+    //TODO
+
     /**
+     * more easy to remember and understand
      * T = m + n
      * S = m + n
      */

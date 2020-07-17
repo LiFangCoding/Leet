@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class _51_NQueens {
+  //TODO
   /**
    * 3ms
    */

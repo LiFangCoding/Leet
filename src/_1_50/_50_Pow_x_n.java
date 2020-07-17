@@ -39,6 +39,7 @@ public class _50_Pow_x_n {
                 return 1;
             }
 
+            // because can be int min value
             if (n < 0) {
                 return (1 / x) * myPow(1 / x, -(n + 1));
             }

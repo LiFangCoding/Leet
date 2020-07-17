@@ -20,30 +20,31 @@ import java.util.List;
  * ]
  */
 public class _46_Permutations {
+    //TODO
     List<Integer> cur;
     List<List<Integer>> ans;
     boolean[] marked;
 
-    public List<List<Integer>> permute(int[] nums) {
+    public List<List<Integer>> permute(int[] A) {
         // remember to initialize the marked boolean array
         cur = new ArrayList<>();
         ans = new ArrayList<>();
-        marked = new boolean[nums.length];
+        marked = new boolean[A.length];
 
-        dfs(nums);
+        dfs(A);
         return ans;
     }
 
-    private void dfs(int[] nums) {
-        if (cur.size() == nums.length) {
+    private void dfs(int[] A) {
+        if (cur.size() == A.length) {
             ans.add(new ArrayList<>(cur));
         }
 
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < A.length; i++) {
             if (!marked[i]) {
                 marked[i] = true;
-                cur.add(nums[i]);
-                dfs(nums);
+                cur.add(A[i]);
+                dfs(A);
                 cur.remove(cur.size() - 1);
                 marked[i] = false;
             }

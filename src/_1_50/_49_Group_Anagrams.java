@@ -21,23 +21,26 @@ import java.util.*;
  */
 public class _49_Group_Anagrams {
     /**
-     * T = O(NKlogK), where N is the length of strs, and K is the maximum length of a string in strs.
+     * T = O(NKlogK), where N is the length of A, and K is the maximum length of a string in A.
      * The outer loop has complexity O(N) as we iterate through each string.
      * Then, we sort each string in O(KlogK) time.
      * S = O(NK), the total information content stored in ans
-     * @param strs
+     *
+     * @param A
      * @return
      */
-    public List<List<String>> groupAnagrams_hashmap(String[] strs) {
-        List<List<String>> res = new ArrayList<>();
-        if (strs.length == 0) {
-            return res;
+    public List<List<String>> groupAnagrams_hashmap(String[] A) {
+        List<List<String>> ans = new ArrayList<>();
+        if (A.length == 0) {
+            return ans;
         }
 
         Map<String, List<String>> map = new HashMap<>();
-        for (String s : strs) {
+
+        for (String s : A) {
             char[] chars = s.toCharArray();
             Arrays.sort(chars);
+
             String key = String.valueOf(chars);
             if (!map.containsKey(key)) {
                 map.put(key, new ArrayList<>());
