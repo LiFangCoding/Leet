@@ -44,13 +44,13 @@ public class _52_NQueens2 {
   /**
    * 5ms
    */
-  class Sol_old {
+  class Sol_everytime_compare {
     public int totalNQueens(int n) {
       if (n <= 0) {
         return 0;
       }
 
-      int[] A = new int[] { 0 };
+      int[] A = new int[]{0};
       // chosen is for all the columns on each row
       search(n, new ArrayList<Integer>(), A);
       return A[0];
