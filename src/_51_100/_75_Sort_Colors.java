@@ -1,7 +1,5 @@
 package _51_100;
 
-import java.util.Arrays;
-
 /**
  * Given an array with n objects colored red, white or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white and blue.
  * <p>
@@ -20,40 +18,43 @@ import java.util.Arrays;
  * Could you come up with a one-pass algorithm using only constant space?
  */
 public class _75_Sort_Colors {
-    public static void main(String[] args) {
-        _75_Sort_Colors test = new _75_Sort_Colors();
-        int[] A = {2, 0, 2, 1, 1, 0};
-        test.sortColors(A);
-        System.out.println(Arrays.toString(A));
-    }
-
-    public void sortColors(int[] A) {
-        if (A == null || A.length == 0) {
-            return;
-        }
-
-        // the r's right all 2. l's left all 0. l can be 0 or 1.  r can be 0,1,2.
-        int l = 0, r = A.length - 1;
-        // sort in the range of l and r
-        for (int i = 0; i >= l && i <= r; ) {
-            if (A[i] == 2) {
-                swap(A, i, r--);
-            } else if (A[i] == 0) {
-                swap(A, i++, l++);
-            } else if (A[i] == 1) {
-                i++;
-            }
-        }
-
+    //TODO
+    class Sol_inPlace {
         /**
-         * !!! pay attention.
-         * before left are all the 0s. Behind right are all the 1s.
-         * Interate all the elements, if meet 0, swap it to 0s,
-         * the swapped back value can be 0 ({0}) or 1. No need to care since no 2.
-         * If meet 2, swap it to 2s. Care swapped value. Since it can be 0,1,2
-         * Then all are well sorted.
+         * T = n
+         * (双指针法) 时间O(n) 空间O(1)
+         * 设置两个index，一个代表0和1的分界线，一个代表1和2的分界线，初始时分别在两边
+         * 扫描一遍数组，遇到0则swap后修改0和1的分界线，遇到1则接着遍历，遇到2则swap后修改1和2的分界线
          */
+        public void sortColors(int[] A) {
+            if (A == null || A.length == 0) {
+                return;
+            }
+
+            int red = 0, blue = A.length - 1;
+
+            // 注意结束挑战。 不然会将已经blue的换回去
+            for (int i = 0; i <= blue; ) {
+                if (A[i] == 0) {
+                    swap(A, i++, red++);
+                } else if (A[i] == 2) {
+                    swap(A, i, blue--);
+                } else {
+                    i++;
+                }
+            }
+
+            /**
+             * !!! pay attention.
+             * before red are all the 0s. Behind blue are all the 1s.
+             * Interate all the elements, if meet 0, swap it to 0s,
+             * the swapped back value can be 0 ({0}) or 1. No need to care since no 2.
+             * If meet 2, swap it to 2s. Care swapped value. Since it can be 0,1,2
+             * Then all are well sorted.
+             */
+        }
     }
+
 
     private void swap(int[] A, int i, int j) {
         int temp = A[i];

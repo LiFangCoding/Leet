@@ -4,46 +4,54 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class _76_Minimum_Window_Substring {
+    //TODO
     public String minWindow(String s, String t) {
-        if (s == null || t == null || s.length() < t.length()) {
+        if (s == null || t == null) {
             return "";
         }
 
-        Map<Character, Integer> tmap = new HashMap<>();
-        for (char c : t.toCharArray()) {
-            tmap.put(c, tmap.getOrDefault(c, 0) + 1);
+        if (s.length() < t.length()) {
+            return "";
         }
 
-        char[] chars = s.toCharArray();
-        int len = chars.length;
-        String ans = "";
-        // cnt the occurance of chars
-        int cnt = 0;
+        char[] A = s.toCharArray();
+        int len = A.length;
 
-        Map<Character, Integer> windowMap = new HashMap<>();
-        for (int l = 0, r = 0; r < len; r++) {
-            if (tmap.containsKey(chars[r])) {
-                windowMap.put(chars[r], windowMap.getOrDefault(chars[r], 0) + 1);
-                if (windowMap.get(chars[r]) <= tmap.get(chars[r])) {
-                    cnt++;
+        // char -> freq. How many chars left to fill
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        String ans = "";
+        int l = 0;
+        // know if it matches all chars in t
+        int matched = 0;
+        for (int r = 0; r < len; r++) {
+            // when have char need to match
+            if (map.containsKey(A[r])) {
+                if (map.get(A[r]) > 0) {
+                    matched++;
+                }
+                map.put(A[r], map.get(A[r]) - 1);
+            }
+
+            // need shrink and update ans
+            while (matched == t.length()) {
+                String cur = s.substring(l, r + 1);
+                // if it is "". ignore and also set to the cur
+                if (ans.isEmpty() || ans.length() > cur.length()) {
+                    ans = cur;
                 }
 
-                while (cnt == t.length()) {
-                    // here need to find minimum
-                    String newAns = s.substring(l, r + 1);
-                    if (ans == "" || ans.length() > newAns.length()) {
-                        ans = newAns;
+                char lc = A[l];
+                l++;
+
+                if (map.containsKey(lc)) {
+                    map.put(lc, map.get(lc) + 1);
+                    if (map.get(lc) > 0) {
+                        matched--;
                     }
-
-                    if (tmap.containsKey(chars[l])) {
-                        if (windowMap.get(chars[l]) <= tmap.get(chars[l])) {
-                            cnt--;
-                        }
-
-                        windowMap.put(chars[l], windowMap.get(chars[l]) - 1);
-                    }
-
-                    l++;
                 }
             }
         }

@@ -24,12 +24,6 @@ import java.util.List;
  * ]
  */
 public class _78_Subsets {
-    public static void main(String[] args) {
-        _78_Subsets test = new _78_Subsets();
-        int[] A = {1, 2, 3};
-        System.out.println(test.subsets(A));
-    }
-
     List<Integer> cur;
     List<List<Integer>> ans;
 
@@ -43,11 +37,11 @@ public class _78_Subsets {
 
     // [1,2,3]
     // ans = [] [1] [1,2] [1,2,3] [1,3]  [2] [2,3]
-    private void dfs(int[] nums, int s) {
+    private void dfs(int[] nums, int start) {
         ans.add(new ArrayList<>(cur));
 
-        for (int i = s; i < nums.length; i++) {
-            // here is to add nums[i], not nums[s]
+        for (int i = start; i < nums.length; i++) {
+            // here is to add nums[i], not nums[start]
             cur.add(nums[i]);
             dfs(nums, i + 1);
             cur.remove(cur.size() - 1);

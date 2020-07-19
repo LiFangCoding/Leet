@@ -20,11 +20,6 @@ import java.util.List;
  * ]
  */
 public class _77_Combinations {
-    public static void main(String[] args) {
-        _77_Combinations test = new _77_Combinations();
-        System.out.println(test.combine(4, 2));
-    }
-
     List<List<Integer>> ans;
     List<Integer> cur;
 
@@ -36,7 +31,7 @@ public class _77_Combinations {
         return ans;
     }
 
-    private void dfs(int n, int s, int k) {
+    private void dfs(int n, int start, int k) {
         if (cur.size() == k) {
             ans.add(new ArrayList<>(cur));
             return;
@@ -47,7 +42,7 @@ public class _77_Combinations {
         //     return;
         // }
 
-        for (int i = s; i <= n; i++) {
+        for (int i = start; i <= n; i++) {
             cur.add(i);
             dfs(n, i + 1, k);
             cur.remove(cur.size() - 1);
