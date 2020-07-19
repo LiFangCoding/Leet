@@ -3,7 +3,9 @@ package _51_100;
 /**
  * Given a 2D board and a word, find if the word exists in the grid.
  * <p>
- * The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+ * The word can be constructed from letters of sequentially adjacent cell,
+ * where "adjacent" cells are those horizontally or vertically neighboring.
+ * The same letter cell may not be used more than once.
  * <p>
  * Example:
  * <p>
@@ -19,6 +21,17 @@ package _51_100;
  * Given word = "ABCB", return false.
  */
 public class _79_Word_Search {
+    //TODO
+    /**
+     * T = n ^ 2 * 3 ^ k
+     * 在深度优先搜索中，最重要的就是考虑好搜索顺序。
+     * <p>
+     * 我们先枚举单词的起点，然后依次枚举单词的每个字母。
+     * 过程中需要将已经使用过的字母改成一个特殊字母，以避免重复使用字符。
+     * <p>
+     * 时间复杂度分析：单词起点一共有 n^2 个，单词的每个字母一共有上下左右四个方向可以选择，
+     * 但由于不能走回头路，所以除了单词首字母外，仅有三种选择。所以总时间复杂度是 O(n^2 * 3^k)
+     */
     boolean[][] visited;
     int[] dx = {-1, 1, 0, 0};
     int[] dy = {0, 0, 1, -1};
