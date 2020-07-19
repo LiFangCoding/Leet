@@ -52,6 +52,13 @@ public class _80_Remove_Duplicates_from_Sorted_Array2 {
         System.out.println(Arrays.toString(A));
     }
 
+    /**
+     * O(n)
+     * 由于数组有序，所以相同元素一定是相邻的。
+     * 我们定义一个指针 kk，表示新数组的末尾，然后从前往后扫描原数组，如果当前数不等于 nums[k]且不等于 nums[k−1]，则将当前数插入新数组的末尾。
+     * <p>
+     * 时间复杂度分析：总共对原数组仅扫描了一遍，所以总时间复杂度是 n
+     */
     public int removeDuplicates(int[] A) {
         if (A == null || A.length == 0) {
             return 0;
@@ -61,20 +68,21 @@ public class _80_Remove_Duplicates_from_Sorted_Array2 {
             return A.length;
         }
 
-        int newIdx = 1;
+        // k means end of the new array
+        int k = 1;
         /**
          * be careful here. Because the index will be updated also.
          * !!! for each element iteration, compare with new array, not the old array value.
          * Because old array value can be override by new array.
          */
         for (int i = 2; i < A.length; i++) {
-            if (A[i] == A[newIdx] && A[i] == A[newIdx - 1]) {
+            if (A[i] == A[k] && A[i] == A[k - 1]) {
                 continue;
             }
-            newIdx++;
-            A[newIdx] = A[i];
+            k++;
+            A[k] = A[i];
         }
 
-        return newIdx + 1;
+        return k + 1;
     }
 }
