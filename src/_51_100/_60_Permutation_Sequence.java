@@ -25,9 +25,6 @@ package _51_100;
  * <p>
  * Input: n = 4, k = 9
  * Output: "2314"
- *
- * @param n
- * @param k
  * @return
  */
 
@@ -111,14 +108,4 @@ public class _60_Permutation_Sequence {
       }
     }
   }
-
-    //TODO
-    public String getPermutation_Iteration(int n, int k) {
-        return "";
-    }
-
-    //TODO
-    public String getPermutation_2Bits(int n, int k) {
-        return "";
-    }
 }

@@ -17,28 +17,28 @@ public class _69_Sqrt_x {
         /**
          * find largest res one that res * res <= x
          */
-        int start = 1;
-        int end = x;
+        int l = 1;
+        int r = x;
 
         /**
          * !!! Integer multiply overflow. Pay attention.
          */
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
+        while (l + 1 < r) {
+            int mid = l + (r - l) / 2;
 
             if (mid == x / mid) {
                 return mid;
             } else if (mid > x / mid) {
-                end = mid;
+                r = mid;
             } else {
-                start = mid;
+                l = mid;
             }
         }
 
-        if (end <= x / end) {
-            return end;
+        if (r <= x / r) {
+            return r;
         }
 
-        return start;
+        return l;
     }
 }

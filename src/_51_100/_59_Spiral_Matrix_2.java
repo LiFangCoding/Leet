@@ -14,6 +14,7 @@ package _51_100;
  * ]
  */
 public class _59_Spiral_Matrix_2 {
+  //TODO
   /**
    * 0ms
    * T=n^2
@@ -39,26 +40,20 @@ public class _59_Spiral_Matrix_2 {
         }
         t++;
 
-        //        if(t > d) {
-        //          break;
-        //        }
+
         for (int row = t; row <= d; row++) {
           ans[row][r] = val++;
         }
         r--;
 
-        //        if (r < l) {
-        //          break;
-        //        }
+
         for (int col = r; col >= l; col--) {
           ans[d][col] = val++;
         }
         d--;
 
-        //        if (d < t) {
-        //          break;
-        //        }
-        for (int row = d; row >= t; row--) {
+
+          for (int row = d; row >= t; row--) {
           ans[row][l] = val++;
         }
         l++;
@@ -80,23 +75,25 @@ public class _59_Spiral_Matrix_2 {
       int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
       int[] steps = { n, n - 1, n - 1, n - 2 };
 
-      int idx = 0;
-      int num = 1;
-      int x = 0, y = -1;
+        int idx = 0;
+        int val = 1;
+        int x = 0, y = -1;
 
       while (true) {
-        // If no steps more, just return.
-        if (steps[idx] <= 0) break;
+          // If no steps more, just return.
+          if (steps[idx] <= 0) {
+              break;
+          }
 
-        // run the idx dir all steps
-        for (int i = 0; i < steps[idx]; i++) {
-          x += dirs[idx][0];
-          y += dirs[idx][1];
-          matrix[x][y] = num++;
-        }
+          // run the idx dir all steps
+          for (int i = 0; i < steps[idx]; i++) {
+              x += dirs[idx][0];
+              y += dirs[idx][1];
+              matrix[x][y] = val++;
+          }
 
-        // update the dir idx
-        steps[idx] -= 2;
+          // update the dir idx
+          steps[idx] -= 2;
         idx++;
         idx = idx % 4;
       }

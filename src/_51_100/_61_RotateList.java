@@ -39,21 +39,21 @@ public class _61_RotateList {
         ListNode dummy = new ListNode(0);
         dummy.next = head;
 
-        ListNode first = dummy;
+        ListNode fast = dummy;
         for (int i = 0; i < n; i++) {
-            first = first.next;
+            fast = fast.next;
         }
 
-        ListNode second = dummy;
+        ListNode slow = dummy;
 
-        while (first.next != null) {
-            first = first.next;
-            second = second.next;
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
         }
 
-        ListNode curHead = second.next;
-        second.next = null;
-        first.next = dummy.next;
+        ListNode curHead = slow.next;
+        slow.next = null;
+        fast.next = dummy.next;
         dummy.next = curHead;
 
         return dummy.next;

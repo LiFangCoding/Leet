@@ -19,7 +19,7 @@ public class _58_length_of_last_word {
         }
 
         int last = s.length() - 1;
-        int res = 0;
+        int ans = 0;
 
         // last can == 0
         while (last >= 0 && s.charAt(last) == ' ') {
@@ -29,9 +29,9 @@ public class _58_length_of_last_word {
         // last can == 0
         while (last >= 0 && s.charAt(last) != ' ') {
             last--;
-            res++;
+            ans++;
         }
 
-        return res;
+        return ans;
     }
 }
