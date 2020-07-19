@@ -19,165 +19,47 @@ import java.util.List;
  * Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
  */
 public class _57_Insert_Interval {
-  /**
-   * 3ms
-   * T = n
-   */
-  class Sol_jiuzhang_freq {
-    public int[][] insert(int[][] intervals, int[] newInterval) {
-      List<int[]> ansList = new ArrayList<>();
-      List<int[]> list = new ArrayList<>();
-
-      int idx = 0;
-      int len = intervals.length;
-
-      while (idx < len && intervals[idx][0] < newInterval[0]) {
-        list.add(intervals[idx]);
-        idx++;
-      }
-
-      list.add(newInterval);
-      while (idx < len) {
-        list.add(intervals[idx]);
-        idx++;
-      }
-
-      int[] last = null;
-      for (int[] item : list) {
-        if (last == null || last[1] < item[0]) {
-          ansList.add(item);
-          last = item;
-        } else {
-          last[1] = Math.max(last[1], item[1]);
-        }
-      }
-
-      int[][] ans = new int[ansList.size()][2];
-      for (int i = 0; i < ansList.size(); i++) {
-        ans[i] = ansList.get(i);
-      }
-
-      return ans;
-    }
-  }
-
-  /**
-   * T = n
-   * More easy to implement
-   */
-  public int[][] insert(int[][] intervals, int[] newInterval) {
-    /**
-     * careful. When intervals are empty, just add newInterval inside.
-     */
-    if (intervals == null || intervals.length == 0) {
-      return new int[][] { newInterval };
-    }
-
-    List<int[]> ans = new ArrayList<>();
-
-    int len = intervals.length;
-    int i = 0;
-    // skip (and add to output) all intervals that come before the 'newInterval'
-    while (i < len && intervals[i][1] < newInterval[0])
-      ans.add(intervals[i++]);
-
-    // merge all intervals that overlap with 'newInterval'
-    // For overlap, only four conditions. It is just the end and start relationship
-    while (i < len && intervals[i][0] <= newInterval[1]) {
-      newInterval[0] = Math.min(intervals[i][0], newInterval[0]);
-      newInterval[1] = Math.max(intervals[i][1], newInterval[1]);
-      i++;
-    }
-
-    // insert the newInterval
-    ans.add(newInterval);
-
-    // add all the remaining intervals to the output
-    while (i < len)
-      ans.add(intervals[i++]);
-
-    int[][] res = new int[ans.size()][2];
-    return ans.toArray(res);
-  }
+  //TODO
 
   /**
    * 2ms
-   * T = logn + consecutive
+   * T = n
+   * 对于新区间左边和右边的、与新区间没有重叠的区间，直接将它们按顺序插入；
+   * 对于与新区间相交的区间，我们维护合并后区间的左端点和右端点，最后再将合并后的区间插入适当的位置。
+   * <p>
+   * 时间复杂度分析：每个区间只会遍历一次，所以总时间复杂度是 O(n).
+   * https://www.acwing.com/solution/content/132/
    */
-  class Sol_Binary_Search {
+  class Sol_scan {
     public int[][] insert(int[][] intervals, int[] newInterval) {
       List<int[]> ansList = new ArrayList<>();
+      boolean hasIn = false;
 
-      if (intervals == null || intervals.length == 0) {
-        int[][] ans = new int[1][2];
-        ans[0] = newInterval;
-        return ans;
-      }
-
-      int idx = find(intervals, newInterval);
-      // System.out.println("the idx : " + idx);
-      for (int i = 0; i < idx; i++) {
-        ansList.add(intervals[i]);
-      }
-
-      if (intervals[idx][0] < newInterval[0]) {
-        ansList.add(intervals[idx]);
-        if (intervals[idx][1] < newInterval[0]) {
-          ansList.add(newInterval);
+      for (int[] interval : intervals) {
+        if (interval[0] > newInterval[1]) {
+          if (!hasIn) {
+            ansList.add(newInterval);
+            hasIn = true;
+          }
+          ansList.add(interval);
+        } else if (interval[1] < newInterval[0]) {
+          ansList.add(interval);
         } else {
-          int[] last = ansList.get(ansList.size() - 1);
-          last[1] = Math.max(last[1], newInterval[1]);
+          newInterval[0] = Math.min(newInterval[0], interval[0]);
+          newInterval[1] = Math.max(newInterval[1], interval[1]);
         }
-      } else {
+      }
+
+      /**
+       * []
+       * [5,7]
+       */
+      if (!hasIn) {
         ansList.add(newInterval);
-        if (newInterval[1] < intervals[idx][0]) {
-          ansList.add(intervals[idx]);
-        } else {
-          int[] last = ansList.get(ansList.size() - 1);
-          last[1] = Math.max(last[1], intervals[idx][1]);
-        }
-      }
-
-      for (int i = idx + 1; i < intervals.length; i++) {
-        int[] last = ansList.get(ansList.size() - 1);
-        if (last[1] < intervals[i][0]) {
-          ansList.add(intervals[i]);
-        } else {
-          last[1] = Math.max(last[1], intervals[i][1]);
-        }
       }
 
       int[][] ans = new int[ansList.size()][2];
-      for (int i = 0; i < ansList.size(); i++) {
-        ans[i] = ansList.get(i);
-      }
-      return ans;
-    }
-
-    // find the last position < new Interval start. then merge interval
-    private int find(int[][] intervals, int[] inter) {
-      if (intervals == null || intervals.length == 0) {
-        return 0;
-      }
-
-      int l = 0, r = intervals.length - 1;
-
-      while (l + 1 < r) {
-        int mid = l + (r - l) / 2;
-        if (intervals[mid][0] > inter[0]) {
-          r = mid;
-        } else if (intervals[mid][0] == inter[0]) {
-          return mid;
-        } else {
-          l = mid;
-        }
-      }
-
-      if (intervals[r][0] <= inter[0]) {
-        return r;
-      }
-
-      return l;
+      return ansList.toArray(ans);
     }
   }
 }
