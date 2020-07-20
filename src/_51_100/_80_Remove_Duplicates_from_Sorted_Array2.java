@@ -1,7 +1,5 @@
 package _51_100;
 
-import java.util.Arrays;
-
 /**
  * Given a sorted array nums, remove the duplicates in-place such that duplicates appeared at most twice and return the new length.
  * <p>
@@ -44,18 +42,10 @@ import java.util.Arrays;
  */
 public class _80_Remove_Duplicates_from_Sorted_Array2 {
     //TODO
-    public static void main(String[] args) {
-        _80_Remove_Duplicates_from_Sorted_Array2 test = new _80_Remove_Duplicates_from_Sorted_Array2();
-        int[] A = new int[]{1, 1, 1, 2, 2, 3};
-
-        test.removeDuplicates(A);
-        System.out.println(Arrays.toString(A));
-    }
-
     /**
      * O(n)
      * 由于数组有序，所以相同元素一定是相邻的。
-     * 我们定义一个指针 kk，表示新数组的末尾，然后从前往后扫描原数组，如果当前数不等于 nums[k]且不等于 nums[k−1]，则将当前数插入新数组的末尾。
+     * 我们定义一个指针 k，表示新数组的末尾，然后从前往后扫描原数组，如果当前数不等于 nums[k]且不等于 nums[k−1]，则将当前数插入新数组的末尾。
      * <p>
      * 时间复杂度分析：总共对原数组仅扫描了一遍，所以总时间复杂度是 n
      */

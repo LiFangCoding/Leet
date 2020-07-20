@@ -21,16 +21,27 @@ package _51_100;
  * Would this affect the run-time complexity? How and why?
  */
 public class _81_Search_in_Rotated_Sorted_Array2 {
+    /**
+     * 这道题类似于Search in Rotated Sorted Array，不同点在于这道题里的数组可能包含相同元素。
+     * 目前能想到的二分做法的最坏时间复杂度都是 O(n)，所以索性就拿线性扫描做了^^。
+     * <p>
+     * 时间复杂度分析：整个数组只扫描一遍，所以时间复杂度是 O(n)
+     * https://www.acwing.com/solution/content/165/
+     *
+     * @param A
+     * @param target
+     * @return
+     */
     public boolean search(int[] A, int target) {
         if (A == null || A.length == 0) {
             return false;
         }
 
-        int start = 0;
-        int end = A.length - 1;
+        int l = 0;
+        int r = A.length - 1;
 
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
+        while (l + 1 < r) {
+            int mid = l + (r - l) / 2;
             /**
              * first consider all the conditions then think which part mid is on.
              */
@@ -38,23 +49,23 @@ public class _81_Search_in_Rotated_Sorted_Array2 {
                 return true;
             }
 
-            if (A[mid] > A[start]) {
-                if (target >= A[start] && target < A[mid]) {
-                    end = mid;
+            if (A[mid] > A[l]) {
+                if (target >= A[l] && target < A[mid]) {
+                    r = mid;
                 } else {
-                    start = mid;
+                    l = mid;
                 }
-            } else if (A[mid] < A[start]) {
-                if (target > A[mid] && target <= A[end]) {
-                    start = mid;
+            } else if (A[mid] < A[l]) {
+                if (target > A[mid] && target <= A[r]) {
+                    l = mid;
                 } else {
-                    end = mid;
+                    r = mid;
                 }
             } else {
-                start++;
+                l++;
             }
         }
 
-        return A[start] == target || A[end] == target;
+        return A[l] == target || A[r] == target;
     }
 }
