@@ -2,7 +2,67 @@ package _51_100;
 
 import common.TreeNode;
 
+/**
+ * Two elements of a binary search tree (BST) are swapped by mistake.
+ * <p>
+ * Recover the tree without changing its structure.
+ * <p>
+ * Example 1:
+ * <p>
+ * Input: [1,3,null,null,2]
+ * <p>
+ *    1
+ *   /
+ *  3
+ *   \
+ *    2
+ * <p>
+ * Output: [3,1,null,null,2]
+ * <p>
+ *    3
+ *   /
+ *  1
+ *   \
+ *    2
+ * Example 2:
+ * <p>
+ * Input: [3,1,4,null,null,2]
+ * <p>
+ * 3
+ * / \
+ * 1   4
+ *    /
+ *   2
+ * <p>
+ * Output: [2,1,4,null,null,3]
+ * <p>
+ * 2
+ * / \
+ * 1   4
+ *    /
+ *  3
+ * Follow up:
+ * <p>
+ * A solution using O(n) space is pretty straight forward.
+ * Could you devise a constant space solution?
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/recover-binary-search-tree
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
 public class _99_Recover_Binary_Search_Tree {
+    //TODO
+    /**
+     * 这道题目如果用递归做，递归的层数最坏是 O(n)O(n) 级别的，所以系统栈的空间复杂度是 O(n)O(n)，与题目要求的 O(1)O(1) 额外空间不符。
+     * 同理用栈模拟递归的迭代方式的空间复杂度也是 O(n)O(n)，不符合题目要求。
+     *
+     * 这道题目可以用Morris-traversal算法，该算法可以用额外 O(1)O(1) 的空间，以及 O(n)O(n) 的时间复杂度，中序遍历一棵二叉树。
+     *
+     * Morris-traversal 算法流程：
+     * 下图给了一个具体示例：
+     *
+     * https://www.acwing.com/solution/content/181/
+     */
     TreeNode prev;
     TreeNode first;
     TreeNode second;
@@ -41,7 +101,6 @@ public class _99_Recover_Binary_Search_Tree {
                 return;
             }
         }
-        prev = root;
 
         prev = root;
         inorder(root.right);

@@ -5,6 +5,9 @@ import common.TreeNode;
 import java.util.Stack;
 
 public class _98_Validate_Binary_Search_Tree {
+    /**
+     * 0ms
+     */
     class Sol_InRange {
         public boolean isValidBST(TreeNode root) {
             return isValidBST(root, null, null);
@@ -23,12 +26,7 @@ public class _98_Validate_Binary_Search_Tree {
                 return false;
             }
 
-            boolean l = isValidBST(root.left, min, root.val);
-            if (!l) {
-                return false;
-            }
-            boolean r = isValidBST(root.right, root.val, max);
-            return r;
+            return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
         }
     }
 
@@ -59,32 +57,39 @@ public class _98_Validate_Binary_Search_Tree {
         }
     }
 
+    /**
+     * 2ms
+     * T = n
+     * S = h
+     */
     class Sol_inorder_iterative {
-        public boolean isValidBST_iterative(TreeNode root) {
+        public boolean isValidBST(TreeNode root) {
             if (root == null) {
                 return true;
             }
 
-            Stack<TreeNode> s = new Stack<>();
+            Stack<TreeNode> stack = new Stack<>();
             TreeNode prev = null;
             TreeNode cur = root;
 
-            while (!s.isEmpty() || cur != null) {
+            while (true) {
                 while (cur != null) {
-                    s.push(cur);
+                    stack.push(cur);
                     cur = cur.left;
                 }
 
-                TreeNode node = s.pop();
-                if (prev != null && node.val <= prev.val) {
+                if (stack.isEmpty()) {
+                    return true;
+                }
+
+                TreeNode visitNode = stack.pop();
+                if (prev != null && visitNode.val <= prev.val) {
                     return false;
                 }
 
-                prev = node;
-                cur = node.right;
+                prev = visitNode;
+                cur = visitNode.right;
             }
-
-            return true;
         }
     }
 }
