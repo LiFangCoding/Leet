@@ -14,27 +14,23 @@ import common.ListNode;
  */
 public class _86_Partition_List {
     public ListNode partition(ListNode head, int x) {
-        ListNode before = new ListNode(0);
-        ListNode p1 = before;
-        ListNode after = new ListNode(0);
-        ListNode p2 = after;
+        ListNode smallDummy = new ListNode(0);
+        ListNode p1 = smallDummy;
+        ListNode bigDummy = new ListNode(0);
+        ListNode p2 = bigDummy;
 
-        ListNode cur = head;
-        while (cur != null) {
+        for (ListNode cur = head; cur != null; cur = cur.next) {
             if (cur.val < x) {
                 p1.next = cur;
-                cur = cur.next;
                 p1 = p1.next;
-                p1.next = null;
             } else {
                 p2.next = cur;
-                cur = cur.next;
                 p2 = p2.next;
-                p2.next = null;
             }
         }
 
-        p1.next = after.next;
-        return before.next;
+        p1.next = bigDummy.next;
+        p2.next = null;
+        return smallDummy.next;
     }
 }
