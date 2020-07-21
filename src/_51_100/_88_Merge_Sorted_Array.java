@@ -17,26 +17,21 @@ package _51_100;
  */
 public class _88_Merge_Sorted_Array {
     public void merge(int[] A1, int m, int[] A2, int n) {
-        int last = m + n - 1;
+        int newLen = m + n;
 
-        int i = m - 1;
-        int j = n - 1;
-        while (i >= 0 && j >= 0) {
-            if (A1[i] > A2[j]) {
-                A1[last--] = A1[i--];
+        int idx = newLen - 1;
+        int i1 = m - 1, i2 = n - 1;
+
+        while (i1 >= 0 && i2 >= 0) {
+            if (A1[i1] > A2[i2]) {
+                A1[idx--] = A1[i1--];
             } else {
-                A1[last--] = A2[j--];
+                A1[idx--] = A2[i2--];
             }
         }
 
-        if (i < 0) {
-            while (j >= 0) {
-                A1[last--] = A2[j--];
-            }
-        }
-
-        if (j < 0) {
-            return;
+        while (i2 >= 0) {
+            A1[idx--] = A2[i2--];
         }
     }
 }

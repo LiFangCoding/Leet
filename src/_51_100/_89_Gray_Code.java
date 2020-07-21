@@ -6,7 +6,8 @@ import java.util.List;
 /**
  * The gray code is a binary numeral system where two successive values differ in only one bit.
  * <p>
- * Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray code. A gray code sequence must begin with 0.
+ * Given a non-negative integer n representing the total number of bits in the code, print the sequence of gray code.
+ * A gray code sequence must begin with 0.
  * <p>
  * Example 1:
  * <p>
@@ -34,9 +35,9 @@ import java.util.List;
  * Therefore, for n = 0 the gray code sequence is [0].
  */
 public class _89_Gray_Code {
-
+    //TODO
     /**
-     * 先构造 n=1n=1，即只有一位的格雷码序列：[0, 1]；
+     * 先构造 n=1，即只有一位的格雷码序列：[0, 1]；
      * 假设我们已经构造好了 n=kn=k时的格雷码序列 SkSk，我们可以利用它来构造 Sk+1Sk+1：
      * (1) Sk+1Sk+1的前一半：将 SkSk 中的每个数开头补上1；
      * (2) Sk+1Sk+1的后一半，将 SkSk 变成逆序，然后在每个数开头补上0；

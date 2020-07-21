@@ -26,28 +26,29 @@ public class _90_subsets2 {
     List<List<Integer>> ans;
     List<Integer> cur;
 
-    public List<List<Integer>> subsetsWithDup(int[] nums) {
+    public List<List<Integer>> subsetsWithDup(int[] A) {
         ans = new ArrayList<>();
         cur = new ArrayList<>();
 
-        Arrays.sort(nums);
-        dfs(nums, 0);
+        Arrays.sort(A);
+        dfs(A, 0);
         return ans;
     }
 
     // [1, 2, 2]
     // [] [1] [1,2] [1,2,2] [2] [2,2]
-    private void dfs(int[] nums, int s) {
+    private void dfs(int[] A, int start) {
         // here is add cur
         ans.add(new ArrayList<>(cur));
 
-        for (int i = s; i < nums.length; i++) {
-            if (i != s && nums[i] == nums[i - 1]) {
+        for (int i = start; i < A.length; i++) {
+            // skip duplicates. Anything duplicates in the range will be throw away
+            if (i != start && A[i] == A[i - 1]) {
                 continue;
             }
 
-            cur.add(nums[i]);
-            dfs(nums, i + 1);
+            cur.add(A[i]);
+            dfs(A, i + 1);
             cur.remove(cur.size() - 1);
         }
     }
