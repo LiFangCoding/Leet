@@ -6,46 +6,73 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Given a binary tree, return the inorder traversal of its nodes' values.
+ * <p>
+ * Example:
+ * <p>
+ * Input: [1,null,2,3]
+ * 1
+ * \
+ * 2
+ * /
+ * 3
+ * <p>
+ * Output: [1,3,2]
+ * Follow up: Recursive solution is trivial, could you do it iteratively?
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/binary-tree-inorder-traversal
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
 public class _94_Binary_Tree_Inorder_Traversal {
-    public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        helper(root, res);
-        return res;
-    }
+    class Sol_dfs {
+        List<Integer> ans;
 
-    /**
-     * add the nodes value in inorder.
-     */
-    private void helper(TreeNode root, List<Integer> res) {
-        if (root == null) {
-            return;
+        public List<Integer> inorderTraversal(TreeNode root) {
+            ans = new ArrayList<>();
+            helper(root);
+            return ans;
         }
 
-        helper(root.left, res);
-        res.add(root.val);
-        helper(root.right, res);
-    }
-
-    public List<Integer> inorderTraversal_iterative(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        if (root == null) {
-            return res;
-        }
-
-        Stack<TreeNode> stack = new Stack<>();
-        TreeNode node = root;
-
-        while (node != null || !stack.isEmpty()) {
-            while (node != null) {
-                stack.push(node);
-                node = node.left;
+        /**
+         * add the nodes value in inorder.
+         */
+        private void helper(TreeNode root) {
+            if (root == null) {
+                return;
             }
 
-            TreeNode cur = stack.pop();
-            res.add(cur.val);
-            node = node.right;
+            helper(root.left);
+            ans.add(root.val);
+            helper(root.right);
         }
+    }
 
-        return res;
+
+    class Sol_stack {
+        public List<Integer> inorderTraversal_iterative(TreeNode root) {
+            List<Integer> ans = new ArrayList<>();
+            Stack<TreeNode> stack = new Stack<>();
+
+            TreeNode node = root;
+
+            while (true) {
+                while (node != null) {
+                    stack.push(node);
+                    node = node.left;
+                }
+
+                if (stack.isEmpty()) {
+                    break;
+                }
+
+                TreeNode cur = stack.pop();
+                ans.add(cur.val);
+                node = cur.right;
+            }
+
+            return ans;
+        }
     }
 }

@@ -13,6 +13,14 @@ import common.ListNode;
  * Output: 1->4->3->2->5->NULL
  */
 public class _92_Reverse_Linked_List2 {
+    /**
+     * T = n
+     *
+     * @param head
+     * @param m
+     * @param n
+     * @return
+     */
     public ListNode reverseBetween(ListNode head, int m, int n) {
         if (m == n) {
             return head;
@@ -22,26 +30,27 @@ public class _92_Reverse_Linked_List2 {
         dummy.next = head;
         ListNode cur = dummy;
 
-        for (int i = 0; i < m - 1; i++) {
+        // cur is the prev node since i < m
+        for (int i = 1; i < m; i++) {
             cur = cur.next;
         }
 
-        ListNode prev = cur;
-        // reverse start
-        ListNode tail = prev.next;
+        // keep a ref here
+        ListNode tail = cur.next;
+        // the start of reverse
+        ListNode second = cur.next;
+        ListNode first = null;
 
-        ListNode p1 = prev.next;
-        ListNode p2 = p1.next;
-
-        for (int i = m + 1; i <= n; i++) {
-            ListNode temp = p2.next;
-            p2.next = p1;
-            p1 = p2;
-            p2 = temp;
+        for (int i = m; i <= n; i++) {
+            ListNode temp = second.next;
+            second.next = first;
+            first = second;
+            second = temp;
         }
 
-        tail.next = p2;
-        prev.next = p1;
+        cur.next = first;
+        tail.next = second;
+
         return dummy.next;
     }
 }
