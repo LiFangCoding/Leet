@@ -21,75 +21,76 @@ package _51_100;
  * Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
  */
 public class _91_Decode_Ways {
-    public int numDecodings_dp(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
+    class Sol_dp {
+        public int numDecodings(String s) {
+            if (s == null || s.length() == 0) {
+                return 0;
+            }
 
-        int len = s.length();
-        /**
-         * f[i] means the first ith num how many ways. i = 0,1, ... len
-         * f[i] = (i is 1 -9) f[i - 1] + (num is 10 - 26)  f[i - 2]
-         */
-        int[] f = new int[len + 1];
-        f[0] = 1;
-        int num = s.charAt(0) - '0';
-        if (num >= 1 && num <= 9) {
-            f[1] += f[0];
-        } else {
-            f[1] = 0;
-        }
-
-        for (int i = 2; i < f.length; i++) {
-            f[i] = 0;
+            int len = s.length();
             /**
-             * s.charAt(i - 1) is the ith num
+             * f[i] means the first ith character, the number of ways to do. Index is i - 1
+             * f[i] = f[i - 1] + f[i -2] (if two character correct)
              */
-            int onedigit = s.charAt(i - 1) - '0';
-            if (onedigit >= 1 && onedigit <= 9) {
-                f[i] += f[i - 1];
-            }
-            int doubleDigits = (s.charAt(i - 2) - '0') * 10 + (s.charAt(i - 1) - '0');
-            if (doubleDigits >= 10 && doubleDigits <= 26) {
-                f[i] += f[i - 2];
-            }
-        }
+            int[] f = new int[len + 1];
+            f[0] = 1;
 
-        return f[len];
+            for (int i = 1; i <= len; i++) {
+                if (i == 1) {
+                    f[i] += s.charAt(i - 1) == '0' ? 0 : 1;
+                } else {
+                    // else is importatn. Else the i= 0,1 will come here and exception
+                    if (f[i - 1] == 0 && f[i - 2] == 0) {
+                        return 0;
+                    }
+
+                    f[i] += s.charAt(i - 1) == '0' ? 0 : f[i - 1];
+                    int val = (s.charAt(i - 2) - '0') * 10 + (s.charAt(i - 1) - '0');
+//                    int val = Integer.parseInt(s.substring(i - 2, i));
+                    if (val >= 10 && val <= 26) {
+                        f[i] += f[i - 2];
+                    }
+                }
+            }
+
+            return f[len];
+        }
     }
 
-    /**
-     * Recursion can be slow
-     * f[4]
-     * f[3] f[2]
-     * f[2]f[1]  f[1]f[0]
-     */
-    public int numDecodings_recursion(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-
-        return helper(s, 0);
-    }
-
-    public int helper(String s, int start) {
-        if (start == s.length()) {
-            return 1;
-        }
-
-        int res = 0;
-        int num = s.charAt(start) - '0';
-        if (num >= 1 && num <= 9) {
-            res += helper(s, start + 1);
-        }
-
-        if (start + 1 < s.length()) {
-            num = (s.charAt(start) - '0') * 10 + (s.charAt(start + 1) - '0');
-            if (num >= 10 && num <= 26) {
-                res += helper(s, start + 2);
+    class Sol_recursion {
+        /**
+         * Recursion can be slow
+         * f[4]
+         * f[3] f[2]
+         * f[2]f[1]  f[1]f[0]
+         */
+        public int numDecodings_recursion(String s) {
+            if (s == null || s.length() == 0) {
+                return 0;
             }
+
+            return helper(s, 0);
         }
 
-        return res;
+        public int helper(String s, int start) {
+            if (start == s.length()) {
+                return 1;
+            }
+
+            int res = 0;
+            int num = s.charAt(start) - '0';
+            if (num >= 1 && num <= 9) {
+                res += helper(s, start + 1);
+            }
+
+            if (start + 1 < s.length()) {
+                num = (s.charAt(start) - '0') * 10 + (s.charAt(start + 1) - '0');
+                if (num >= 10 && num <= 26) {
+                    res += helper(s, start + 2);
+                }
+            }
+
+            return res;
+        }
     }
 }
