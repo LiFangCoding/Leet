@@ -2,10 +2,14 @@ package _101_150;
 
 import common.TreeNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
- * Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
+ * Given a binary tree, return the zigzag level order traversal of its nodes' values.
+ * (ie, from left to right, then right to left for the next level and alternate between).
  * <p>
  * For example:
  * Given binary tree [3,9,20,null,null,15,7],
