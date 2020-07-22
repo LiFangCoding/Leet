@@ -21,12 +21,44 @@ import common.TreeNode;
  * -10  5
  */
 public class _109_ConvertSortedListtoBinarySearchTree {
-    public TreeNode sortedListToBST(ListNode head) {
-        if (head == null) {
-            return null;
-        }
+    //TODO
 
-        return helper(head);
+    /**
+     * T = nlogn
+     * 递归建立整棵二叉树。
+     * 每次以中点为根，以左半部分为左子树，右半部分为右子树。先分别递归建立左子树和右子树，然后令根节点的指针分别指向两棵子树。
+     *
+     * @param head
+     * @return
+     */
+    class Sol_recursion {
+        public TreeNode sortedListToBST(ListNode head) {
+            if (head == null) {
+                return null;
+            }
+
+            // 1-2 -3
+            // 1-2- 3-4
+            ListNode dummy = new ListNode(0);
+            dummy.next = head;
+            ListNode fast = dummy, slow = dummy, prev = null;
+
+            while (fast != null && fast.next != null) {
+                fast = fast.next.next;
+                prev = slow;
+                slow = slow.next;
+            }
+
+            // slow become the 2 in above
+            ListNode right = slow.next;
+            slow.next = null;
+            prev.next = null;
+
+            TreeNode root = new TreeNode(slow.val);
+            root.left = sortedListToBST(head);
+            root.right = sortedListToBST(right);
+            return root;
+        }
     }
 
     private TreeNode helper(ListNode head) {
