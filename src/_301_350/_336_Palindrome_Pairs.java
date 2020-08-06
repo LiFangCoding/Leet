@@ -1,6 +1,7 @@
 package _301_350;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +27,9 @@ import java.util.Map;
 public class _336_Palindrome_Pairs {
     /**
      * T = n * L ^ 2
-     * TODO
+     * TODO: more practice
      * https://www.acwing.com/solution/content/336/
+     * https://leetcode-cn.com/problems/palindrome-pairs/solution/tu-jie-zhua-zhu-hui-wen-chuan-te-dian-dui-dan-ci-j/
      *
      * @param words
      * @return
@@ -42,25 +44,28 @@ public class _336_Palindrome_Pairs {
         }
 
         List<List<Integer>> ans = new ArrayList<>();
-        if (map.containsKey("")) {
-            for (int i = 0; i < n; i++) {
-                if (words[i].equals("") && isPalindrome(words[i])) {
-                    ans.get(map.get("")).add(i);
-                }
-            }
-        }
+        //        if (map.containsKey("")) {
+        //            for (int i = 0; i < n; i++) {
+        //                if (words[i].equals("") && isPalindrome(words[i])) {
+        //                    ans.add(Arrays.asList(i,map.get("")));
+        //                }
+        //            }
+        //        }
 
         for (int i = 0; i < n; i++) {
+            if (isPalindrome(words[i]) && map.containsKey("") && !words[i].equals("")) {
+                ans.add(Arrays.asList(map.get(""), i)); // curWord !== '' 是为了避免 "" 和 "" 搭配
+            }
             for (int j = 0; j < words[i].length(); j++) {
                 String left = words[i].substring(0, j);
                 String right = words[i].substring(j);
 
-                if (map.containsKey(left) && isPalindrome(right) && map.get(left) != i) {
-                    ans.get(map.get(left)).add(i);
+                if (isPalindrome(left) && map.containsKey(right) && map.get(right) != i) {
+                    ans.add(Arrays.asList(map.get(right), i));
                 }
 
-                if (map.containsKey(right) && isPalindrome(right) && map.get(right) != i) {
-                    ans.get(map.get(right)).add(i);
+                if (isPalindrome(right) && map.containsKey(left) && map.get(left) != i) {
+                    ans.add(Arrays.asList(i, map.get(left)));
                 }
             }
         }
@@ -75,6 +80,5 @@ public class _336_Palindrome_Pairs {
             }
         }
         return true;
-
     }
 }
