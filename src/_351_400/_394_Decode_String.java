@@ -100,11 +100,12 @@ public class _394_Decode_String {
                 } else if (A[i] == ']') {
                     int t = nums.pop();
 
-                    String tmp = cur;
-                    cur = strs.pop();
+                    String prevStr = strs.pop();
+                    StringBuilder sb = new StringBuilder(prevStr);
                     while (t-- > 0) {
-                        cur += tmp;
+                        sb.append(cur);
                     }
+                    cur = sb.toString();
                 } else if (Character.isDigit(A[i])) {
                     num = num * 10 + A[i] - '0';
                 } else {

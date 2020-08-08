@@ -29,7 +29,6 @@ import java.util.Stack;
  * 6
  */
 public class _114_FlattenBinaryTreetoLinkedList {
-
     //TODO: understand more. https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by--26/
     public void flatten(TreeNode root) {
         if (root == null) {
