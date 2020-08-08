@@ -88,4 +88,8 @@ public class _350_Intersection_of_Two_Arrays2 {
         }
         return ans;
     }
+
+    public static void main(String[] args) {
+        System.out.println((Integer.MIN_VALUE - 1));
+    }
 }

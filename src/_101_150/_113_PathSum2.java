@@ -18,7 +18,7 @@ import java.util.List;
  * / \
  * 4   8
  * /   / \
- * 11  13  4
+ * 11  13   4
  * /  \    / \
  * 7    2  5   1
  * Return:
@@ -33,6 +33,7 @@ public class _113_PathSum2 {
     List<List<Integer>> ans;
 
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
+
         path = new ArrayList<>();
         ans = new ArrayList<>();
 
