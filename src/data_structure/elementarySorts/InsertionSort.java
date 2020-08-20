@@ -5,7 +5,7 @@ public class InsertionSort {
         int N = a.length;
         for (int i = 0; i < N; i++) {
             // moving form right to left, exchange a[i] with echa larger to its left
-            for (int j = i; j > 0; j++) {
+            for (int j = i; j > 0; j--) {
                 if (less(a[j], a[j - 1])) {
                     exch(a, j, j - 1);
                 } else {
