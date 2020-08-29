@@ -75,14 +75,21 @@ public class _329_Longest_Increasing_Path_in_a_Matrix {
         int newx = x + dx[i];
         int newy = y + dy[i];
 
-        if (newx >= 0 && newx <= m - 1 && newy >= 0 && newy <= n - 1 && M[newx][newy] > M[x][y]) {
-          ans = Math.max(ans, dfs(M, newx, newy));
-        }
+          if (newx >= 0 && newx <= m - 1 && newy >= 0 && newy <= n - 1 && M[newx][newy] > M[x][y]) {
+              ans = Math.max(ans, dfs(M, newx, newy));
+          }
       }
-      ans++;
+        ans++;
 
-      f[x][y] = ans;
-      return ans;
+        f[x][y] = ans;
+        return ans;
     }
   }
+
+    public static void main(String[] args) {
+        System.out.println(Double.MAX_VALUE);
+        System.out.println(Double.MIN_VALUE);
+        System.out.println(Float.MIN_VALUE);
+        System.out.println(Float.MIN_VALUE);
+    }
 }

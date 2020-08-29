@@ -29,28 +29,24 @@ public class _260_SingleNum3 {
          *
          * 101 -> 010
          */
-        int sum = 0;
+        int ab = 0;
         for (int i = 0; i < A.length; i++) {
-            sum ^= A[i];
+            ab ^= A[i];
         }
 
-        int pos = 0;
-
-        for (int bit = 0; bit < 32; bit++) {
-            if ((sum >> bit & 1) == 1) {
-                pos = bit;
-                break;
-            }
+        int k = 0;
+        while (((ab >> k) & 1) == 0) {
+            k++;
         }
 
         int s1 = 0;
         int s2 = 0;
 
-        for (int i = 0; i < A.length; i++) {
-            if ((A[i] >> pos & 1) == 1) {
-                s1 ^= A[i];
+        for (int x : A) {
+            if ((x >> k & 1) == 1) {
+                s1 ^= x;
             } else {
-                s2 ^= A[i];
+                s2 ^= x;
             }
         }
 

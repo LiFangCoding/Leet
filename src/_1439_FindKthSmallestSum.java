@@ -43,7 +43,6 @@ public class _1439_FindKthSmallestSum {
 // 逐行累加计算和，每一层都只用上一层最小的k个和参加下一轮加和
 // 最后选第k小的和
 // '''
-
     public int kthSmallest(int[][] mat, int k) {
         int m = mat.length, n = mat[0].length;
         PriorityQueue<Integer> pq = new PriorityQueue<>();
