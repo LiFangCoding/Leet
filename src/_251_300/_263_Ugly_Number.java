@@ -31,16 +31,15 @@ public class _263_Ugly_Number {
             return false;
         }
 
-        while (num != 1) {
-            if (num % 2 == 0) {
-                num /= 2;
-            } else if (num % 3 == 0) {
-                num /= 3;
-            } else if (num % 5 == 0) {
-                num /= 5;
-            } else {
-                return false;
-            }
+        // divide is 1 or not
+        while (num % 2 == 0) {
+            num /= 2;
+        }
+        while (num % 3 == 0) {
+            num /= 3;
+        }
+        while (num % 5 == 0) {
+            num /= 5;
         }
 
         return num == 1;
