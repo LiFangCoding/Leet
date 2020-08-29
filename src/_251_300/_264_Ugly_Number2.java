@@ -30,26 +30,27 @@ public class _264_Ugly_Number2 {
         if (n == 0) {
             return 0;
         }
-        int[] dp = new int[n];
-        dp[0] = 1;
+        int[] f = new int[n];
+        f[0] = 1;
 
         int p2 = 0, p3 = 0, p5 = 0;
 
         for (int i = 1; i < n; i++) {
-            int tmp = Math.min(Math.min(dp[p2] * 2, dp[p3] * 3), dp[p5] * 5);
+            int tmp = Math.min(Math.min(f[p2] * 2, f[p3] * 3), f[p5] * 5);
             //插入指定位置
-            dp[i] = tmp;
+            f[i] = tmp;
             //调换指针位置
-            if (dp[p3] * 3 == tmp) {
+            if (f[p3] * 3 == tmp) {
                 p3++;
             }
-            if (dp[p2] * 2 == tmp) {
+            if (f[p2] * 2 == tmp) {
                 p2++;
             }
-            if (dp[p5] * 5 == tmp) {
+            if (f[p5] * 5 == tmp) {
                 p5++;
             }
         }
-        return dp[n - 1];
+
+        return f[n - 1];
     }
 }
