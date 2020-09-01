@@ -18,38 +18,52 @@ import java.util.List;
  * Explanation: 2,3,4 form a continuous range; 8,9 form a continuous range.
  */
 public class _228_SummaryRanges {
-    public static void main(String[] args) {
-        _228_SummaryRanges test = new _228_SummaryRanges();
-        int[] A = new int[]{0, 1, 2, 4, 5, 7};
-        System.out.println(test.summaryRanges(A));
-    }
+    class Sol_acwing {
+        public List<String> summaryRanges(int[] nums) {
+            List<String> res = new ArrayList<>();
 
-    public List<String> summaryRanges(int[] A) {
-        List<String> res = new ArrayList<>();
-
-        if (A == null || A.length == 0) {
+            for (int i = 0; i < nums.length; i++) {
+                int j = i + 1;
+                while (j < nums.length && nums[j] == nums[j - 1] + 1) j++;
+                if (j == i + 1) res.add(String.valueOf(nums[i]));
+                else res.add(nums[i] + "->" + nums[j - 1]);
+                // i will be i++ in the loop
+                i = j - 1;
+            }
             return res;
         }
+    }
 
-        int l = 0;
-        int r = 0;
 
-        while (r < A.length) {
-            r = l + 1;
+    // verbose
+    class Sol {
+        public List<String> summaryRanges(int[] A) {
+            List<String> res = new ArrayList<>();
 
-            while (r < A.length && A[r] - 1 == A[r - 1]) {
-                r++;
+            if (A == null || A.length == 0) {
+                return res;
             }
 
-            if (l == r - 1) {
-                res.add(String.valueOf(A[l]));
-            } else {
-                res.add(A[l] + "->" + A[r - 1]);
+            int l = 0;
+            int r = 0;
+
+            while (r < A.length) {
+                r = l + 1;
+
+                while (r < A.length && A[r] - 1 == A[r - 1]) {
+                    r++;
+                }
+
+                if (l == r - 1) {
+                    res.add(String.valueOf(A[l]));
+                } else {
+                    res.add(A[l] + "->" + A[r - 1]);
+                }
+
+                l = r;
             }
 
-            l = r;
+            return res;
         }
-
-        return res;
     }
 }
