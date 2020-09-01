@@ -30,43 +30,49 @@ import common.TreeNode;
  * p and q are different and both values will exist in the binary tree.
  */
 public class _236_Lowest_Common_Ancestor_of_BinaryTree {
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        Res res = helper(root, p, q);
-        return res.node;
+    class Sol_divide_conquer {
+        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+            Res res = helper(root, p, q);
+            return res.node;
+        }
+
+        private Res helper(TreeNode root, TreeNode p, TreeNode q) {
+            if (root == null) {
+                return new Res(null, 0);
+            }
+
+            Res left = helper(root.left, p, q);
+            if (left.count == 2) {
+                return left;
+            }
+
+            Res right = helper(root.right, p, q);
+            if (right.count == 2) {
+                return right;
+            }
+
+            int count = left.count + right.count + (root.val == p.val ? 1 : 0) + (root.val == q.val ? 1 : 0);
+
+            if (count == 2) {
+                return new Res(root, 2);
+            } else {
+                return new Res(null, count);
+            }
+        }
+
+        public class Res {
+            public TreeNode node;
+            public int count;
+
+            public Res(TreeNode node, int count) {
+                this.node = node;
+                this.count = count;
+            }
+        }
     }
 
-    private Res helper(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) {
-            return new Res(null, 0);
-        }
+    class Sol_dfs {
 
-        Res left = helper(root.left, p, q);
-        if (left.count == 2) {
-            return left;
-        }
-
-        Res right = helper(root.right, p, q);
-        if (right.count == 2) {
-            return right;
-        }
-
-        int count = left.count + right.count + (root.val == p.val ? 1 : 0) + (root.val == q.val ? 1 : 0);
-
-        if (count == 2) {
-            return new Res(root, 2);
-        } else {
-            return new Res(null, count);
-        }
-    }
-
-    public class Res {
-        public TreeNode node;
-        public int count;
-
-        public Res(TreeNode node, int count) {
-            this.node = node;
-            this.count = count;
-        }
     }
 
 }
