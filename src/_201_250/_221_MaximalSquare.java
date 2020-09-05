@@ -16,23 +16,23 @@ package _201_250;
  */
 public class _221_MaximalSquare {
   public int maximalSquare(char[][] matrix) {
-    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
-      return 0;
-    }
+    // f[i][j] means the len of max square for right point i,j
+    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return 0;
 
-    int m = matrix.length, n = matrix[0].length, max_side = 0;
-    int[][] dp= new int[m + 1][n + 1];
+    int n = matrix.length, m = matrix[0].length;
+    int[][] f = new int[n + 1][m + 1];
 
-    for (int i = 1; i <= m; i++) {
-      for (int j = 1; j <= n; j++) {
+    int res = 0;
+    for (int i = 1; i <= n; i++) {
+      for (int j = 1; j <= m; j++) {
+        // ith row and jth col is the matrix[i - 1][j - 1]
         if (matrix[i - 1][j - 1] == '1') {
-          dp[i][j] = Math.min(dp[i - 1][j - 1],
-              Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;
+          f[i][j] = Math.min(f[i - 1][j - 1], Math.min(f[i][j - 1], f[i - 1][j])) + 1;
+          res = Math.max(res, f[i][j]);
         }
-        max_side = Math.max(max_side, dp[i][j]);
       }
     }
 
-    return max_side * max_side;
+    return res * res;
   }
 }
