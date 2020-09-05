@@ -25,106 +25,161 @@ import java.util.Stack;
  */
 public class _224_BasicCalculator {
   /**
-   * 28ms
-   * T = n
-   * https://www.acwing.com/solution/content/321/
-   * https://www.acwing.com/solution/content/6431/
+   * 23 ms
    */
-  class Sol_two_stacks {
-    Stack<Character> op = new Stack<>();
-    Stack<Integer> num = new Stack<>();
+  class Sol_template {
+    void eval(Stack<Integer> num, Stack<Character> op) {
+      int b = num.pop();
+      int a = num.pop();
+      char c = op.pop();
 
-    private void calc() {
-      int y = num.peek();
-      num.pop();
-      int x = num.peek();
-      num.pop();
-      if (op.peek() == '+')
-        num.push(x + y);
-      else
-        num.push(x - y);
-      op.pop();
+      int r;
+      if (c == '+') {
+        r = a + b;
+      } else {
+        r = a - b;
+      }
+      num.push(r);
     }
 
-    public int calculate(String s) {
-      for (int i = 0; i < s.length(); i++) {
-        char c = s.charAt(i);
+    public int calculate(String str) {
+      Stack<Integer> num = new Stack<>();
+      Stack<Character> op = new Stack<>();
 
-        if (c == ' ')
-          continue;
-        if (c == '+' || c == '-' || c == '(')
-          op.push(c);
-        else if (c == ')') {
-          op.pop();
-          if (!op.isEmpty() && op.peek() != '(') {
-            calc();
+      char[] s = str.toCharArray();
+
+      for (int i = 0; i < s.length; i++) {
+        char c = s[i];
+        if (c == ' ') continue;
+
+        if (Character.isDigit(c)) {
+          int x = 0, j = i;
+          while (j < s.length && Character.isDigit(s[j])) {
+            x = x * 10 + (s[j++] - '0');
           }
-        } else {
-          int j = i;
-          int val = 0;
-          while (j < s.length() && Character.isDigit(s.charAt(j))) {
-            val = val * 10 + s.charAt(j) - '0';
-            j++;
-          }
-          num.push(val);
           i = j - 1;
-          if (!op.isEmpty() && op.peek() != '(') {
-            calc();
+          num.push(x);
+        } else if (c == '(') {
+          op.push(c);
+        } else if (c == ')') {
+          while (op.peek() != '(') {
+            eval(num, op);
           }
+          op.pop();
+        } else {
+          while (!op.isEmpty() && op.peek() != '(') {
+            eval(num, op);
+          }
+          op.push(c);
         }
       }
+
+      while (!op.isEmpty()) eval(num, op);
       return num.peek();
     }
   }
 
-  class Sol_num_add_num {
-    /**
-     * 9 ms
-     * https://www.jiuzhang.com/solution/basic-calculator/
-     * https://www.acwing.com/solution/content/6431/
-     * T = n
-     *
-     * @param s
-     * @return
-     */
-    public int calculate(String s) {
-      Stack<Integer> stack = new Stack<Integer>();
-      int result = 0;
-      int number = 0;
-      int sign = 1;
+//  /**
+//   * 28ms
+//   * T = n
+//   * https://www.acwing.com/solution/content/321/
+//   * https://www.acwing.com/solution/content/6431/
+//   */
+//  class Sol_two_stacks {
+//    Stack<Character> op = new Stack<>();
+//    Stack<Integer> num = new Stack<>();
+//
+//    private void calc() {
+//      int y = num.peek();
+//      num.pop();
+//      int x = num.peek();
+//      num.pop();
+//      if (op.peek() == '+')
+//        num.push(x + y);
+//      else
+//        num.push(x - y);
+//      op.pop();
+//    }
+//
+//    public int calculate(String s) {
+//      for (int i = 0; i < s.length(); i++) {
+//        char c = s.charAt(i);
+//
+//        if (c == ' ')
+//          continue;
+//        if (c == '+' || c == '-' || c == '(')
+//          op.push(c);
+//        else if (c == ')') {
+//          op.pop();
+//          if (!op.isEmpty() && op.peek() != '(') {
+//            calc();
+//          }
+//        } else {
+//          int j = i;
+//          int val = 0;
+//          while (j < s.length() && Character.isDigit(s.charAt(j))) {
+//            val = val * 10 + s.charAt(j) - '0';
+//            j++;
+//          }
+//          num.push(val);
+//          i = j - 1;
+//          if (!op.isEmpty() && op.peek() != '(') {
+//            calc();
+//          }
+//        }
+//      }
+//      return num.peek();
+//    }
+//  }
 
-      for (int i = 0; i < s.length(); i++) {
-        char c = s.charAt(i);
-
-        if (Character.isDigit(c)) {
-          number = 10 * number + (int) (c - '0');
-        } else if (c == '+') {
-          result += sign * number;
-          number = 0;
-          sign = 1;
-        } else if (c == '-') {
-          result += sign * number;
-          number = 0;
-          sign = -1;
-        } else if (c == '(') {
-          //we push the result first, then sign;
-          stack.push(result);
-          stack.push(sign);
-          //reset the sign and result for the value in the parenthesis
-          sign = 1;
-          result = 0;
-        } else if (c == ')') {
-          result += sign * number;
-          number = 0;
-          result *= stack.pop();    //stack.pop() is the sign before the parenthesis
-          result += stack.pop();   //stack.pop() now is the result calculated before the parenthesis
-
-        }
-      }
-      if (number != 0) {
-        result += sign * number;
-      }
-      return result;
-    }
-  }
+//  class Sol_num_add_num {
+//    /**
+//     * 9 ms
+//     * https://www.jiuzhang.com/solution/basic-calculator/
+//     * https://www.acwing.com/solution/content/6431/
+//     * T = n
+//     *
+//     * @param s
+//     * @return
+//     */
+//    public int calculate(String s) {
+//      Stack<Integer> stack = new Stack<Integer>();
+//      int result = 0;
+//      int number = 0;
+//      int sign = 1;
+//
+//      for (int i = 0; i < s.length(); i++) {
+//        char c = s.charAt(i);
+//
+//        if (Character.isDigit(c)) {
+//          number = 10 * number + (int) (c - '0');
+//        } else if (c == '+') {
+//          result += sign * number;
+//          number = 0;
+//          sign = 1;
+//        } else if (c == '-') {
+//          result += sign * number;
+//          number = 0;
+//          sign = -1;
+//        } else if (c == '(') {
+//          //we push the result first, then sign;
+//          stack.push(result);
+//          stack.push(sign);
+//          //reset the sign and result for the value in the parenthesis
+//          sign = 1;
+//          result = 0;
+//        } else if (c == ')') {
+//          result += sign * number;
+//          number = 0;
+//          result *= stack.pop();    //stack.pop() is the sign before the parenthesis
+//          result += stack.pop();   //stack.pop() now is the result calculated before the parenthesis
+//
+//        }
+//      }
+//      if (number != 0) {
+//        result += sign * number;
+//      }
+//      return result;
+//    }
+//  }
 }
