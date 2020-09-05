@@ -37,9 +37,8 @@ public class _218_Skyline_Problem {
     class Sol_Acwing {
         public List<List<Integer>> getSkyline(int[][] buildings) {
             List<List<Integer>> res = new ArrayList<>();
-            List<int[]> points = new ArrayList<>();
 
-            PriorityQueue<Integer> heights = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
+            List<int[]> points = new ArrayList<>();
             for (int[] b : buildings) {
                 // left, point is x, -h
                 // right, point is x, h
@@ -51,6 +50,8 @@ public class _218_Skyline_Problem {
                 if (x[0] != y[0]) return Integer.compare(x[0], y[0]);
                 else return Integer.compare(x[1], y[1]);
             });
+
+            PriorityQueue<Integer> heights = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
             heights.add(0);
 
             for (int[] p : points) {
