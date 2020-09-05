@@ -30,13 +30,11 @@ public class _219_ContainsDuplicate2 {
          */
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < A.length; i++) {
-            if (map.containsKey(A[i])) {
-                if (i - map.get(A[i]) <= k) {
-                    return true;
-                }
-            }
-            map.put(A[i], i);
+            int x = A[i];
+            if (map.containsKey(x) && i - map.get(x) <= k) return true;
+            map.put(x, i);
         }
+
         return false;
     }
 }
