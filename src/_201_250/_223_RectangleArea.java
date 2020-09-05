@@ -14,7 +14,7 @@ package _201_250;
  */
 public class _223_RectangleArea {
     /**
-     * No need to consider overflow
+     * No need to consider overflow. More clear.
      */
     public int computeArea_readable(int A, int B, int C, int D, int E, int F, int G, int H) {
         /**
@@ -57,13 +57,11 @@ public class _223_RectangleArea {
          * 1
          *
          * -1294967294
+         *
+         * because the Math.min(C, G) - Math.max(A, E) can be negative - negative.
          */
-        long x = (long) Math.min(C, G) - Math.max(A, E);
-        x = Math.max(x, 0);
-
-        long y = (long) Math.min(D, H) - Math.max(B, F);
-        y = Math.max(y, 0);
-
-        return (C - A) * (D - B) - (int) (x * y) + (G - E) * (H - F);
+        long x = Math.max(0L, 0L + Math.min(C, G) - Math.max(A, E));
+        long y = Math.max(0L, 0L + Math.min(D, H) - Math.max(B, F));
+        return (int) ((C - A) * (D - B) - x * y + (G - E) * (H - F));
     }
 }
