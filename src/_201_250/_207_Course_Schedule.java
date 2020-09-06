@@ -1,6 +1,9 @@
 package _201_250;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * There are a total of n courses you have to take, labeled from 0 to n-1.
@@ -105,55 +108,5 @@ public class _207_Course_Schedule {
 
         onStack[v] = false;
       }
-    }
-
-    //BFS
-    public boolean canFinish(int n, int[][] prerequisites) {
-        int[] indegree = new int[n];
-        List<Integer>[] neighbors = new ArrayList[n];
-        /**
-         * !!! else it will be null reference
-         */
-        for (int i = 0; i < n; i++) {
-            neighbors[i] = new ArrayList<>();
-        }
-
-        for (int[] edge : prerequisites) {
-            int start = edge[1];
-            int end = edge[0];
-
-            neighbors[start].add(end);
-            indegree[end]++;
-        }
-
-        Queue<Integer> q = new LinkedList<>();
-        Set<Integer> vt = new HashSet<>();
-
-        for (int i = 0; i < n; i++) {
-            if (indegree[i] == 0) {
-                q.add(i);
-                vt.add(i);
-            }
-        }
-
-        int count = 0;
-        while (!q.isEmpty()) {
-            int cur = q.remove();
-            count++;
-
-            for (int neigh : neighbors[cur]) {
-                if (vt.contains(neigh)) {
-                    return false;
-                }
-
-                indegree[neigh]--;
-                if (indegree[neigh] == 0) {
-                    q.add(neigh);
-                    vt.add(neigh);
-                }
-            }
-        }
-
-        return count == n;
     }
 }
