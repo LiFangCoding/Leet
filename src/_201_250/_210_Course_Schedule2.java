@@ -31,67 +31,40 @@ import java.util.*;
  */
 public class _210_Course_Schedule2 {
     class Solution_BFS {
-        public int[] findOrder(int n, int[][] prerequisites) {
-            int[] ans = new int[n];
+        public int[] findOrder(int n, int[][] edges) {
+            int[] res = new int[n];
 
-            int[] indegree = new int[n];
-            List<Integer>[] neighs = new List[n];
+            // build graph
+            List<List<Integer>> g = new ArrayList<>();
+            for (int i = 0; i < n; i++) g.add(new ArrayList<>());
+            int[] d = new int[n];
 
-            for (int i = 0; i < n; i++) {
-                neighs[i] = new ArrayList<>();
-            }
-
-            for (int[] req : prerequisites) {
-                int start = req[1];
-                int end = req[0];
-
-                indegree[end]++;
-                neighs[start].add(end);
+            for (int[] e : edges) {
+                int b = e[0], a = e[1];
+                g.get(a).add(b);
+                d[b]++;
             }
 
             Queue<Integer> q = new LinkedList<>();
-            // without marked also ok
-//            Set<Integer> marked = new HashSet<>();
-
             for (int i = 0; i < n; i++) {
-                /**
-                 * Here is the empty array if no sol exist
-                 */
-                if (indegree[i] == 0) {
-                    q.add(i);
-//                    marked.add(i);
-                }
+                if (d[i] == 0) q.add(i);
             }
 
-            int cnt = 0;
+            int idx = 0;
             while (!q.isEmpty()) {
-                int curCourse = q.remove();
-                ans[cnt++] = curCourse;
+                int t = q.remove();
+                res[idx++] = t;
 
-                /**
-                 * Need to decrese the indegree.
-                 * Should run small test cases
-                 */
-                for (int course : neighs[curCourse]) {
-//                    if (marked.contains(course)) {
-//                        return new int[0];
-//                    }
-
-                    /**
-                     * Important
-                     */
-                    indegree[course]--;
-                    if (indegree[course] == 0) {
-                        q.add(course);
-//                        marked.add(course);
+                for (int i : g.get(t)) {
+                    if (--d[i] == 0) {
+                        q.add(i);
                     }
                 }
             }
 
-            if (cnt == n) {
-                return ans;
-            }
-            return new int[0];
+            // here is idx. Since res len is always n
+            if (idx < n) res = new int[0];
+            return res;
         }
     }
 
