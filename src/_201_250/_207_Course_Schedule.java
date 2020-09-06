@@ -24,15 +24,51 @@ import java.util.*;
  *              also have finished course 1. So it is impossible.
  */
 public class _207_Course_Schedule {
+    class Sol_BFS {
+        public boolean canFinish(int n, int[][] edges) {
+            // this is adajacent list for graph
+            List<List<Integer>> g = new ArrayList<>();
+            for (int i = 0; i < n; i++) g.add(new ArrayList());
+
+            int[] d = new int[n];
+            for (int[] e : edges) {
+                int b = e[0], a = e[1];
+                g.get(a).add(b);
+                d[b]++;
+            }
+
+            Queue<Integer> q = new LinkedList<>();
+            for (int i = 0; i < n; i++) {
+                if (d[i] == 0) {
+                    q.add(i);
+                }
+            }
+
+            int cnt = 0;
+            while (!q.isEmpty()) {
+                int t = q.remove();
+                cnt++;
+                for (int i : g.get(t)) {
+                    if (--d[i] == 0) {
+                        q.add(i);
+                    }
+                }
+            }
+
+            return cnt == n;
+        }
+    }
+
+
     //DFS
     class Sol_DFS {
-      boolean[] marked;
-      boolean[] onStack;
-      boolean hasCycle;
+        boolean[] marked;
+        boolean[] onStack;
+        boolean hasCycle;
 
-      public boolean canFinish(int n, int[][] pres) {
-        marked = new boolean[n];
-        onStack = new boolean[n];
+        public boolean canFinish(int n, int[][] pres) {
+            marked = new boolean[n];
+            onStack = new boolean[n];
         hasCycle = false;
 
         List<List<Integer>> adj = new ArrayList<>();
