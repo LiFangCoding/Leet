@@ -14,37 +14,31 @@ import common.ListNode;
  * A linked list can be reversed either iteratively or recursively. Could you implement both?
  */
 public class _206_ReverseLinkedList {
-    /**
-     *
-     */
-    public ListNode reverseList_iterative(ListNode head) {
-        ListNode prev = null;
-        ListNode cur = head;
+    class Sol_iteration {
+        public ListNode reverseList(ListNode head) {
+            if (head == null) return null;
 
-        while (cur != null) {
-            ListNode next = cur.next;
-            cur.next = prev;
-            prev = cur;
-            cur = next;
+            ListNode first = null, second = head;
+
+            while (second != null) {
+                ListNode t = second.next;
+                second.next = first;
+                first = second;
+                second = t;
+            }
+
+            return first;
         }
-
-        return prev;
     }
 
-    /**
-     * 1
-     * 1,2,3,4  -> 4,3,2,1
-     */
-    public ListNode reverseList_recursion(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
+    class Sol_recursion {
+        public ListNode reverseList(ListNode head) {
+            if (head == null || head.next == null) return head;
+
+            ListNode newHead = reverseList(head.next);
+            head.next.next = head;
+            head.next = null;
+            return newHead;
         }
-
-        ListNode tail = head.next;
-        head.next = null;
-
-        ListNode newHead = reverseList_recursion(tail);
-        tail.next = head;
-        return newHead;
     }
 }
