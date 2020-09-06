@@ -12,55 +12,20 @@ package _201_250;
  * If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log n). 
  */
 public class _209_MinimumSizeSubarraySum {
-    public static void main(String[] args) {
-        _209_MinimumSizeSubarraySum test = new _209_MinimumSizeSubarraySum();
-        int[] A = new int[]{2, 3, 1, 2, 4, 3};
-        System.out.println(test.minSubArrayLen(7, A));
-    }
 
-    public int minSubArrayLen_shorter(int target, int[] A) {
-        if (A == null || A.length == 0) {
-            return 0;
-        }
-
-        int sum = 0;
+    public int minSubArrayLen(int s, int[] nums) {
         int res = Integer.MAX_VALUE;
-
-        for (int l = 0, r = 0; r < A.length; r++) {
-            sum += A[r];
-
-            while (sum >= target) {
-                res = Math.min(res, r - l + 1);
-                sum -= A[l];
-                l++;
+        for (int i = 0, j = 0, sum = 0; i < nums.length; i++) {
+            sum += nums[i];
+            while (sum - nums[j] >= s) {
+                sum -= nums[j++];
+            }
+            if (sum >= s) {
+                res = Math.min(res, i - j + 1);
             }
         }
 
-        return res == Integer.MAX_VALUE ? 0 : res;
-    }
-
-    public int minSubArrayLen(int target, int[] A) {
-        if (A == null || A.length == 0) {
-            return 0;
-        }
-
-        int res = Integer.MAX_VALUE;
-        int l = 0;
-        int r = 0;
-        int sum = 0;
-
-        while (r < A.length) {
-            sum += A[r];
-
-            while (sum >= target) {
-                res = Math.min(res, r - l + 1);
-                sum -= A[l];
-                l++;
-            }
-
-            r++;
-        }
-
-        return res == Integer.MAX_VALUE ? 0 : res;
+        if (res == Integer.MAX_VALUE) res = 0;
+        return res;
     }
 }
