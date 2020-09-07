@@ -19,6 +19,22 @@ package _151_200;
  *              Total amount you can rob = 2 + 9 + 1 = 12.
  */
 public class _198_HouseRobber {
+  class Sol_clean {
+    public int rob(int[] nums) {
+      int n = nums.length;
+      // start from 1. Must select ith
+      int[] f = new int[n + 1];
+      // Must not select ith
+      int[] g = new int[n + 1];
+
+      for (int i = 1; i <= n; i++) {
+        f[i] = g[i - 1] + nums[i - 1];
+        g[i] = Math.max(f[i - 1], g[i - 1]);
+      }
+      return Math.max(f[n], g[n]);
+    }
+  }
+
   class Sol_easy_no_bug {
     public int rob(int[] A) {
       if (A == null || A.length == 0) {
@@ -43,30 +59,5 @@ public class _198_HouseRobber {
 
       return ans;
     }
-  }
-
-  public int rob(int[] A) {
-    if (A == null || A.length == 0) {
-      return 0;
-    }
-
-    int len = A.length;
-    //!!!
-    if (len == 1) {
-      return A[0];
-    }
-
-    /**
-     * f[i] means until the ith index, the maximum rob
-     */
-    int[] f = new int[len];
-    f[0] = A[0];
-    f[1] = Math.max(A[0], A[1]);
-
-    for (int i = 2; i < len; i++) {
-      f[i] = Math.max(f[i - 2] + A[i], f[i - 1]);
-    }
-
-    return f[len - 1];
   }
 }
