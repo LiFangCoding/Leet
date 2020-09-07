@@ -1,8 +1,9 @@
 package _201_250;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Given a 2D board and a list of words from the dictionary, find all words in the board.
@@ -31,7 +32,6 @@ import java.util.List;
  * The values of words are distinct.
  */
 public class _212_WordSearch2 {
-
     /**
      * 23 ms
      * T = M * 4 * 3 ^ (L - 1)
@@ -39,87 +39,64 @@ public class _212_WordSearch2 {
      * https://leetcode-cn.com/problems/word-search-ii/solution/dan-ci-sou-suo-ii-by-leetcode/
      * https://www.acwing.com/solution/content/318/
      */
-    class Sol_Dfs_Trie {
-        //TODO
-        class TrieNode {
-            HashMap<Character, TrieNode> children = new HashMap<>();
-            String word = null;
+    class Sol_new {
+        Node root;
+        Set<Integer> ids = new HashSet<>();
+        char[][] g;
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
 
-            public TrieNode() {
+        void insert(String word, int id) {
+            Node p = root;
+            for (char c : word.toCharArray()) {
+                int u = c - 'a';
+                if (p.son[u] == null) p.son[u] = new Node();
+                p = p.son[u];
             }
+            p.id = id;
         }
-
-        char[][] _board = null;
-        ArrayList<String> ans = new ArrayList<>();
 
         public List<String> findWords(char[][] board, String[] words) {
+            g = board;
+            root = new Node();
+            for (int i = 0; i < words.length; i++) insert(words[i], i);
 
-            // Step 1). Construct the Trie
-            TrieNode root = new TrieNode();
-            for (String word : words) {
-                TrieNode node = root;
-
-                for (char letter : word.toCharArray()) {
-                    if (node.children.containsKey(letter)) {
-                        node = node.children.get(letter);
-                    } else {
-                        TrieNode newNode = new TrieNode();
-                        node.children.put(letter, newNode);
-                        node = newNode;
-                    }
-                }
-                node.word = word;  // store words in Trie
-            }
-
-            this._board = board;
-            // Step 2). Backtracking starting for each cell in the board
-            for (int row = 0; row < board.length; ++row) {
-                for (int col = 0; col < board[row].length; ++col) {
-                    if (root.children.containsKey(board[row][col])) {
-                        backtracking(row, col, root);
+            for (int i = 0; i < g.length; i++) {
+                for (int j = 0; j < g[i].length; j++) {
+                    int u = g[i][j] - 'a';
+                    if (root.son[u] != null) {
+                        dfs(i, j, root.son[u]);
                     }
                 }
             }
 
-            return this.ans;
+            List<String> res = new ArrayList<>();
+            for (int id : ids) res.add(words[id]);
+            return res;
         }
 
-        private void backtracking(int row, int col, TrieNode parent) {
-            Character letter = this._board[row][col];
-            TrieNode currNode = parent.children.get(letter);
-
-            // check if there is any match
-            if (currNode.word != null) {
-                this.ans.add(currNode.word);
-                currNode.word = null;
+        void dfs(int x, int y, Node p) {
+            if (p.id != -1) {
+                ids.add(p.id);
             }
 
-            // mark the current letter before the EXPLORATION
-            this._board[row][col] = '#';
-
-            // explore neighbor cells in around-clock directions: up, right, down, left
-            int[] rowOffset = {-1, 0, 1, 0};
-            int[] colOffset = {0, 1, 0, -1};
-            for (int i = 0; i < 4; ++i) {
-                int newRow = row + rowOffset[i];
-                int newCol = col + colOffset[i];
-                if (newRow < 0 || newRow >= this._board.length || newCol < 0
-                        || newCol >= this._board[0].length) {
-                    continue;
-                }
-                if (currNode.children.containsKey(this._board[newRow][newCol])) {
-                    backtracking(newRow, newCol, currNode);
+            char t = g[x][y];
+            g[x][y] = '.';
+            for (int i = 0; i < 4; i++) {
+                int a = x + dx[i], b = y + dy[i];
+                if (a >= 0 && a < g.length && b >= 0 && b < g[0].length && g[a][b] != '.') {
+                    int u = g[a][b] - 'a';
+                    if (p.son[u] != null) {
+                        dfs(a, b, p.son[u]);
+                    }
                 }
             }
+            g[x][y] = t;
+        }
 
-            // End of EXPLORATION, restore the original letter in the board.
-            this._board[row][col] = letter;
-
-            // Optimization: incrementally remove the leaf nodes
-            if (currNode.children.isEmpty()) {
-                parent.children.remove(letter);
-            }
+        class Node {
+            int id = -1;
+            Node[] son = new Node[26];
         }
     }
-
 }
