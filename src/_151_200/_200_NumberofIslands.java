@@ -30,7 +30,6 @@ public class _200_NumberofIslands {
     int[] dy = {0, 0, 1, -1};
     char land = '1';
     char water = '0';
-
     int m;
     int n;
 
@@ -42,7 +41,7 @@ public class _200_NumberofIslands {
      */
     public int numIslands(char[][] grid) {
         if (grid == null || grid.length == 0
-            || grid[0] == null || grid[0].length == 0) {
+                || grid[0] == null || grid[0].length == 0) {
             return 0;
         }
 
@@ -53,7 +52,6 @@ public class _200_NumberofIslands {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == land) {
-//                    dfs(grid, i, j);
                     bfs(grid, i, j);
                     ans++;
                 }
@@ -63,15 +61,35 @@ public class _200_NumberofIslands {
         return ans;
     }
 
-    private void dfs(char[][] grid, int x, int y) {
-      if (x < 0 || x >= grid.length || y < 0 || y >= grid[0].length || grid[x][y] == water) {
-        return;
-      }
+    class Sol_floodFill_dfs {
+        char land = '1';
+        char[][] g;
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
 
-      grid[x][y] = water;
-      for (int i = 0; i < dx.length; i++) {
-        dfs(grid, x + dx[i],  y + dy[i]);
-      }
+        public int numIslands(char[][] grid) {
+            g = grid;
+            int cnt = 0;
+            for (int i = 0; i < g.length; i++) {
+                for (int j = 0; j < g[0].length; j++) {
+                    if (g[i][j] == land) {
+                        dfs(i, j);
+                        cnt++;
+                    }
+                }
+            }
+            return cnt;
+        }
+
+        void dfs(int x, int y) {
+            g[x][y] = 0;
+            for (int i = 0; i < 4; i++) {
+                int a = x + dx[i], b = y + dy[i];
+                if (a >= 0 && a < g.length && b >= 0 && b < g[a].length && g[a][b] == land) {
+                    dfs(a, b);
+                }
+            }
+        }
     }
 
     private void bfs(char[][] grid, int x, int y) {
