@@ -24,43 +24,35 @@ import java.util.Queue;
  */
 public class _199_BinaryTreeRightSideView {
     /**
-     * 时间复杂度： O(N)O(N)，每个节点都入队出队了 1 次。
-     * 空间复杂度： O(N)O(N)，使用了额外的队列空间。
+     * 时间复杂度： O(N)，每个节点都入队出队了 1 次。
+     * 空间复杂度： O(N)，使用了额外的队列空间。
      */
     class Sol_BFS {
         public List<Integer> rightSideView(TreeNode root) {
+            Queue<TreeNode> q = new LinkedList<>();
             List<Integer> res = new ArrayList<>();
 
-            Queue<TreeNode> q = new LinkedList<>();
-            if (root != null) {
-                q.add(root);
+            if (root == null) {
+                return res;
             }
 
+            q.add(root);
             while (!q.isEmpty()) {
-                int size = q.size();
-                for (int i = 0; i < size; i++) {
-                    TreeNode cur = q.remove();
-                    if (i == size - 1) {
-                        res.add(cur.val);
-                    }
-
-                    if (cur.left != null) {
-                        q.add(cur.left);
-                    }
-
-                    if (cur.right != null) {
-                        q.add(cur.right);
-                    }
+                int len = q.size();
+                for (int i = 0; i < len; i++) {
+                    TreeNode t = q.remove();
+                    if (t.left != null) q.add(t.left);
+                    if (t.right != null) q.add(t.right);
+                    if (i == len - 1) res.add(t.val);
                 }
             }
-
             return res;
         }
     }
 
     /**
-     * 时间复杂度： O(N)O(N)，每个节点都访问了 1 次。
-     * 空间复杂度： O(N)O(N)，因为这不是一棵平衡二叉树，二叉树的深度最少是 logNlogN, 最坏的情况下会退化成一条链表，深度就是 NN，因此递归时使用的栈空间是 O(N)O(N) 的。
+     * 时间复杂度： O(N)，每个节点都访问了 1 次。
+     * 空间复杂度： O(N)，因为这不是一棵平衡二叉树，二叉树的深度最少是 logNlogN, 最坏的情况下会退化成一条链表，深度就是 N，因此递归时使用的栈空间是O(N)。
      * <p>
      * 作者：sweetiee
      * 链接：https://leetcode-cn.com/problems/binary-tree-right-side-view/solution/jian-dan-bfsdfs-bi-xu-miao-dong-by-sweetiee/
