@@ -20,68 +20,63 @@ package _201_250;
  * You may assume that all words are consist of lowercase letters a-z.
  */
 public class _211_AddAndSearchWord {
-    Node root;
-
-    _211_AddAndSearchWord() {
-        root = new Node();
-    }
-
-    public void addWord(String word) {
-        Node cur = root;
-        for (char c : word.toCharArray()) {
-            int idx = c - 'a';
-            if (cur.children[idx] == null) {
-                cur.children[idx] = new Node();
-            }
-            cur = cur.children[idx];
+    class WordDictionary {
+        class Node {
+            boolean isEnd = false;
+            Node[] son = new Node[26];
         }
 
-        cur.isleaf = true;
-    }
+        Node root;
 
-    /**
-     * Returns if the word is in the data structure.
-     * A word could contain the dot character '.' to represent any one letter.
-     */
-    public boolean search(String word) {
-        return dfs(word, 0, root);
-    }
-
-    private boolean dfs(String word, int start, Node node) {
-        if (start == word.length()) {
-            return node.isleaf;
+        /**
+         * Initialize your data structure here.
+         */
+        public WordDictionary() {
+            root = new Node();
         }
 
-        char c = word.charAt(start);
-        if (c == '.') {
-            for (int i = 0; i < 26; i++) {
-                if (node.children[i] != null) {
-                    if (dfs(word, start + 1, node.children[i])) {
-                        return true;
-                    }
+        /**
+         * Adds a word into the data structure.
+         */
+        public void addWord(String s) {
+            Node p = root;
+            for (char c : s.toCharArray()) {
+                int u = c - 'a';
+                if (p.son[u] == null) {
+                    p.son[u] = new Node();
                 }
+
+                p = p.son[u];
             }
-        } else {
-            int idx = c - 'a';
-            if (node.children[idx] == null) {
-                return false;
-            } else {
-                return dfs(word, start + 1, node.children[idx]);
-            }
+
+            p.isEnd = true;
         }
 
-        return false;
-    }
+        /**
+         * Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
+         */
+        public boolean search(String word) {
+            return dfs(root, word.toCharArray(), 0);
+        }
 
-    public class Node {
-        boolean isleaf;
-        Node[] children;
+        boolean dfs(Node p, char[] word, int i) {
+            if (i == word.length) {
+                return p.isEnd;
+            }
 
-        public Node() {
-            isleaf = false;
-            children = new Node[26];
-            for (int i = 0; i < 26; i++) {
-                children[i] = null;
+            if (word[i] != '.') {
+                int u = word[i] - 'a';
+                if (p.son[u] == null)
+                    return false;
+                return dfs(p.son[u], word, i + 1);
+            } else {
+                // .
+                for (int j = 0; j < 26; j++) {
+                    if (p.son[j] != null && dfs(p.son[j], word, i + 1))
+                        return true;
+                }
+
+                return false;
             }
         }
     }
