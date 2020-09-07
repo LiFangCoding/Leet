@@ -24,6 +24,30 @@ package _151_200;
  * Could you do it in-place with O(1) extra space?
  */
 public class _189_RotateArray {
+  class Sol_reverse {
+    public void rotate(int[] nums, int k) {
+      // how large is k. k % n
+      if (nums == null || nums.length == 0) return;
+
+      int n = nums.length;
+      // important
+      k %= n;
+
+      reverse(nums, 0, n - 1);
+      reverse(nums, 0, k - 1);
+      reverse(nums, k, n - 1);
+    }
+
+    private void reverse(int[] nums, int l, int r) {
+      while (l < r) {
+        int t = nums[l];
+        nums[l++] = nums[r];
+        nums[r--] = t;
+      }
+    }
+  }
+
+
   public void rotate_circular_array(int[] A, int k) {
     if (A == null || A.length == 0) {
       return;
@@ -44,31 +68,6 @@ public class _189_RotateArray {
         cur = next;
         count++;
       } while (i != cur);
-    }
-  }
-
-
-  /**
-   * Use reverse method
-   */
-  public void rotate(int[] A, int k) {
-    if (A == null || A.length == 0) {
-      return;
-    }
-
-    int len = A.length;
-    k %= len;
-
-    reverse(A, 0, len - k -1);
-    reverse(A, len - k, len - 1);
-    reverse(A, 0, len - 1);
-  }
-
-  private void reverse(int[] A, int l, int r) {
-    for (; l < r; l++, r--) {
-      int temp = A[l];
-      A[l] = A[r];
-      A[r] = temp;
     }
   }
 }
