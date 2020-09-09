@@ -19,6 +19,32 @@ import java.util.Set;
  * 12 + 02 + 02 = 1
  */
 public class _202_HappyNumber {
+    class Sol_ac {
+        private int get(int x) {
+            int res = 0;
+            while (x != 0) {
+                int d = x % 10;
+                res += d * d;
+                x /= 10;
+            }
+            return res;
+        }
+
+        public boolean isHappy(int n) {
+            int fast = n, slow = n;
+
+            while (true) {
+                fast = get(get(fast));
+                slow = get(slow);
+
+                if (fast == slow)
+                    break;
+            }
+
+            return fast == 1;
+        }
+    }
+
     public boolean isHappy(int n) {
         if (n == 1) {
             return true;
