@@ -22,25 +22,20 @@ package _201_250;
  */
 public class _240_Search_a_2D_MatrixII {
     public boolean searchMatrix(int[][] matrix, int target) {
-        // martix == null || matrix.length == 0, we will not have matrix[0]
-        if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0)
             return false;
-        }
-        int rows = matrix.length, cols = matrix[0].length;
+        int n = matrix.length, m = matrix[0].length;
 
-        int row = rows - 1, col = 0;
-
-        while (row >= 0 && col < cols) {
-            int val = matrix[row][col];
-            if (val == target) {
+        int i = 0, j = m - 1;
+        while (i < n && j >= 0) {
+            int t = matrix[i][j];
+            if (t == target)
                 return true;
-            } else if (val > target) {
-                row--;
-            } else {
-                col++;
-            }
+            else if (t > target)
+                j--;
+            else
+                i++;
         }
-
         return false;
     }
 }
