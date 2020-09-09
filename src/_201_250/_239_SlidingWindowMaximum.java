@@ -54,10 +54,11 @@ public class _239_SlidingWindowMaximum {
 
       int idx = 0;
       for (int i = 0; i < n; i++) {
+          // remove element if the first element is out of sliding window
           if (!q.isEmpty() && i - k + 1 > q.getFirst()) {
               q.removeFirst();
           }
-
+          // add cur into deque
           while (!q.isEmpty() && nums[i] > nums[q.getLast()])
               q.removeLast();
           q.add(i);
