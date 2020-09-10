@@ -46,29 +46,26 @@ public class _239_SlidingWindowMaximum {
    * 来源：AcWing
    * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
    */
-  public int[] maxSlidingWindow(int[] A, int k) {
-    int len = A.length;
-    int[] ans = new int[len - k + 1];
+  public int[] maxSlidingWindow(int[] nums, int k) {
+      int n = nums.length;
+      int res[] = new int[n - k + 1];
+      // we need to store the head and tail of queue. maintains the index which are in the sliding window now
+      Deque<Integer> q = new LinkedList<>();
 
-    Deque<Integer> q = new LinkedList<>();
-
-    int idx = 0;
-    for (int i = 0; i < len; i++) {
-      while (!q.isEmpty() && i - q.getFirst() >= k) {
-        q.removeFirst();
+      int idx = 0;
+      for (int i = 0; i < n; i++) {
+          // remove element if the first element is out of sliding window
+          if (!q.isEmpty() && i - k + 1 > q.getFirst()) {
+              q.removeFirst();
+          }
+          // add cur into deque
+          while (!q.isEmpty() && nums[i] > nums[q.getLast()])
+              q.removeLast();
+          q.add(i);
+          if (i >= k - 1)
+              res[idx++] = nums[q.getFirst()];
       }
 
-      while (!q.isEmpty() && A[i] >= A[q.getLast()]) {
-        q.removeLast();
-      }
-
-      q.add(i);
-
-      if (i >= k - 1) {
-        ans[idx++] = A[q.getFirst()];
-      }
-    }
-
-    return ans;
+      return res;
   }
 }

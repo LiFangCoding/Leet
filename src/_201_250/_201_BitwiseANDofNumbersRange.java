@@ -13,14 +13,14 @@ package _201_250;
  * Output: 0
  */
 public class _201_BitwiseANDofNumbersRange {
-    //TODO: haojun, need more time
     public int rangeBitwiseAnd(int m, int n) {
         int res = 0;
-
-        while (m < n) {
-            res = n & (n - 1);
-            n = res;
+        for (int i = 30; i >= 0; i--) {
+            if ((m >> i & 1) != (n >> i & 1))
+                break;
+            if ((m >> i & 1) != 0)
+                res += 1 << i;
         }
-        return n;
+        return res;
     }
 }
