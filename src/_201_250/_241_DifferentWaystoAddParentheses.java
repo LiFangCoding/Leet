@@ -45,7 +45,7 @@ public class _241_DifferentWaystoAddParentheses {
                 i = j - 1;
                 expr.add(String.valueOf(x));
             } else {
-                expr.add("" + s[i]);
+                expr.add(String.valueOf(s[i]));
             }
         }
         return dfs(0, expr.size() - 1);
@@ -62,11 +62,12 @@ public class _241_DifferentWaystoAddParentheses {
         for (int i = l + 1; i < r; i += 2) {
             List<Integer> left = dfs(l, i - 1);
             List<Integer> right = dfs(i + 1, r);
+            String ope = expr.get(i);
+
 
             for (int x : left) {
                 for (int y : right) {
                     int z = 0;
-                    String ope = expr.get(i);
                     if (ope.equals("+")) z = x + y;
                     else if (ope.equals("-")) z = x - y;
                     else z = x * y;
