@@ -1,60 +1,59 @@
 package data_structure.MergeAndQuickSort;
 
 public class QuckSort {
-    public static void sort(Comparable[] a) {
+    public static void sort(int[] a) {
         shuffle(a);
         sort(a, 0, a.length - 1);
     }
 
-    private static void sort(Comparable[] a, int lo, int hi) {
-        if (hi <= lo) {
+    private static void sort(int[] a, int l, int r) {
+        if (l >= r) {
             return;
         }
 
-        int j = partition(a, lo, hi);
-        sort(a, lo, j - 1);
-        sort(a, j + 1, hi);
+        int idx = partition(a, l, r);
+        sort(a, l, idx - 1);
+        sort(a, idx + 1, r);
     }
 
-    private static int partition(Comparable[] a, int lo, int hi) {
+    static int getK(int[] a, int k) {
+        int i = 0, j = a.length - 1;
+        while (i < j) {
+            int idx = partition(a, i, j);
+            if (idx > k) {
+                j = idx - 1;
+            } else if (idx < k) {
+                i = idx + 1;
+            } else {
+                return a[idx];
+            }
+        }
+        return a[i];
+    }
+
+    private static int partition(int[] a, int l, int r) {
         // partition into a[lo.. i -1], a[i], a[i +1..hi]
-        int i = lo, j = hi + 1;
+        int i = l, j = r + 1;
+        int v = a[i];
 
-        Comparable v = a[lo];
         while (true) {
-            while (less(a[++i], v)) {
-                // compare with hi
-                if (i == hi) {
-                    break;
-                }
-            }
+            // have ++
+            while (i < r && a[++i] < v) ;
+            while (j > l && a[--j] > v) ;
 
-            while (less(v, a[--j])) {
-                // compare with lo
-                if (j == lo) {
-                    break;
-                }
-            }
-
-            if (i >= j) {
-                break;
-            }
-
-            exch(a, i, j);
+            if (i >= j) break;
+            swap(a, i, j);
         }
 
-        exch(a, lo, j);
+        swap(a, l, j);
         return j;
     }
 
-    private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
-    }
 
-    private static void exch(Object[] a, int i, int j) {
-        Object swap = a[i];
+    private static void swap(int[] a, int i, int j) {
+        int t = a[i];
         a[i] = a[j];
-        a[j] = swap;
+        a[j] = t;
     }
 
     /**
@@ -64,14 +63,12 @@ public class QuckSort {
      *
      * @param a the array to be shuffled
      */
-    public static void shuffle(Object[] a) {
+    public static void shuffle(int[] a) {
         int n = a.length;
         for (int i = 0; i < n; i++) {
             // choose index uniformly in [0, i]
             int r = (int) (Math.random() * (i + 1));
-            Object swap = a[r];
-            a[r] = a[i];
-            a[i] = swap;
+            swap(a, i, r);
         }
     }
 }
