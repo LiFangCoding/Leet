@@ -21,29 +21,55 @@ import common.ListNode;
  * The first node is considered odd, the second node even and so on ..
  */
 public class _328_Odd_Even_Linked_List {
-    public ListNode oddEvenList(ListNode head) {
-        ListNode oddDummy = new ListNode(0);
-        ListNode evenDummy = new ListNode(0);
-        ListNode oddP = oddDummy, evenP = evenDummy;
+    class Sol_new {
+        public ListNode oddEvenList(ListNode head) {
+            if (head == null || head.next == null) return head;
 
-        ListNode cur = head;
-        boolean isOdd = true;
+            ListNode oh = head, ot = oh;
+            ListNode eh = head.next, et = eh;
 
-        while (cur != null) {
-            if (isOdd) {
-                oddP.next = cur;
-                oddP = oddP.next;
-            } else {
-                evenP.next = cur;
-                evenP = evenP.next;
+            for (ListNode p = head.next.next; p != null; ) {
+                ot.next = p;
+                ot = ot.next;
+                p = p.next;
+
+                if (p != null) {
+                    et.next = p;
+                    et = et.next;
+                    p = p.next;
+                }
             }
-            isOdd = !isOdd;
-            cur = cur.next;
+            ot.next = eh;
+            et.next = null;
+            return oh;
         }
+    }
 
-        oddP.next = evenDummy.next;
-        evenP.next = null;
+    class Sol_old {
+        public ListNode oddEvenList(ListNode head) {
+            ListNode oddDummy = new ListNode(0);
+            ListNode evenDummy = new ListNode(0);
+            ListNode oddP = oddDummy, evenP = evenDummy;
 
-        return oddDummy.next;
+            ListNode cur = head;
+            boolean isOdd = true;
+
+            while (cur != null) {
+                if (isOdd) {
+                    oddP.next = cur;
+                    oddP = oddP.next;
+                } else {
+                    evenP.next = cur;
+                    evenP = evenP.next;
+                }
+                isOdd = !isOdd;
+                cur = cur.next;
+            }
+
+            oddP.next = evenDummy.next;
+            evenP.next = null;
+
+            return oddDummy.next;
+        }
     }
 }
