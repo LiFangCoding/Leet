@@ -40,7 +40,6 @@ public class QuckSort {
             // have ++
             while (i < r && a[++i] < v) ;
             while (j > l && a[--j] > v) ;
-
             if (i >= j) break;
             swap(a, i, j);
         }
