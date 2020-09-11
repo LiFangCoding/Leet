@@ -18,8 +18,8 @@ public class _268_MissingNumber {
     public int missingNumber(int[] A) {
         int res = 0;
 
-        int len = A.length;
-        for (int i = 0; i <= len; i++) {
+        int n = A.length;
+        for (int i = 0; i <= n; i++) {
             res ^= i;
         }
 
