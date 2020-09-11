@@ -27,31 +27,16 @@ public class _278_FirstBadVersion {
      * @return
      */
     public int firstBadVersion(int n) {
-        if (n <= 0) {
-            return 0;
-        }
-
         int l = 1, r = n;
 
-        while (l + 1 < r) {
+        while (l < r) {
             int mid = l + (r - l) / 2;
-
-            if (isBadVersion(mid)) {
+            if (isBadVersion(mid))
                 r = mid;
-            } else {
-                l = mid;
-            }
+            else
+                l = mid + 1;
         }
-
-        if (isBadVersion(l)) {
-            return l;
-        }
-
-        if (isBadVersion(r)) {
-            return r;
-        }
-
-        return -1;
+        return l;
     }
 
     // example api
