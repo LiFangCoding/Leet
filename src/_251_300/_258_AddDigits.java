@@ -13,19 +13,27 @@ package _251_300;
  * Could you do it without any loop/recursion in O(1) runtime?
  */
 public class _258_AddDigits {
-    public int addDigits(int num) {
-        while (num >= 10) {
-            int tot = 0;
-            for (; num > 0; num /= 10) {
-                tot += num % 10;
-            }
-            num = tot;
+    class Sol_O_1 {
+        public int addDigits(int x) {
+            if (x == 0)
+                return 0;
+            if (x % 9 != 0)
+                return x % 9;
+            return 9;
         }
-
-        return num;
     }
 
-    public int addDigits_quick(int num) {
-        return (num - 1) % 9 + 1;
+    class Sol_mock {
+        public int addDigits(int num) {
+            while (num >= 10) {
+                int tot = 0;
+                for (; num > 0; num /= 10) {
+                    tot += num % 10;
+                }
+                num = tot;
+            }
+
+            return num;
+        }
     }
 }
