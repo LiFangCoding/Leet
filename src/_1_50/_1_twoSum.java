@@ -16,23 +16,17 @@ import java.util.Map;
  * return [0, 1].
  */
 public class _1_twoSum {
-    public static int[] twoSum(int[] A, int target) {
-        // value -> index
+    public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
-        int[] ans = new int[2];
+        int n = nums.length;
 
-        for (int i = 0; i < A.length; i++) {
-            int x = target - A[i];
-
-            if (map.containsKey(x)) {
-                ans[0] = map.get(x);
-                ans[1] = i;
-                break;
-            } else {
-                map.put(A[i], i);
+        for (int i = 0; i < n; i++) {
+            int y = target - nums[i];
+            if (map.containsKey(y)) {
+                return new int[]{map.get(y), i};
             }
+            map.put(nums[i], i);
         }
-
-        return ans;
+        return new int[0];
     }
 }
