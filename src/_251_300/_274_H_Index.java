@@ -19,64 +19,27 @@ import java.util.Arrays;
  */
 public class _274_H_Index {
     /**
-     * oms
-     * T = N
-     * 求出一个后缀和数组，这个数组下标i对应的数表示大于等于i的数字出现的次数，这个数组可以O(n)求出 然后从大到小枚举这些数，找到最大的满足条件的数即可 总复杂度O(n)
-     */
-    class Sol_suffix {
-        public int hIndex(int[] citations) {
-            // write your code here
-
-            int length = citations.length;
-            if (length == 0) {
-                return 0;
-            }
-
-            int[] array2 = new int[length + 1];
-
-            for (int i = 0; i < length; i++) {
-                if (citations[i] > length) {
-                    array2[length] += 1;
-                } else {
-                    array2[citations[i]] += 1;
-                }
-            }
-
-            int t = 0;
-
-            for (int i = length; i >= 0; i--) {
-                t = t + array2[i];
-                if (t >= i) {
-                    return i;
-                }
-            }
-            return 0;
-        }
-    }
-
-    /**
      * 1ms
      * T = nlogn
-     * 我们要在数组中找一个最大的 hh，使得有 hh 个数大于等于 hh。
+     * 我们要在数组中找一个最大的 h，使得有 h 个数大于等于 h。
      * <p>
-     * 我们可以先将原数组从小到大排序，然后从大到小枚举 hh，直到数组中后 hh 个数大于等于 hh 为止。
+     * 我们可以先将原数组从小到大排序，然后从大到小枚举 h，直到数组中后 h 个数大于等于 h 为止。
      * <p>
-     * 时间复杂度分析：排序的时间复杂度是 O(nlogn)O(nlogn)，扫描的时间复杂度是 O(n)O(n)。所以总时间复杂度是 O(nlogn)O(nlogn)
+     * 时间复杂度分析：排序的时间复杂度是 O(nlogn)，扫描的时间复杂度是 O(n)。所以总时间复杂度是 O(nlogn)
      * https://www.acwing.com/solution/content/329/
      */
     class Sol_sort {
-        public int hIndex(int[] citations) {
-            Arrays.sort(citations);
-            int ans = 0;
-
-            for (int i = 0; i < citations.length; i++) {
-                if (citations.length - i <= citations[i]) {
-                    ans = citations.length - i;
-                    break;
-                }
+        public int hIndex(int[] c) {
+            if (c == null || c.length == 0)
+                return 0;
+            int n = c.length;
+            Arrays.sort(c);
+            for (int h = n; h >= 1; h--) {
+                // make sure n - h is in array. So can only h == 1
+                if (c[n - h] >= h)
+                    return h;
             }
-
-            return ans;
+            return 0;
         }
     }
 }

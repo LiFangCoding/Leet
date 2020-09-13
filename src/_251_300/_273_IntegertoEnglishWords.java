@@ -21,19 +21,68 @@ package _251_300;
  * Output: "One Billion Two Hundred Thirty Four Million Five Hundred Sixty Seven Thousand Eight Hundred Ninety One"
  */
 public class _273_IntegertoEnglishWords {
+    /**
+     * 3ms
+     */
+    class Sol_iterative {
+        String[] num0_19 = { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
+            "Eighteen", "Nineteen" };
+        String[] num20_90 = { "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety", };
+        String[] num1000 = { "Billion ", "Million ", "Thousand ", "" };
 
-    String[] below_20 = new String[]{"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
-    String[] below_100 = new String[]{"Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+        // return format as 1 - 999. 222 -> "Two Hundred Twenty two "
+        String get(int x) {
+            StringBuilder sb = new StringBuilder();
+            if (x >= 100) {
+                sb.append(num0_19[x / 100]);
+                sb.append(" Hundred ");
+                x %= 100;
+            }
 
-    class MySol {
-        String[] below_20 = new String[]{"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
-        String[] below_100 = new String[]{"Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+            if (x >= 20) {
+                sb.append(num20_90[(x - 20) / 10]);
+                sb.append(" ");
+                x %= 10;
+                if (x != 0)
+                    sb.append(num0_19[x] + ' ');
+            } else if (x != 0) {
+                sb.append(num0_19[x] + ' ');
+            }
+            return sb.toString();
+        }
+
+        public String numberToWords(int num) {
+            if (num == 0) {
+                return "Zero";
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = (int) 1e9, j = 0; i >= 1; i /= 1000, j++) {
+                if (num >= i) {
+                    // "Twenty two "
+                    sb.append(get(num / i));
+                    sb.append(num1000[j]);
+                    num %= i;
+                }
+            }
+
+            sb.deleteCharAt(sb.length() - 1);
+            return sb.toString();
+        }
+    }
+
+    /**
+     * 12ms
+     */
+    class Sol_recursion {
+        String[] below_20 = new String[] { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
+            "Eighteen", "Nineteen" };
+        String[] below_100 = new String[] { "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
         int billion = 1000000000;
         int million = 1000000;
         int thousand = 1000;
         int hundred = 100;
         int twenty = 20;
-
 
         public String numberToWords(int num) {
             if (num == 0) {
@@ -62,32 +111,6 @@ public class _273_IntegertoEnglishWords {
                 // 20 actual: "Twenty "  expected："Twenty". If " "
                 return "";
             }
-        }
-    }
-
-    public String numberToWords(int num) {
-        if (num == 0) {
-            return "Zero";
-        } else {
-            return int_string(num).substring(1);
-        }
-    }
-
-    String int_string(int n) {
-        if (n >= 1000000000) {
-            return int_string(n / 1000000000) + " Billion" + int_string(n % 1000000000);
-        } else if (n >= 1000000) {
-            return int_string(n / 1000000) + " Million" + int_string(n % 1000000);
-        } else if (n >= 1000) {
-            return int_string(n / 1000) + " Thousand" + int_string(n % 1000);
-        } else if (n >= 100) {
-            return int_string(n / 100) + " Hundred" + int_string(n % 100);
-        } else if (n >= 20) {
-            return " " + below_100[n / 10 - 2] + int_string(n % 10);
-        } else if (n >= 1) {
-            return " " + below_20[n - 1];
-        } else {
-            return "";
         }
     }
 }
