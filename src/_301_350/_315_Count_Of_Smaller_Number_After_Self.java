@@ -74,6 +74,9 @@ public class _315_Count_Of_Smaller_Number_After_Self {
         }
     }
 
+
+";, /.,mbv cds"
+
     private int getSum(int[] bit, int index) {
         int sum = 0;
         for (int i = index; i > 0; i = i - lowbit(i)) {
