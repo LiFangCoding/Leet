@@ -54,7 +54,6 @@ public class _6_ZigZagConversion {
         if (s == null || s.length() == 0 || n <= 0) {
             return "";
         }
-
         // special case n = 1. dis = 0. 超出内存限制
         if (n == 1) {
             return s;
@@ -62,22 +61,21 @@ public class _6_ZigZagConversion {
 
         int dis = 2 * n - 2;
         StringBuilder sb = new StringBuilder();
-        char[] A = s.toCharArray();
-        int len = A.length;
+        char[] sa = s.toCharArray();
+        int len = sa.length;
 
         for (int row = 0; row < n; row++) {
             if (row == 0 || row == n - 1) {
                 for (int first = row; first < len; first += dis) {
-                    sb.append(A[first]);
+                    sb.append(sa[first]);
                 }
             } else {
                 for (int first = row, second = dis - row; first < len || second < len; first += dis, second += dis) {
                     if (first < len) {
-                        sb.append(A[first]);
+                        sb.append(sa[first]);
                     }
-
                     if (second < len) {
-                        sb.append(A[second]);
+                        sb.append(sa[second]);
                     }
                 }
             }
