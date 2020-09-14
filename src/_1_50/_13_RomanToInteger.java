@@ -57,21 +57,22 @@ public class _13_RomanToInteger {
         map.put('D', 500);
         map.put('M', 1000);
 
-        int ans = 0;
+        int res = 0;
         int len = s.length();
-        char[] A = s.toCharArray();
+        char[] sa = s.toCharArray();
         /**
          * This is when to add or substract.
          */
         for (int i = 0; i < len; i++) {
-            if (i + 1 < len && map.get(A[i]) < map.get(A[i + 1])) {
-                ans += map.get(A[i + 1]) - map.get(A[i]);
-                i++;
-            } else  {
-                ans += map.get(A[i]);
+            if (i + 1 < len && map.get(sa[i]) < map.get(sa[i + 1])) {
+                res -= map.get(sa[i]);
+                //                res += map.get(A[i + 1]) - map.get(A[i]);
+                //                i++;
+            } else {
+                res += map.get(sa[i]);
             }
         }
 
-        return ans;
+        return res;
     }
 }
