@@ -48,17 +48,40 @@ package _1_50;
  * Output: false
  */
 public class _10_RegularExpressionMatching {
-  //TODO
-  /**
-   * https://leetcode-cn.com/problems/regular-expression-matching/solution/ji-yu-guan-fang-ti-jie-gen-xiang-xi-de-jiang-jie-b/
-   *      * 题解：双字符串的匹配问题，可以用动态规划来做。
-   *         * <p>
-   *        * 状态表示：dp[i][j]代表s的前i个字符和p的前j个字符是否匹配。
-   *         * <p>
-   *        * 状态初始化：dp[0][0] = true，对于1 <= i <= m如果p[i - 1] = '*' && dp[0][i - 2]那么dp[0][i] = true，这对应着p以a*b*c*…开头的字符串，因为*可以代表0个字符，所以可以往后匹配。
-   *         * <p>
-   *        * 状态转移：
-   *         * <p>
+    //TODO
+    class Sol_ac {
+        public boolean isMatch(String s, String p) {
+            int n = s.length(), m = p.length();
+            s = " " + s;
+            p = " " + p;
+            char[] sa = s.toCharArray(), pa = p.toCharArray();
+            boolean[][] f = new boolean[n + 1][m + 1];
+            f[0][0] = true;
+            for (int i = 0; i <= n; i++) {
+                for (int j = 1; j <= m; j++) {
+                    if (j + 1 <= m && pa[j + 1] == '*')
+                        continue;
+                    if (i > 0 && pa[j] != '*') {
+                        f[i][j] = f[i - 1][j - 1] && (sa[i] == pa[j] || pa[j] == '.');
+                    } else if (pa[j] == '*') {
+                        f[i][j] = f[i][j - 2] || (i > 0 && f[i - 1][j] && (sa[i] == pa[j - 1] || pa[j - 1] == '.'));
+                    }
+                }
+            }
+            return f[n][m];
+        }
+    }
+
+    /**
+     * https://leetcode-cn.com/problems/regular-expression-matching/solution/ji-yu-guan-fang-ti-jie-gen-xiang-xi-de-jiang-jie-b/
+     *      * 题解：双字符串的匹配问题，可以用动态规划来做。
+     *         * <p>
+     *        * 状态表示：dp[i][j]代表s的前i个字符和p的前j个字符是否匹配。
+     *         * <p>
+     *        * 状态初始化：dp[0][0] = true，对于1 <= i <= m如果p[i - 1] = '*' && dp[0][i - 2]那么dp[0][i] = true，这对应着p以a*b*c*…开头的字符串，因为*可以代表0个字符，所以可以往后匹配。
+     *         * <p>
+     *        * 状态转移：
+     *         * <p>
    *        * s[i - 1] == p[j - 1] || p[j - 1] == '.'，这时候是精准匹配，所以取决于s的前i - 1个字符和p的前j - 1个字符是否匹配。dp[i][j] = dp[i - 1][j - 1];
    *        * <p>
    *        * p[j - 1] = '*'，这个时候就比较麻烦了，我们根据*前的字符和s当前字符能否匹配分为两种情况：
