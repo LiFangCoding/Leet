@@ -44,113 +44,74 @@ package _1_50;
  * Therefore INT_MIN (−231) is returned.
  */
 public class _8_StringToInteger_atoi {
-    /**
-     * 您这种解法是把 Integer.MIN_VALUE ("-2147483648") 直接当作越界处理了吧，当然这里结果是对的，其实可以参考Jdk里面Integer类的处理方式，用负数做边界
-     */
-    class Sol_Int_Min_limit {
-        public int myAtoi(String str) {
-            if (str == null || str.length() <= 0) {
+    class Sol_ac {
+        public int myAtoi(String s) {
+            if (s == null) {
                 return 0;
             }
-
-            char[] A = str.toCharArray();
-            //正负数的最大最小值
-            int MAX = Integer.MAX_VALUE, MIN = Integer.MIN_VALUE;
+            char[] sa = s.toCharArray();
+            int len = sa.length;
             int i = 0;
-            //过滤空格
-            while (i < str.length() && A[i] == ' ') {
+            while (i < len && sa[i] == ' ')
                 i++;
-            }
-
-            if (i == str.length()) {
+            if (i == len)
                 return 0;
-            }
 
-            boolean positive = true;
-
-            //取正负号
-            if (A[i] == '+') {
+            int minus = 1;
+            if (sa[i] == '-') {
+                minus = -1;
                 i++;
-            } else if (A[i] == '-') {
-                positive = false;
+            } else if (sa[i] == '+')
+                i++;
+            int res = 0;
+            while (i < len && sa[i] >= '0' && sa[i] <= '9') {
+                int d = sa[i] - '0';
+                // res * 10 + d > max
+                if (minus > 0 && res > (Integer.MAX_VALUE - d) / 10)
+                    return Integer.MAX_VALUE;
+                // -res * 10 - d < min
+                if (minus < 0 && -res < (Integer.MIN_VALUE + d) / 10)
+                    return Integer.MIN_VALUE;
+                if (-res * 10 - d == Integer.MIN_VALUE)
+                    return Integer.MIN_VALUE;
+                // min value is over the value
+                res = res * 10 + d;
                 i++;
             }
-
-            //用负数保存正负数的边界，这样不会溢出
-            //正数 -2147483647
-            //负数 -2147483648
-            int limit = positive ? -MAX : MIN;
-
-            int ans = 0;
-            while (i < str.length() && isValid(str.charAt(i))) {
-                int digit = str.charAt(i++) - '0';
-                if (ans < (limit + digit) / 10) {
-                    return positive ? MAX : MIN;
-                }
-                //这里的res>=limit
-                // 用减法. 减法即是负数
-                ans = ans * 10 - digit; //
-            }
-            return positive ? -ans : ans;
-        }
-
-        public boolean isValid(char c) {
-            return c >= '0' && c <= '9';
+            return minus * res;
         }
     }
 
-    class Sol_long {
-        public int myAtoi(String str) {
-            if (str == null) {
+    class Sol_ac_long {
+        public int myAtoi(String s) {
+            if (s == null) {
                 return 0;
             }
-
-            char[] A = str.toCharArray();
-            int len = A.length;
+            char[] sa = s.toCharArray();
+            int len = sa.length;
             int i = 0;
-            while (i < len && A[i] == ' ') {
+            while (i < len && sa[i] == ' ')
                 i++;
-            }
-
-            if (i >= len) {
+            if (i == len)
                 return 0;
-            }
 
-            boolean pos = true;
-
-            if (A[i] == '+') {
+            int minus = 1;
+            if (sa[i] == '-') {
+                minus = -1;
                 i++;
-            } else if (A[i] == '-') {
-                pos = false;
+            } else if (sa[i] == '+')
                 i++;
-            }
-
-            long ans = 0L;
-
-            //"9223372036854775808"
-            // large than long.MAX_VALUE
-            while (i < len && Character.isDigit(A[i])) {
-                int digit = A[i] - '0';
+            long res = 0L;
+            while (i < len && sa[i] >= '0' && sa[i] <= '9') {
+                int d = sa[i] - '0';
+                res = res * 10 + d;
                 i++;
-
-                // ans should be before two ifs. If it is after if, "2147483648". actual: -2147483648. exp : 2147483647
-                ans = ans * 10 + digit;
-
-                if (pos && ans > Integer.MAX_VALUE) {
+                if (minus > 0 && res > Integer.MAX_VALUE)
                     return Integer.MAX_VALUE;
-                }
-
-                if (!pos && -1 * ans < Integer.MIN_VALUE) {
+                if (minus < 0 && minus * res < Integer.MIN_VALUE)
                     return Integer.MIN_VALUE;
-                }
             }
-
-            if (!pos) {
-                ans = -1 * ans;
-            }
-
-            // here convert back to int
-            return (int) ans;
+            return (int) (minus * res);
         }
     }
 }
