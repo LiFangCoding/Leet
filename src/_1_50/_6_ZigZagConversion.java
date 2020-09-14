@@ -64,18 +64,18 @@ public class _6_ZigZagConversion {
         char[] sa = s.toCharArray();
         int len = sa.length;
 
-        for (int row = 0; row < n; row++) {
-            if (row == 0 || row == n - 1) {
-                for (int first = row; first < len; first += dis) {
-                    sb.append(sa[first]);
+        for (int i = 0; i < n; i++) {
+            if (i == 0 || i == n - 1) {
+                for (int j = i; j < len; j += dis) {
+                    sb.append(sa[j]);
                 }
             } else {
-                for (int first = row, second = dis - row; first < len || second < len; first += dis, second += dis) {
-                    if (first < len) {
-                        sb.append(sa[first]);
+                for (int j = i, k = dis - i; j < len || k < len; j += dis, k += dis) {
+                    if (j < len) {
+                        sb.append(sa[j]);
                     }
-                    if (second < len) {
-                        sb.append(sa[second]);
+                    if (k < len) {
+                        sb.append(sa[k]);
                     }
                 }
             }
