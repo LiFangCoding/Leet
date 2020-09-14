@@ -22,24 +22,23 @@ package _1_50;
  * Coud you solve it without converting the integer to a string?
  */
 public class _9_PalindromNumber {
-    public boolean isPalindrome1(int num) {
-        if (num < 0) {
-            return false;
-        }
-
-        int origin = num;
-        int rev = 0;
-
-        while (num != 0) {
-            int digit = num % 10;
-            if (rev > (Integer.MAX_VALUE - digit) / 10) {
+    class Sol_all_reverse_int {
+        public boolean isPalindrome1(int x) {
+            if (x < 0) {
                 return false;
             }
-            rev = rev * 10 + digit;
-            num /= 10;
+            int y = x;
+            int res = 0;
+            while (x != 0) {
+                int digit = x % 10;
+                if (res > (Integer.MAX_VALUE - digit) / 10) {
+                    return false;
+                }
+                res = res * 10 + digit;
+                x /= 10;
+            }
+            return res == y;
         }
-
-        return rev == origin;
     }
 
     /**
