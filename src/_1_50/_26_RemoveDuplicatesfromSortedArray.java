@@ -37,31 +37,15 @@ package _1_50;
  * }
  */
 public class _26_RemoveDuplicatesfromSortedArray {
-    public int removeDuplicates(int[] A) {
-        if (A == null || A.length == 0) {
+    public int removeDuplicates(int[] nums) {
+        if (nums == null || nums.length == 0)
             return 0;
-        }
-        // distinct index
-        int i = 0;
-        // duplicate index
-        int j = 0;
-
-        int len = A.length;
-
-        /**
-         * here, the end condition is cur = len, it will stop here and not continue.
-         */
-        while (j != len) {
-            if (j == 0) {
-                A[i++] = A[j++];
-            } else {
-                if (A[j] != A[j - 1]) {
-                    A[i++] = A[j];
-                }
-                j++;
+        int k = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0 || nums[i] != nums[i - 1]) {
+                nums[k++] = nums[i];
             }
         }
-
-        return i;
+        return k;
     }
 }
