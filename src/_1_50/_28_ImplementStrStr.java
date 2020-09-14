@@ -20,6 +20,7 @@ package _1_50;
  * For the purpose of this problem, we will return 0 when needle is an empty string. This is consistent to C's strstr() and Java's indexOf().
  */
 public class _28_ImplementStrStr {
+    //TODO
     /**
      * T = O(mn)
      *

@@ -22,22 +22,7 @@ package _1_50;
  * Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 231 − 1 when the division result overflows.
  */
 public class _29_DivideTwoIntegers {
-    public static void main(String[] args) {
-        System.out.println(true ^ false);
-        System.out.println(true ^ true);
-        System.out.println(false ^ true);
-        System.out.println(false ^ false);
-
-        System.out.println(10 << 2);
-        System.out.println(-10 << 2);
-
-//        _29_DivideTwoIntegers test = new _29_DivideTwoIntegers();
-//        int res = test.divide(-1, 1);
-//        System.out.println(res);
-//
-//        System.out.println(test.divide(-2147483648, 1));
-    }
-
+    //TODO
     public int divide(int dividend, int divisor) {
         if (dividend == Integer.MIN_VALUE && divisor == -1) {
             return Integer.MAX_VALUE;
