@@ -23,42 +23,34 @@ public class _5_LongestPalindromicSubstring {
   class Sol_Expand {
     // expand around center
     public String longestPalindrome(String s) {
-      if (s == null || s.length() == 0) {
-        return "";
-      }
-
-      int len = s.length();
-      String ans = "";
-
-      for (int i = 0; i < len; i++) {
-        String odd = expandCenter(s, i, i);
-        if (ans.length() < odd.length()) {
-          ans = odd;
+        if (s == null || s.length() == 0) {
+            return "";
         }
 
-        String even = expandCenter(s, i, i + 1);
-
-        if (ans.length() < even.length()) {
-          ans = even;
+        String res = "";
+        for (int i = 0; i < s.length(); i++) {
+            String odd = expand(s, i, i);
+            if (res.length() < odd.length()) {
+                res = odd;
+            }
+            String even = expand(s, i, i + 1);
+            if (res.length() < even.length()) {
+                res = even;
+            }
         }
-      }
-
-      return ans;
+        return res;
     }
 
-    // expand center from l and r index
-    // "aba"
-    private String expandCenter(String s, int l, int r) {
-      while (l >= 0 && r < s.length()) {
-        // if change to s.toCharArray A. A[l], A[r]. It will be 5 times slow
-        if (s.charAt(l) != s.charAt(r)) {
-          break;
-        }
-        l--;
-        r++;
-      }
+      // expand center from l and r index
+      // "aba"
+      private String expand(String s, int l, int r) {
+          while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+              // if change to s.toCharArray A. A[l], A[r]. It will be 5 times slow
+              l--;
+              r++;
+          }
 
-      return s.substring(l + 1, r);
-    }
+          return s.substring(l + 1, r);
+      }
   }
 }
