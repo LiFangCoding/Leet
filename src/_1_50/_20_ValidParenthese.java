@@ -33,34 +33,31 @@ import java.util.Stack;
  * Output: true
  */
 public class _20_ValidParenthese {
-  public boolean isValid(String s) {
-    Stack<Character> stack = new Stack<>();
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
 
-    if (s == null || s.length() == 0) {
-      return true;
-    }
-
-    char[] chars = s.toCharArray();
-    for (char c : chars) {
-      if (c == '(') {
-        stack.push(')');
-      } else if (c == '[') {
-        stack.push(']');
-      } else if (c == '{') {
-        stack.push('}');
-      } else {
-
-          if (stack.isEmpty()) {
-          return false;
+        if (s == null || s.length() == 0) {
+            return true;
         }
 
-          char right = stack.pop();
-        if (c != right) {
-          return false;
+        char[] chars = s.toCharArray();
+        for (char c : chars) {
+            if (c == '(') {
+                stack.push(')');
+            } else if (c == '[') {
+                stack.push(']');
+            } else if (c == '{') {
+                stack.push('}');
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                char right = stack.pop();
+                if (c != right) {
+                    return false;
+                }
+            }
         }
-      }
+        return stack.isEmpty();
     }
-
-    return stack.isEmpty();
-  }
 }
