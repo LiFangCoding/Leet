@@ -1,4 +1,4 @@
-import _1_50._5_LongestPalindromicSubstring;
+import leet._1_50._5_LongestPalindromicSubstring;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,0 +1,137 @@
+package leet._201_250;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
+/**
+ * Implement a basic calculator to evaluate a simple expression string.
+ * <p>
+ * The expression string contains only non-negative integers, +, -, *, / operators and empty spaces . The integer division should truncate toward zero.
+ * <p>
+ * Example 1:
+ * <p>
+ * Input: "3+2*2"
+ * Output: 7
+ * Example 2:
+ * <p>
+ * Input: " 3/2 "
+ * Output: 1
+ * Example 3:
+ * <p>
+ * Input: " 3+5 / 2 "
+ * Output: 5
+ * Note:
+ * <p>
+ * You may assume that the given expression is always valid.
+ * Do not use the eval built-in library function.
+ */
+public class _227_BasicCalculator2 {
+    class Sol_acwing_muban {
+        Stack<Integer> num = new Stack<>();
+        Stack<Character> op = new Stack<>();
+
+        public int calculate(String s) {
+            Map<Character, Integer> map = new HashMap<>();
+            map.put('+', 1);
+            map.put('-', 1);
+            map.put('*', 2);
+            map.put('/', 2);
+
+            char[] cs = s.toCharArray();
+            for (int i = 0; i < cs.length; i++) {
+                char c = cs[i];
+                if (c == ' ')
+                    continue;
+
+                if (Character.isDigit(c)) {
+                    int x = 0, j = i;
+
+                    while (j < cs.length && Character.isDigit(cs[j])) {
+                        x = x * 10 + (cs[j++] - '0');
+                    }
+
+                    num.push(x);
+                    i = j - 1;
+                }
+                // c is operator
+                else {
+                    while (op.size() > 0 && map.get(op.peek()) >= map.get(c))
+                        eval();
+                    op.push(c);
+                }
+            }
+
+            while (op.size() > 0)
+                eval();
+            return num.peek();
+        }
+
+        // calculate one time
+        void eval() {
+            int b = num.pop();
+            int a = num.pop();
+            char c = op.pop();
+
+            int r;
+            if (c == '+')
+                r = a + b;
+            else if (c == '-')
+                r = a - b;
+            else if (c == '*')
+                r = a * b;
+            else
+                r = a / b;
+            num.push(r);
+        }
+    }
+
+    class Sol_other_leet {
+        /**
+         * need time. Haojun
+         *
+         * @param s
+         * @return
+         */
+        public int calculate(String s) {
+            // Write your code here
+            int len;
+            if (s == null || (len = s.length()) == 0) {
+                return 0;
+            }
+            Stack<Integer> stack = new Stack<Integer>();
+            int num = 0;
+            char sign = '+';
+
+            for (int i = 0; i < len; i++) {
+                if (Character.isDigit(s.charAt(i))) {
+                    num = num * 10 + s.charAt(i) - '0';
+                }
+
+                if ((!Character.isDigit(s.charAt(i)) && ' ' != s.charAt(i)) || i == len - 1) {
+                    if (sign == '-') {
+                        stack.push(-num);
+                    }
+                    if (sign == '+') {
+                        stack.push(num);
+                    }
+                    if (sign == '*') {
+                        stack.push(stack.pop() * num);
+                    }
+
+                    if (sign == '/') {
+                        stack.push(stack.pop() / num);
+                    }
+                    sign = s.charAt(i);
+                    num = 0;
+                }
+            }
+
+            int re = 0;
+            for (int i : stack) {
+                re += i;
+            }
+            return re;
+        }
+    }
+}

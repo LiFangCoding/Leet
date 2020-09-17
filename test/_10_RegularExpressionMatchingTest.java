@@ -1,4 +1,4 @@
-import _1_50._10_RegularExpressionMatching;
+import leet._1_50._10_RegularExpressionMatching;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

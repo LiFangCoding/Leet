@@ -1,4 +1,4 @@
-import _1_50._21_MergeTwoSortedLists;
+import leet._1_50._21_MergeTwoSortedLists;
 import common.ListNode;
 import org.junit.jupiter.api.Test;
 

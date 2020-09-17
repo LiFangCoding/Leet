@@ -1,4 +1,4 @@
-import _1_50._7_ReverseInteger;
+import leet._1_50._7_ReverseInteger;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

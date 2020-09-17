@@ -1,4 +1,4 @@
-import _1_50._15_3Sum;
+import leet._1_50._15_3Sum;
 import org.junit.jupiter.api.Test;
 
 class _15_3SumTest {

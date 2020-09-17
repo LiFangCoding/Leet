@@ -1,4 +1,4 @@
-import _1_50._23_MergeKSortedLists;
+import leet._1_50._23_MergeKSortedLists;
 import common.ListNode;
 import org.junit.jupiter.api.Test;
 
