@@ -20,20 +20,34 @@ package leet._301_350;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _343_Integer_break {
-    public int integerBreak(int n) {
-        //f = f[ i - j]
-        int[] f = new int[n + 1];
-
-        f[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            for (int j = i - 1; j >= 1; j--) {
-                // just two integers
-                f[i] = Math.max(f[i], j * (i - j));
-                // divide f[j]
-                f[i] = Math.max(f[i], f[j] * (i - j));
+    class Sol_n {
+        public int integerBreak(int n) {
+            if (n <= 3) return 1 * (n - 1);
+            int p = 1;
+            while (n >= 5) {
+                n -= 3;
+                p *= 3;
             }
+            return p * n;
         }
+    }
 
-        return f[n];
+    class Sol_dp {
+        public int integerBreak(int n) {
+            //f = f[ i - j]
+            int[] f = new int[n + 1];
+
+            f[1] = 1;
+            for (int i = 2; i <= n; i++) {
+                for (int j = i - 1; j >= 1; j--) {
+                    // just two integers
+                    f[i] = Math.max(f[i], j * (i - j));
+                    // divide f[j]
+                    f[i] = Math.max(f[i], f[j] * (i - j));
+                }
+            }
+
+            return f[n];
+        }
     }
 }
