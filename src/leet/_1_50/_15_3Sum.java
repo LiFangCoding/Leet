@@ -29,6 +29,7 @@ public class _15_3Sum {
         Arrays.sort(nums);
         for (int i = 0; i < nums.length - 2; i++) {
             if (i > 0 && nums[i] == nums[i - 1]) continue;
+            // k will update in each j's loop
             for (int j = i + 1, k = nums.length - 1; j < k; j++) {
                 if (j > i + 1 && nums[j] == nums[j - 1]) continue;
                 while (j < k - 1 && nums[i] + nums[j] + nums[k - 1] >= 0) k--;
