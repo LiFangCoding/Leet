@@ -18,7 +18,6 @@ import java.util.List;
  * ]
  */
 public class _47_permutations2 {
-    //TODO
     List<Integer> path = new ArrayList<>();
     List<List<Integer>> res = new ArrayList<>();
     boolean[] st;

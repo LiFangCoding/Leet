@@ -14,8 +14,6 @@ package leet._1_50;
  * Output: "bb"
  */
 public class _5_LongestPalindromicSubstring {
-    //TODO: more practice
-
     /**
      * T = n^2
      * S =

@@ -25,8 +25,6 @@ import java.util.Map;
  */
 
 public class _3_longestSubstring {
-    //TODO
-
     /**
      * T = O(n)
      * S = O(n)
@@ -46,6 +44,7 @@ public class _3_longestSubstring {
         return res;
     }
 
+    @SuppressWarnings("AlibabaClassNamingShouldBeCamel")
     class Sol_ac {
         public int lengthOfLongestSubstring(String s) {
             Map<Character, Integer> map = new HashMap<>();
