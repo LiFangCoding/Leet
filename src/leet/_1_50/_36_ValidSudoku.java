@@ -64,7 +64,8 @@ public class _36_ValidSudoku {
 
         // check each row, col, subbox, check does it have 1-9 in each one. One easy way is integer check
         int m = board.length, n = board[0].length;
-        boolean[][] rows = new boolean[9][10], cols = new boolean[9][10], subBox = new boolean[9][10];
+        boolean[][] rows = new boolean[9][10], cols = new boolean[9][10];
+        boolean[][][] cell = new boolean[3][3][10];
 
         // i means row. j is col
         for (int i = 0; i < m; i++) {
@@ -75,11 +76,11 @@ public class _36_ValidSudoku {
 
                 // pay attention. Here val is from 1 - 9.
                 int t = board[i][j] - '0';
-                if (rows[i][t] || cols[j][t] || subBox[i / 3 * 3 + j / 3][t]) {
+                if (rows[i][t] || cols[j][t] || cell[i / 3][j / 3][t]) {
                     return false;
                 }
 
-                rows[i][t] = cols[j][t] = subBox[i / 3 * 3 + j / 3][t] = true;
+                rows[i][t] = cols[j][t] = cell[i / 3][j / 3][t] = true;
             }
         }
 
