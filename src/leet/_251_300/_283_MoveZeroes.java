@@ -17,22 +17,19 @@ public class _283_MoveZeroes {
      * [0,1,0,3,12]
      * [1,3,12,0,0]
      *
-     * @param A
+     * @param nums
      */
-    public void moveZeroes(int[] A) {
-        if (A == null || A.length == 0) {
-            return;
-        }
-
-        int cur = 0;
-        for (int i = 0; i < A.length; i++) {
-            if (A[i] != 0) {
-                A[cur++] = A[i];
+    public void moveZeroes(int[] nums) {
+        if (nums == null || nums.length == 0) return;
+        int k = 0;
+        for (int x : nums) {
+            if (x != 0) {
+                nums[k++] = x;
             }
         }
 
-        for (; cur < A.length; cur++) {
-            A[cur] = 0;
+        while (k < nums.length) {
+            nums[k++] = 0;
         }
     }
 }
