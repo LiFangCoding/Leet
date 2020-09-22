@@ -21,40 +21,30 @@ import java.util.List;
  */
 public class _46_Permutations {
     //TODO
-    List<Integer> cur;
-    List<List<Integer>> ans;
-    boolean[] marked;
+    List<Integer> path = new ArrayList<>();
+    List<List<Integer>> res = new ArrayList<>();
+    boolean[] st;
 
-    public List<List<Integer>> permute(int[] A) {
-        // remember to initialize the marked boolean array
-        cur = new ArrayList<>();
-        ans = new ArrayList<>();
-        marked = new boolean[A.length];
-
-        dfs(A);
-        return ans;
+    public List<List<Integer>> permute(int[] nums) {
+        st = new boolean[nums.length];
+        dfs(nums, 0);
+        return res;
     }
 
-    private void dfs(int[] A) {
-        if (cur.size() == A.length) {
-            ans.add(new ArrayList<>(cur));
+    void dfs(int[] nums, int u) {
+        if (u == nums.length) {
+            res.add(new ArrayList<>(path));
+            return;
         }
 
-        for (int i = 0; i < A.length; i++) {
-            if (!marked[i]) {
-                marked[i] = true;
-                cur.add(A[i]);
-                dfs(A);
-                cur.remove(cur.size() - 1);
-                marked[i] = false;
+        for (int i = 0; i < nums.length; i++) {
+            if (st[i] == false) {
+                path.add(nums[i]);
+                st[i] = true;
+                dfs(nums, u + 1);
+                st[i] = false;
+                path.remove(path.size() - 1);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        int[] nums = { 1, 2, 3 };
-        _46_Permutations test = new _46_Permutations();
-
-        System.out.println(test.permute(nums));
     }
 }
