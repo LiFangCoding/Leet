@@ -19,47 +19,34 @@ import java.util.List;
  */
 public class _47_permutations2 {
     //TODO
-    List<List<Integer>> ans;
-    List<Integer> cur;
-    boolean[] marked;
+    List<Integer> path = new ArrayList<>();
+    List<List<Integer>> res = new ArrayList<>();
+    boolean[] st;
 
     public List<List<Integer>> permuteUnique(int[] nums) {
-        ans = new ArrayList<>();
-        cur = new ArrayList<>();
-        marked = new boolean[nums.length];
-
-        // important
+        st = new boolean[nums.length];
         Arrays.sort(nums);
-        dfs(nums);
-        return ans;
+        dfs(nums, 0);
+        return res;
     }
 
-    private void dfs(int[] nums) {
-        if (cur.size() == nums.length) {
-            ans.add(new ArrayList<>(cur));
+    void dfs(int[] nums, int u) {
+        if (u == nums.length) {
+            res.add(new ArrayList<>(path));
             return;
         }
 
         for (int i = 0; i < nums.length; i++) {
-            // Same number can be only used once at each depth. skip the duplicate one
-            if (i > 0 && nums[i] == nums[i - 1] && !marked[i - 1]) {
-                continue;
-            }
-
-            if (!marked[i]) {
-                marked[i] = true;
-                cur.add(nums[i]);
-                dfs(nums);
-                cur.remove(cur.size() - 1);
-                marked[i] = false;
+            if (!st[i]) {
+                if (i > 0 && nums[i - 1] == nums[i] && !st[i - 1]) {
+                    continue;
+                }
+                st[i] = true;
+                path.add(nums[i]);
+                dfs(nums, u + 1);
+                path.remove(path.size() - 1);
+                st[i] = false;
             }
         }
-    }
-
-    public static void main(String[] args) {
-        int[] A = { 1, 1, 2, 2 };
-        _47_permutations2 test = new _47_permutations2();
-
-        System.out.println(test.permuteUnique(A));
     }
 }
