@@ -13,36 +13,36 @@ import java.util.Arrays;
  */
 public class _16_3SumClosest {
     //TODO
-    public int threeSumClosest(int[] A, int target) {
-        if (A == null || A.length < 3) {
+    public int threeSumClosest(int[] nums, int target) {
+        if (nums == null || nums.length < 3) {
             return -1;
         }
 
-        Arrays.sort(A);
+        Arrays.sort(nums);
 
-        int len = A.length;
-        int ans = A[0] + A[1] + A[2];
+        int len = nums.length;
+        int res = nums[0] + nums[1] + nums[2];
 
         for (int i = 0; i < len - 2; i++) {
-            // [-1,2,1,-4]. 1. output: 0 exp: 2
-            // here is the problem. l should be i + 1, not l = 0
-            for (int l = i + 1, r = len - 1; l < r; ) {
-                int sum = A[i] + A[l] + A[r];
-
-                if (Math.abs(ans - target) > Math.abs(sum - target)) {
-                    ans = sum;
+            for (int j = i + 1, k = nums.length - 1; j < k; j++) {
+                // find least k that is >= target
+                while (j < k - 1 && nums[i] + nums[j] + nums[k - 1] >= target) {
+                    k--;
+                }
+                int sum = nums[i] + nums[j] + nums[k];
+                if (Math.abs(sum - target) < Math.abs(res - target)) {
+                    res = sum;
                 }
 
-                if (sum == target) {
-                    return sum;
-                } else if (sum > target) {
-                    r--;
-                } else {
-                    l++;
+                if (j < k - 1) {
+                    sum = nums[i] + nums[j] + nums[k - 1];
+                    if (Math.abs(sum - target) < Math.abs(res - target)) {
+                        res = sum;
+                    }
                 }
             }
         }
 
-        return ans;
+        return res;
     }
 }
