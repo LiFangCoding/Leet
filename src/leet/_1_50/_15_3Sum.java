@@ -22,7 +22,6 @@ import java.util.List;
  * ]
  */
 public class _15_3Sum {
-    //TODO
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
 

@@ -17,36 +17,24 @@ import java.util.List;
  * ]
  */
 public class _22_GenerateParentheses {
-    //TODO
-    List<String> ans;
+    List<String> res = new ArrayList<>();
 
     public List<String> generateParenthesis(int n) {
-        ans = new ArrayList<>();
-        if (n <= 0) {
-            return ans;
-        }
-
-        dfs(n, n, "");
-        return ans;
+        dfs(n, 0, 0, "");
+        return res;
     }
 
-    private void dfs(int l, int r, String cur) {
-        // base case
-        if (l == 0 && r == 0) {
-            ans.add(cur);
+    void dfs(int n, int lc, int rc, String s) {
+        if (lc == n && rc == n) {
+            res.add(s);
             return;
         }
 
-        if (l == r) {
-            dfs(l - 1, r, cur + "(");
-        } else if (l < r) {
-            if (l > 0) {
-                dfs(l - 1, r, cur + "(");
-            }
-
-            if (r > 0) {
-                dfs(l, r - 1, cur + ")");
-            }
+        if (lc < n) {
+            dfs(n, lc + 1, rc, s + "(");
+        }
+        if (rc < n && rc < lc) {
+            dfs(n, lc, rc + 1, s + ")");
         }
     }
 }

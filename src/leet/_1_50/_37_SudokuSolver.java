@@ -4,12 +4,11 @@ package leet._1_50;
  *
  */
 public class _37_SudokuSolver {
-    //TODO
     /**
      * 2ms
      * backtracking
      */
-    class Sol_fast {
+    class Sol_ac {
         boolean[][] row = new boolean[9][10];
         boolean[][] col = new boolean[9][10];
         boolean[][][] cell = new boolean[3][3][10];
@@ -39,7 +38,9 @@ public class _37_SudokuSolver {
                     board[x][y] = (char) ('0' + i);
                     row[x][i] = col[y][i] = cell[x / 3][y / 3][i] = true;
 
-                    if (dfs(board, x, y + 1)) return true;
+                    if (dfs(board, x, y + 1)) {
+                        return true;
+                    }
 
                     board[x][y] = '.';
                     row[x][i] = col[y][i] = cell[x / 3][y / 3][i] = false;

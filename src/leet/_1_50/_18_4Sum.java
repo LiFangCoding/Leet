@@ -23,7 +23,6 @@ import java.util.List;
  * ]
  */
 public class _18_4Sum {
-    //TODO
     public List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> res = new ArrayList<>();
         if (nums == null || nums.length == 0) {

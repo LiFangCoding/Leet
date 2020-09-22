@@ -12,7 +12,6 @@ import java.util.Arrays;
  * The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
  */
 public class _16_3SumClosest {
-    //TODO
     public int threeSumClosest(int[] nums, int target) {
         if (nums == null || nums.length < 3) {
             return -1;
