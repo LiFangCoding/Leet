@@ -24,17 +24,10 @@ public class _344_Reverse_String {
             return;
         }
 
-        int l = 0;
-        int r = s.length - 1;
-
-        while (l < r) {
-            // change the char array value
-            // !!! change on the array
+        for (int l = 0, r = s.length - 1; l < r; l++, r--) {
             char temp = s[l];
             s[l] = s[r];
             s[r] = temp;
-            l++;
-            r--;
         }
     }
 }
