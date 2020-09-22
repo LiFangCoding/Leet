@@ -29,39 +29,39 @@ import java.util.List;
  */
 public class _282_ExpressionAddOperators {
     //TODO
-
     /**
      * T = 4 ^ n.  +,-,*, ''四种可能
      * https://www.jiuzhang.com/solution/expression-add-operators/#tag-highlight
      * https://www.acwing.com/solution/content/4587/
      */
 
+    List<String> ans;
+
     public List<String> addOperators(String num, int target) {
-        // Write your code here
-        List<String> ans = new ArrayList<>();
-        dfs(num, target, 0, "", 0, 0, ans);
+        ans = new ArrayList<>();
+        dfs(num, 0, 0, 1, "", target);
         return ans;
     }
 
-    void dfs(String num, int target, int start, String str, long sum, long lastF, List<String> ans) {
-        if (start == num.length()) {
-            if (sum == target) {
-                ans.add(str);
-            }
-            return;
-        }
-        for (int i = start; i < num.length(); i++) {
-            long x = Long.parseLong(num.substring(start, i + 1));
+    void dfs(String num, int u, long a, long b, String path, int target) {
+        if (u == num.length()) {
+            if (a == target) ans.add(path.substring(0, path.length() - 1));
+        } else {
+            long cur = 0;
+            for (int i = u; i < num.length(); i++) {
+                cur = cur * 10 + num.charAt(i) - '0';
+                String cpath = num.substring(u, i + 1);
 
-            if (start == 0) {
-                dfs(num, target, i + 1, "" + x, x, x, ans);
-            } else {
-                dfs(num, target, i + 1, str + "*" + x, sum - lastF + lastF * x, lastF * x, ans);
-                dfs(num, target, i + 1, str + "+" + x, sum + x, x, ans);
-                dfs(num, target, i + 1, str + "-" + x, sum - x, -x, ans);
-            }
-            if (x == 0) {
-                break;
+                //+
+                dfs(num, i + 1, a + b * cur, 1, path + cpath + '+', target);
+
+                if (i + 1 < num.length()) {
+                    // -
+                    dfs(num, i + 1, a + b * cur, -1, path + cpath + '-', target);
+                    // *
+                    dfs(num, i + 1, a, b * cur, path + cpath + '*', target);
+                }
+                if (num.charAt(u) == '0') break;
             }
         }
     }
