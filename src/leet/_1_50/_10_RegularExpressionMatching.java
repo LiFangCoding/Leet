@@ -165,35 +165,4 @@ public class _10_RegularExpressionMatching {
             return ans;
         }
     }
-
-    class Sol_bottom_Top {
-        /**
-         * 用 TT 和 PP 分别表示匹配串和模式串的长度。对于i=0, ... , Ti=0,...,T 和 j=0, ... , Pj=0,...,P 每一个 dp(i, j)只会被计算一次，所以后面每次调用都是 O(1)O(1) 的时间。因此，总时间复杂度为 O(TP)O(TP) 。
-         * <p>
-         * 空间复杂度：我们用到的空间仅有 O(TP)O(TP) 个 boolean 类型的缓存变量。所以，空间复杂度为 O(TP)O(TP) 。
-         * <p>
-         * 作者：LeetCode
-         * 链接：https://leetcode-cn.com/problems/regular-expression-matching/solution/zheng-ze-biao-da-shi-pi-pei-by-leetcode/
-         * 来源：力扣（LeetCode）
-         * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-         * <p>
-         * (动态规划) O(n∗m)
-         */
-        public boolean isMatch(String text, String pattern) {
-            boolean[][] dp = new boolean[text.length() + 1][pattern.length() + 1];
-            dp[text.length()][pattern.length()] = true;
-
-            for (int i = text.length(); i >= 0; i--) {
-                for (int j = pattern.length() - 1; j >= 0; j--) {
-                    boolean first_match = (i < text.length() && (pattern.charAt(j) == text.charAt(i) || pattern.charAt(j) == '.'));
-                    if (j + 1 < pattern.length() && pattern.charAt(j + 1) == '*') {
-                        dp[i][j] = dp[i][j + 2] || first_match && dp[i + 1][j];
-                    } else {
-                        dp[i][j] = first_match && dp[i + 1][j + 1];
-                    }
-                }
-            }
-            return dp[0][0];
-        }
-    }
 }
