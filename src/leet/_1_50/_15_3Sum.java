@@ -23,49 +23,20 @@ import java.util.List;
  */
 public class _15_3Sum {
     //TODO
-    public List<List<Integer>> threeSum(int[] A) {
-        List<List<Integer>> ans = new ArrayList<>();
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
 
-        if (A == null || A.length == 0) {
-            return ans;
-        }
-
-        Arrays.sort(A);
-        for (int i = 0; i < A.length - 2; i++) {
-            /**
-             * skip duplicate triples with the same first number
-             */
-            if (i >= 1 && A[i] == A[i - 1]) {
-                continue;
-            }
-
-            int left = i + 1;
-            int right = A.length - 1;
-
-            while (left < right) {
-                int sum = A[i] + A[left] + A[right];
-                if (sum > 0) {
-                    right--;
-                } else if (sum < 0) {
-                    left++;
-                } else {
-                    ans.add(Arrays.asList(A[i], A[left], A[right]));
-
-                    left++;
-                    right--;
-
-                    // skip duplicate pairs with the same left
-                    while (left < right && A[left] == A[left - 1]) {
-                        left++;
-                    }
-                    // skip duplicate pairs with the same right
-                    while (right > left && A[right] == A[right + 1]) {
-                        right--;
-                    }
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            for (int j = i + 1, k = nums.length - 1; j < k; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+                while (j < k - 1 && nums[i] + nums[j] + nums[k - 1] >= 0) k--;
+                if (nums[i] + nums[j] + nums[k] == 0) {
+                    res.add(Arrays.asList(nums[i], nums[j], nums[k]));
                 }
             }
         }
-
-        return ans;
+        return res;
     }
 }
