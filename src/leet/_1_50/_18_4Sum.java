@@ -24,55 +24,35 @@ import java.util.List;
  */
 public class _18_4Sum {
     //TODO
-    public List<List<Integer>> fourSum(int[] A, int target) {
-        List<List<Integer>> ans = new ArrayList<>();
-        if (A == null || A.length == 0) {
-            return ans;
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return res;
         }
 
-        Arrays.sort(A);
-        for (int i = 0; i < A.length - 3; i++) {
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
             // skip first value
-            if (i > 0 && A[i] == A[i - 1]) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
 
             // skip second vaalue
-            for (int j = i + 1; j < A.length - 2; j++) {
-                if (j > i + 1 && A[j] == A[j - 1]) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
                     continue;
                 }
 
-                int left = j + 1;
-                int right = A.length - 1;
-
-                while (left < right) {
-                    int sum = A[i] + A[j] + A[left] + A[right];
-
-                    if (sum < target) {
-                        left++;
-                    } else if (sum > target) {
-                        right--;
-                    } else {
-                        /**
-                         * Here is the value not index.
-                         */
-                        ans.add(Arrays.asList(A[i], A[j], A[left], A[right]));
-
-                        left++;
-                        right--;
-                        while (left < right && A[left] == A[left - 1]) {
-                            left++;
-                        }
-
-                        while (right > left && A[right] == A[right + 1]) {
-                            right--;
-                        }
+                for (int k = j + 1, u = nums.length - 1; k < u; k++) {
+                    if (k > j + 1 && nums[k] == nums[k - 1]) continue;
+                    while (u - 1 > k && nums[i] + nums[j] + nums[k] + nums[u - 1] >= target) u--;
+                    if (nums[i] + nums[j] + nums[k] + nums[u] == target) {
+                        res.add(Arrays.asList(nums[i], nums[j], nums[k], nums[u]));
                     }
                 }
             }
         }
 
-        return ans;
+        return res;
     }
 }
