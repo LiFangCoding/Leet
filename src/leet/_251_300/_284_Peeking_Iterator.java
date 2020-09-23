@@ -15,41 +15,41 @@ import java.util.Iterator;
  * Calling hasNext() after that should return false.
  * Follow up: How would you extend your design to be generic and work with all types, not just integer?
  */
-public class _284_Peeking_Iterator implements Iterator {
-    Iterator<Integer> iterator;
-    Integer peek;
+public class _284_Peeking_Iterator {
+    class PeekingIterator implements Iterator<Integer> {
+        int cur;
+        boolean hasNext;
+        Iterator<Integer> iterator;
 
-    public _284_Peeking_Iterator(Iterator<Integer> iterator) {
-        // initialize any member here.
-        this.iterator = iterator;
-        peek = null;
-    }
-
-    // Returns the next element in the iteration without advancing the iterator.
-    public Integer peek() {
-        if (peek != null) {
-            return peek;
-        } else {
-            peek = iterator.next();
-            return peek;
+        public PeekingIterator(Iterator<Integer> iterator) {
+            // initialize any member here.
+            hasNext = iterator.hasNext();
+            if (hasNext) {
+                cur = iterator.next();
+            }
+            this.iterator = iterator;
         }
-    }
 
-    // hasNext() and next() should behave the same as in the Iterator interface.
-    // Override them if needed.
-    @Override
-    public Integer next() {
-        if (peek != null) {
-            Integer res = peek;
-            peek = null;
-            return res;
-        } else {
-            return iterator.next();
+        // Returns the next element in the iteration without advancing the iterator.
+        public Integer peek() {
+            return cur;
         }
-    }
 
-    @Override
-    public boolean hasNext() {
-        return peek != null || iterator.hasNext();
+        // hasNext() and next() should behave the same as in the Iterator interface.
+        // Override them if needed.
+        @Override
+        public Integer next() {
+            int t = cur;
+            hasNext = iterator.hasNext();
+            if (hasNext) {
+                cur = iterator.next();
+            }
+            return t;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return hasNext;
+        }
     }
 }
