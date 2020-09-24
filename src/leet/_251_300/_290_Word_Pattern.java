@@ -28,67 +28,25 @@ import java.util.Map;
  * You may assume pattern contains only lowercase letters, and str contains lowercase letters that may be separated by a single space.
  */
 public class _290_Word_Pattern {
-    public boolean wordPattern_more_clean(String pattern, String str) {
+    public boolean wordPattern(String pattern, String str) {
+        // hash map to determine a1, a2 -> b1. map (b1, a1)
+        // a1 -> b1, b2   map(a1, b1)
         String[] words = str.split(" ");
 
-        Map<Character, String> map = new HashMap<>();
+        if (pattern.length() != words.length) return false;
 
-        if (pattern.length() != words.length) {
-            return false;
-        }
+        Map<Character, String> pw = new HashMap<>();
+        Map<String, Character> wp = new HashMap<>();
 
-        int len = pattern.length();
+        for (int i = 0; i < pattern.length(); i++) {
+            char a = pattern.charAt(i);
+            String b = words[i];
 
-        for (int i = 0; i < len; i++) {
-            char c = pattern.charAt(i);
-            String word = words[i];
+            if (pw.containsKey(a) && !pw.get(a).equals(b)) return false;
+            pw.put(a, b);
 
-            if (map.containsKey(c) && map.get(c).equals(word)) {
-                continue;
-            } else if (!map.containsKey(c) && !map.containsValue(word)) {
-                // this makes sure no one words input for two characters. So first if check only get(c) equals word
-                map.put(c, word);
-                continue;
-            } else {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean wordPattern(String s1, String s2) {
-        Map<Character, String> map1 = new HashMap<>();
-        Map<String, Character> map2 = new HashMap<>();
-
-        char[] chars = s1.toCharArray();
-        String[] words = s2.split(" ");
-
-        int len1 = chars.length;
-        int len2 = words.length;
-        if (len1 != len2) {
-            return false;
-        }
-
-        for (int i = 0; i < len1; i++) {
-            char c = chars[i];
-            String s = words[i];
-
-            if (map1.containsKey(c)) {
-                if (!map1.get(c).equals(s)) {
-                    return false;
-                }
-            } else {
-                map1.put(c, s);
-            }
-
-            if (map2.containsKey(s)) {
-                if (!map2.get(s).equals(c)) {
-                    return false;
-                }
-            } else {
-                map2.put(s, c);
-            }
+            if (wp.containsKey(b) && wp.get(b) != a) return false;
+            wp.put(b, a);
         }
 
         return true;
