@@ -37,14 +37,14 @@ public class _287_FindTheDuplicateNumber {
             fast = nums[nums[fast]];
         } while (slow != fast);
 
-        int pre1 = 0;
-        int pre2 = slow;
+        int p1 = 0;
+        int p2 = slow;
 
-        while (pre1 != pre2) {
-            pre1 = nums[pre1];
-            pre2 = nums[pre2];
+        while (p1 != p2) {
+            p1 = nums[p1];
+            p2 = nums[p2];
         }
 
-        return pre1;
+        return p1;
     }
 }
