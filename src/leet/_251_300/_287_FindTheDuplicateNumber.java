@@ -28,21 +28,21 @@ public class _287_FindTheDuplicateNumber {
      * 142题中慢指针走一步slow = slow.next ==> 本题 slow = nums[slow]
      * 142题中快指针走两步fast = fast.next.next ==> 本题 fast = nums[nums[fast]]
      */
-    public int findDuplicate(int[] A) {
+    public int findDuplicate(int[] nums) {
         int slow = 0;
         int fast = 0;
 
         do {
-            slow = A[slow];
-            fast = A[A[fast]];
+            slow = nums[slow];
+            fast = nums[nums[fast]];
         } while (slow != fast);
 
         int pre1 = 0;
         int pre2 = slow;
 
         while (pre1 != pre2) {
-            pre1 = A[pre1];
-            pre2 = A[pre2];
+            pre1 = nums[pre1];
+            pre2 = nums[pre2];
         }
 
         return pre1;
