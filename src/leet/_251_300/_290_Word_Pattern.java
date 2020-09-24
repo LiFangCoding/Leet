@@ -34,8 +34,9 @@ public class _290_Word_Pattern {
         String[] words = str.split(" ");
 
         if (pattern.length() != words.length) return false;
-
+        // a-> b1, a -> b2, cannot
         Map<Character, String> pw = new HashMap<>();
+        // b -> a1, b -> a2, cannot
         Map<String, Character> wp = new HashMap<>();
 
         for (int i = 0; i < pattern.length(); i++) {
