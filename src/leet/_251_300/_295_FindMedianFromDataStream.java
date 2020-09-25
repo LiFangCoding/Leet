@@ -32,32 +32,34 @@ import java.util.PriorityQueue;
  */
 public class _295_FindMedianFromDataStream {
     class MedianFinder {
-        PriorityQueue<Integer> min;
-        PriorityQueue<Integer> max;
+        // down is max
+        PriorityQueue<Integer> down;
+        // up is min
+        PriorityQueue<Integer> up;
 
         public MedianFinder() {
-            min = new PriorityQueue<>();
-            max = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
+            up = new PriorityQueue<>();
+            down = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
         }
 
         public void addNum(int num) {
-            if (max.isEmpty() || num <= max.peek()) {
-                max.add(num);
-                if (max.size() > min.size() + 1)
-                    min.add(max.remove());
+            if (down.isEmpty() || num <= down.peek()) {
+                down.add(num);
+                if (down.size() > up.size() + 1)
+                    up.add(down.remove());
             } else {
-                min.add(num);
-                if (min.size() > max.size())
-                    max.add(min.remove());
+                up.add(num);
+                if (up.size() > down.size())
+                    down.add(up.remove());
             }
         }
 
         public double findMedian() {
-            if (max.size() == min.size()) {
-                return (max.peek() + min.peek()) / 2.0;
+            if (up.size() == down.size()) {
+                return (up.peek() + down.peek()) / 2.0;
             }
 
-            return max.peek();
+            return down.peek();
         }
     }
 
