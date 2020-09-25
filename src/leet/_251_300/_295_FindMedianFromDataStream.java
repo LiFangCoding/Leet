@@ -31,57 +31,40 @@ import java.util.PriorityQueue;
  * If 99% of all integer numbers from the stream are between 0 and 100, how would you optimize it?
  */
 public class _295_FindMedianFromDataStream {
-    public static void main(String[] args) {
-        MedianFinder medianFinder = new MedianFinder();
-        medianFinder.addNum(1);
-        medianFinder.addNum(2);
-        // -> 1.5;
-        System.out.println(medianFinder.findMedian());
-        medianFinder.addNum(3);
-        // -> 2
-        System.out.println(medianFinder.findMedian());
-    }
+    class MedianFinder {
+        PriorityQueue<Integer> min;
+        PriorityQueue<Integer> max;
 
-    static class MedianFinder {
-        /**
-         * min is on top
-         * <p>
-         * <p>
-         * 2 3 4 5 6
-         * <p>
-         * max | min
-         * <p>
-         * 2 3 4    5 6
-         */
-        PriorityQueue<Integer> minpq;
-        PriorityQueue<Integer> maxpq;
-
-        /**
-         * initialize your data structure here.
-         */
         public MedianFinder() {
-            // max on top is the left part. !!!
-            maxpq = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
-            // min on top is the right part. Confusing
-            minpq = new PriorityQueue<>();
+            min = new PriorityQueue<>();
+            max = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
         }
 
-        // max_top should equal or larget than 1 of min_top
         public void addNum(int num) {
-            maxpq.add(num);
-            minpq.add(maxpq.remove());
-
-            if (maxpq.size() < minpq.size()) {
-                maxpq.add(minpq.remove());
+            if (max.isEmpty() || num <= max.peek()) {
+                max.add(num);
+                if (max.size() > min.size() + 1)
+                    min.add(max.remove());
+            } else {
+                min.add(num);
+                if (min.size() > max.size())
+                    max.add(min.remove());
             }
         }
 
         public double findMedian() {
-            if (minpq.size() == maxpq.size()) {
-                return (minpq.peek() + maxpq.peek()) / 2.0;
+            if (max.size() == min.size()) {
+                return (max.peek() + min.peek()) / 2.0;
             }
 
-            return maxpq.peek();
+            return max.peek();
         }
     }
+
+    /**
+     * Your MedianFinder object will be instantiated and called as such:
+     * MedianFinder obj = new MedianFinder();
+     * obj.addNum(num);
+     * double param_2 = obj.findMedian();
+     */
 }
