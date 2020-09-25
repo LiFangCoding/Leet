@@ -2,9 +2,6 @@ package leet._251_300;
 
 import common.TreeNode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
  * <p>
@@ -26,103 +23,53 @@ import java.util.List;
  * Note: Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be stateless.
  */
 public class _297_SerializeAndDeserializeBinaryTree {
-    // Decodes your encoded data to tree.
-    int index;
+    class Sol_dfs {
+        public class Codec {
+            StringBuilder sb;
 
-    // Encodes a tree to a single string.
-    public String serialize(TreeNode root) {
-        List<String> buffer = new ArrayList<>();
-        preOrder(root, buffer);
-        return String.join(",", buffer);
-    }
-
-    private void preOrder(TreeNode root, List<String> buffer) {
-        if (root == null) {
-            buffer.add("#");
-            return;
-        }
-        buffer.add(String.valueOf(root.val));
-        preOrder(root.left, buffer);
-        preOrder(root.right, buffer);
-    }
-
-    // Decodes your encoded data to tree.
-    public TreeNode deserialize(String data) {
-        index = 0;
-        String[] slice = data.split(",");
-        return inPreOrder(slice);
-    }
-
-    // 1. dfs 顺序:
-    // 2. dfs 状态:
-    // index 要在外部累加，其实应该传引用过去，但是java传不了
-    private TreeNode inPreOrder(String[] slice) {
-        if (index >= slice.length) {
-            return null;
-        }
-
-        String val = slice[index++];
-
-        if (val.equals("#")) {
-            return null;
-        }
-
-        TreeNode root = new TreeNode(Integer.parseInt(val));
-        root.left = inPreOrder(slice);
-        root.right = inPreOrder(slice);
-        return root;
-    }
-
-    public static void main(String[] args) {
-        String s = "hello, 2,";
-        String[] sArray = s.split(",");
-        System.out.println(sArray.length);
-        System.out.println(sArray);
-    }
-
-    class Sol2 {
-        int idx;
-
-        // Encodes a tree to a single string.
-        public String serialize(TreeNode root) {
-            StringBuilder sb = new StringBuilder();
-            getSerialize(root, sb);
-            return sb.toString();
-        }
-
-        private void getSerialize(TreeNode root, StringBuilder sb) {
-            if (root == null) {
-                sb.append("null,");
-                return;
+            // Encodes a tree to a single string.
+            public String serialize(TreeNode root) {
+                dfsS(root);
+                return sb.toString();
             }
 
-            sb.append(root.val + ",");
-            getSerialize(root.left, sb);
-            getSerialize(root.right, sb);
-        }
-
-        // Decodes your encoded data to tree.
-        public TreeNode deserialize(String data) {
-            String[] vals = data.split(",");
-            idx = 0;
-            return build(vals);
-        }
-
-        private TreeNode build(String[] vals) {
-            if (idx > vals.length) {
-                return null;
+            void dfsS(TreeNode root) {
+                if (root == null) {
+                    sb.append("#,");
+                } else {
+                    sb.append(root.val);
+                    sb.append(",");
+                    dfsS(root.left);
+                    dfsS(root.right);
+                }
             }
 
-            String s = vals[idx++];
-            if (s.equals("null")) {
-                return null;
+            String data;
+            int u = 0;
+
+            // Decodes your encoded data to tree.
+            public TreeNode deserialize(String data) {
+                this.data = data;
+                return dfsD();
             }
 
-            TreeNode root = new TreeNode(Integer.parseInt(s));
-            root.left = build(vals);
-            root.right = build(vals);
-
-            return root;
+            TreeNode dfsD() {
+                if (data.charAt(u) == '#') {
+                    u += 2;
+                    return null;
+                } else {
+                    int k = u;
+                    while (data.charAt(u) != ',') {
+                        u++;
+                    }
+                    //can work for negative like -123
+                    TreeNode root = new TreeNode(Integer.parseInt(data.substring(k, u)));
+                    u++;
+                    root.left = dfsD();
+                    root.right = dfsD();
+                    return root;
+                }
+            }
         }
     }
 }
