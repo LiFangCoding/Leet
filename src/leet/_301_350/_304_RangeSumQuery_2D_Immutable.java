@@ -23,40 +23,35 @@ package leet._301_350;
  * There are many calls to sumRegion function.
  * You may assume that row1 ≤ row2 and col1 ≤ col2.
  */
-//TODO
 public class _304_RangeSumQuery_2D_Immutable {
-    class Sol_dp {
-        /**
-         * 18ms
-         * T = m * n
-         */
+    //TODO
+    class Sol_ac {
         class NumMatrix {
-            int[][] f;
+            // aij, sij means ij 左上方总和
+            //sij = si-1j + sij-1 - si-1j-1 + aij
+            // sx2y2 - sx1 -1y2 - sx2y1-1 + sx1-1y1-1
+
+            int[][] s;
 
             public NumMatrix(int[][] matrix) {
-                if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix.length == 0) {
-                    return;
-                }
-
-                int rows = matrix.length, cols = matrix[0].length;
-                f = new int[rows + 1][cols + 1];
-                for (int i = 1; i <= rows; i++) {
-                    for (int j = 1; j <= cols; j++) {
-                        f[i][j] = f[i - 1][j] + matrix[i - 1][j - 1];
-                    }
-                }
-
-                for (int i = 1; i <= rows; i++) {
-                    for (int j = 1; j <= cols; j++) {
-                        f[i][j] += f[i][j - 1];
+                if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return;
+                s = new int[matrix.length + 1][matrix[0].length + 1];
+                for (int i = 1; i <= matrix.length; i++) {
+                    for (int j = 1; j <= matrix[0].length; j++) {
+                        // i, j from 1, matrix is from 0
+                        s[i][j] = s[i - 1][j] + s[i][j - 1] - s[i - 1][j - 1] + matrix[i - 1][j - 1];
                     }
                 }
             }
 
-            public int sumRegion(int row1, int col1, int row2, int col2) {
-                return f[row2 + 1][col2 + 1] - f[row2 + 1][col1] - f[row1][col2 + 1] + f[row1][col1];
+            public int sumRegion(int x1, int y1, int x2, int y2) {
+                // because index is from 0, we need to add 1
+                ++x1;
+                ++y1;
+                ++x2;
+                ++y2;
+                return s[x2][y2] - s[x1 - 1][y2] - s[x2][y1 - 1] + s[x1 - 1][y1 - 1];
             }
         }
     }
-
 }
