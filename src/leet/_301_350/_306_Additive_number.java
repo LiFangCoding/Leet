@@ -1,6 +1,8 @@
 package leet._301_350;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Additive number is a string whose digits can form additive sequence.
@@ -39,6 +41,69 @@ import java.math.BigInteger;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _306_Additive_number {
+    class Sol_ac {
+        public boolean isAdditiveNumber(String str) {
+            char[] num = str.toCharArray();
+
+            for (int i = 0; i < num.length; i++) {
+                for (int j = i + 1; j + 1 < num.length; j++) {
+                    // a + 1 -> b  first num
+                    // b + 1 -> c  second num
+                    int a = -1, b = i, c = j;
+                    while (true) {
+                        // 前导0
+                        if (b - a > 1 && num[a + 1] == '0' || c - b > 1 && num[b + 1] == '0') break;
+                        String x = str.substring(a + 1, b + 1);
+                        String y = str.substring(b + 1, c + 1);
+                        String z = add(x, y);
+                        // 不匹配
+                        if (c + 1 + z.length() > num.length || !str.substring(c + 1, c + 1 + z.length()).equals(z))
+                            break;
+                        a = b;
+                        b = c;
+                        c += z.length();
+                        if (c + 1 == num.length) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        String add(String x, String y) {
+            List<Integer> A = new ArrayList<>();
+            List<Integer> B = new ArrayList<>();
+            List<Integer> C = new ArrayList<>();
+
+            for (int i = x.length() - 1; i >= 0; i--) {
+                A.add(x.charAt(i) - '0');
+            }
+            for (int i = y.length() - 1; i >= 0; i--) {
+                B.add(y.charAt(i) - '0');
+            }
+
+            for (int i = 0, t = 0; i < A.size() || i < B.size() || t != 0; i++) {
+                if (i < A.size()) {
+                    t += A.get(i);
+                }
+
+                if (i < B.size()) {
+                    t += B.get(i);
+                }
+
+                C.add(t % 10);
+                t = t / 10;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int i = C.size() - 1; i >= 0; i--) {
+                sb.append((char) ('0' + C.get(i)));
+            }
+            return sb.toString();
+        }
+    }
+
     /**
      * https://www.jiuzhang.com/problem/additive-number/
      * https://www.acwing.com/solution/content/341/
