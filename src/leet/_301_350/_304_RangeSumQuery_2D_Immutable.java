@@ -49,6 +49,7 @@ public class _304_RangeSumQuery_2D_Immutable {
                 ++x1;
                 ++y1;
                 ++x2;
+
                 ++y2;
                 return s[x2][y2] - s[x1 - 1][y2] - s[x2][y1 - 1] + s[x1 - 1][y1 - 1];
             }
