@@ -27,38 +27,15 @@ package leet._101_150;
  * Explanation: In this case, no transaction is done, i.e. max profit = 0.
  */
 public class _122_BestTimetoBuyandSellStock2 {
-    public static void main(String[] args) {
-        _122_BestTimetoBuyandSellStock2 test = new _122_BestTimetoBuyandSellStock2();
-        System.out.println("ans should be " + 7);
-        System.out.println(test.maxProfit(new int[] { 7, 1, 5, 3, 6, 4 }));
-        System.out.println("ans should be " + 4);
-        System.out.println(test.maxProfit(new int[] { 1, 2, 3, 4, 5 }));
-        System.out.println("ans should be " + 0);
-        System.out.println(test.maxProfit(new int[] { 7, 6, 4, 3, 1 }));
-    }
-
     public int maxProfit(int[] prices) {
-        if (prices == null || prices.length == 0) {
-            return 0;
+        int res = 0;
+
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                res += prices[i] - prices[i - 1];
+            }
         }
 
-        int maxProfit = 0;
-
-        for (int i = 0; i < prices.length - 1; i++) {
-            if (prices[i] > prices[i + 1]) {
-                continue;
-            }
-
-            int buy = prices[i];
-            i++;
-            while (i < prices.length && prices[i] > prices[i - 1]) {
-                i++;
-            }
-            i--;
-
-            maxProfit += prices[i] - buy;
-        }
-
-        return maxProfit;
+        return res;
     }
 }
