@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 
 /**
  * Remove the minimum number of invalid parentheses in order to make the input string valid. Return all possible results.
@@ -25,6 +24,89 @@ import java.util.Stack;
  * Output: [""]
  */
 public class _301_Remove_Invalid_Parentheses {
+    //TODO: more
+
+    /**
+     * 此题与之前的生成括号方式互为相反的过程，生成时我们需要记录已加入的左边和右边括号个数，删除时我们也需要。
+     * 在此题中，解题步骤如下：
+     * <p>
+     * 我们需要先找出不合法的左括号个数和右括号个数
+     * 利用dfs不断删除"（"或者"）"，直到不合法个数为0
+     * 检验删除后的括号串是否合法。
+     * <p>
+     * 作者：shaft
+     * 链接：https://leetcode-cn.com/problems/remove-invalid-parentheses/solution/shen-du-you-xian-sou-suo-jie-ti-by-shaft/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     */
+    class Sol_DFS {
+        List<String> ans = new ArrayList<>();
+
+        public List<String> removeInvalidParentheses(String str) {
+            char[] s = str.toCharArray();
+
+            // l is current l paren - r paren, r is right paren to delete
+            int l = 0, r = 0;
+            for (char x : s) {
+                if (x == '(') l++;
+                else if (x == ')') {
+                    // left paren == right paren
+                    if (l == 0) r++;
+                    else l--;
+                }
+            }
+
+            // l is left to delete, r is right to delete
+            // 0 is char idx. "" current str, 0 is left -right paren, l is how mnay left to delte. r is how mnay right to delete.
+            dfs(s, 0, "", 0, l, r);
+            return ans;
+        }
+
+
+        void dfs(char[] s, int u, String path, int cnt, int l, int r) {
+            if (u == s.length) {
+                // if left paren == right paren
+                if (cnt == 0) {
+                    ans.add(path);
+                }
+                return;
+            }
+
+            // not '()', add to path and continue
+            if (s[u] != '(' && s[u] != ')') {
+                dfs(s, u + 1, path + s[u], cnt, l, r);
+            } else if (s[u] == '(') {
+                int k = u;
+                // see how many '('
+                while (k < s.length && s[k] == '(') k++;
+                // delete all left paren
+                l -= k - u;
+                for (int i = k - u; i >= 0; i--) {
+                    if (l >= 0) {
+                        dfs(s, k, path, cnt, l, r);
+                    }
+                    path += '(';
+                    cnt++;
+                    l++;
+                }
+            } else if (s[u] == ')') {
+                int k = u;
+                while (k < s.length && s[k] == ')') {
+                    k++;
+                }
+                r -= k - u;
+                for (int i = k - u; i >= 0; i--) {
+                    if (cnt >= 0 && r >= 0) {
+                        dfs(s, k, path, cnt, l, r);
+                    }
+                    path += ')';
+                    cnt--;
+                    r++;
+                }
+            }
+        }
+    }
+
     class Sol_BFS {
         public List<String> removeInvalidParentheses(String s) {
             Set<String> set = new HashSet<>();
@@ -70,107 +152,6 @@ public class _301_Remove_Invalid_Parentheses {
                 }
             }
             return count == 0;
-        }
-    }
-
-    /**
-     * 此题与之前的生成括号方式互为相反的过程，生成时我们需要记录已加入的左边和右边括号个数，删除时我们也需要。
-     * 在此题中，解题步骤如下：
-     * <p>
-     * 我们需要先找出不合法的左括号个数和右括号个数
-     * 利用dfs不断删除"（"或者"）"，直到不合法个数为0
-     * 检验删除后的括号串是否合法。
-     * <p>
-     * 作者：shaft
-     * 链接：https://leetcode-cn.com/problems/remove-invalid-parentheses/solution/shen-du-you-xian-sou-suo-jie-ti-by-shaft/
-     * 来源：力扣（LeetCode）
-     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-     */
-    class Sol_DFS {
-        List<String> ans;
-
-        public List<String> removeInvalidParentheses(String s) {
-            // 寻找不合法半边括号的个数
-            int l = 0;
-            int r = 0;
-
-            for (char c : s.toCharArray()) {
-                if (c == '(') {
-                    l++;
-                } else if (c == ')') {
-                    if (l > 0) {
-                        l--;
-                    } else {
-                        r++;
-                    }
-                }
-            }
-
-            ans = new ArrayList<>();
-
-            dfs(s, 0, l, r);
-            return ans;
-        }
-
-        private boolean isValid(String s) {
-            int cnt = 0;
-            for (char c : s.toCharArray()) {
-                if (c == '(') {
-                    ++cnt;
-                } else if (c == ')') {
-                    --cnt;
-                    if (cnt < 0) {
-                        return false;
-                    }
-                }
-            }
-            return cnt == 0;
-        }
-
-        private boolean isValid_stack(String s) {
-            Stack<Character> stack = new Stack<>();
-
-            for (char c : s.toCharArray()) {
-                if (c == '(') {
-                    stack.push(c);
-                } else if (c == ')') {
-                    if (stack.isEmpty()) {
-                        return false;
-                    }
-
-                    stack.pop();
-                }
-            }
-
-            return stack.isEmpty();
-        }
-
-        // l/r: number of left/right parentheses to remove.
-        void dfs(String s, int st, int l, int r) {
-            // Nothing to remove.
-            if (l == 0 && r == 0) {
-                if (isValid(s)) {
-                    ans.add(s);
-                }
-                return;
-            }
-
-            for (int i = st; i < s.length(); ++i) {
-                // 去重
-                if (i > st && s.charAt(i) == s.charAt(i - 1)) {
-                    continue;
-                }
-
-                String change = s.substring(0, i) + s.substring(i + 1);
-
-                if (l > 0 && s.charAt(i) == '(') {
-                    dfs(change, i, l - 1, r);
-                }
-
-                if (r > 0 && s.charAt(i) == ')') {
-                    dfs(change, i, l, r - 1);
-                }
-            }
         }
     }
 }
