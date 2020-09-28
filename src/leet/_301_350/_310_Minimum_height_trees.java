@@ -128,17 +128,18 @@ public class _310_Minimum_height_trees {
                 return ans;
             }
 
-            List<Integer>[] tree = new ArrayList[n];
+            List<List<Integer>> g = new ArrayList<>();
             for (int i = 0; i < n; i++) {
-                tree[i] = new ArrayList<>();
+                g.add(new ArrayList<>());
             }
             int[] deg = new int[n];
 
             for (int[] e : edges) {
-                tree[e[0]].add(e[1]);
-                tree[e[1]].add(e[0]);
-                deg[e[0]]++;
-                deg[e[1]]++;
+                int a = e[0], b = e[1];
+                g.get(a).add(b);
+                g.get(b).add(a);
+                deg[a]++;
+                deg[b]++;
             }
 
             for (int i = 0; i < n; i++) {
@@ -151,7 +152,7 @@ public class _310_Minimum_height_trees {
                 List<Integer> next_ans = new ArrayList<>();
                 for (int u : ans) {
                     n--;
-                    for (int v : tree[u]) {
+                    for (int v : g.get(u)) {
                         deg[v]--;
                         if (deg[v] == 1) {
                             next_ans.add(v);
