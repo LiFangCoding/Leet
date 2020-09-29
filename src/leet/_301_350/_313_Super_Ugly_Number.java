@@ -25,22 +25,19 @@ import java.util.PriorityQueue;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _313_Super_Ugly_Number {
-    class Node {
-
-    }
-
     /**
      * k 个指针，找出最小值*字数， nlogk
      */
     class Sol_ac {
         public int nthSuperUglyNumber(int n, int[] primes) {
-            PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> Integer.compare(a.val, b.val));
-            for (int x : primes) {
-                pq.add(new Node(x, 0));
-            }
-
             int[] q = new int[n];
             q[0] = 1;
+
+            PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> Integer.compare(a.val, b.val));
+            for (int x : primes) {
+                pq.add(new Node(x * q[0], 0));
+            }
+
             for (int i = 1; i < n; ) {
                 Node t = pq.remove();
                 if (t.val != q[i - 1]) {
