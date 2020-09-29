@@ -1,7 +1,6 @@
 package leet._301_350;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,57 +31,45 @@ public class _315_Count_Of_Smaller_Number_After_Self {
      * 接着在用 Binary Indexed Tree 来统计每个数右边有多少个数比他小，只需要从右到左遍历这个数组，一边把数丢到 BIT 里一边计算就行了。
      * https://www.jiuzhang.com/solution/count-of-smaller-numbers-after-self/#tag-highlight
      */
-    public List<Integer> countSmaller(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return new ArrayList<Integer>();
+    // 树状数组需要从1开始
+    // 树状数组长度
+    class Solution {
+        // 树状数组需要从1开始
+        // 树状数组长度
+        int n = 20001;
+        int[] tr = new int[n + 1];
+
+        int lowbit(int x) {
+            return x & -x;
         }
 
-        discretization(nums);
-
-        // build bit array
-        int[] bit = new int[nums.length + 1];
-        int[] count = new int[nums.length];
-
-        for (int i = nums.length - 1; i >= 0; i--) {
-            count[i] = getSum(bit, nums[i] - 1);
-            update(bit, nums[i]);
+        int query(int x) {
+            int res = 0;
+            for (int i = x; i > 0; i -= lowbit(i)) {
+                res += tr[i];
+            }
+            return res;
         }
 
-        List<Integer> result = new ArrayList<Integer>();
-        for (int i = 0; i < count.length; i++) {
-            result.add(count[i]);
+        void add(int x, int v) {
+            for (int i = x; i <= n; i += lowbit(i)) {
+                tr[i] += v;
+            }
         }
 
-        return result;
-    }
+        public List<Integer> countSmaller(int[] nums) {
+            int len = nums.length;
 
-    // this is nlogn
-    // sort the orignal array and mapping the number to
-    // the order in the sorted array;
-    private void discretization(int[] nums) {
-        int[] sorted = nums.clone();
-        Arrays.sort(sorted);
-
-        for (int i = 0; i < nums.length; i++) {
-            nums[i] = Arrays.binarySearch(sorted, nums[i]) + 1;
+            List<Integer> res = new ArrayList<>();
+            for (int i = 0; i < len; i++) {
+                res.add(0);
+            }
+            for (int i = len - 1; i >= 0; i--) {
+                int x = nums[i] + 10001;
+                res.set(i, query(x - 1));
+                add(x, 1);
+            }
+            return res;
         }
-    }
-
-    private void update(int[] bit, int index) {
-        for (int i = index; i < bit.length; i = i + lowbit(i)) {
-            bit[i]++;
-        }
-    }
-
-    private int getSum(int[] bit, int index) {
-        int sum = 0;
-        for (int i = index; i > 0; i = i - lowbit(i)) {
-            sum += bit[i];
-        }
-        return sum;
-    }
-
-    private int lowbit(int x) {
-        return x & (-x);
     }
 }
