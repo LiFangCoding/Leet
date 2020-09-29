@@ -22,7 +22,6 @@ package leet._301_350;
  */
 public class _312_Burst_Balloons {
     //TODO
-
     /**
      * (动态规划) O(n3)
      * 状态： dp[i][j]表示戳爆从第ii到第jj个气球得到的最大金币数。
@@ -43,28 +42,26 @@ public class _312_Burst_Balloons {
      * @return
      */
     public int maxCoins(int[] nums) {
-        int len = nums.length;
-
-        int[] A = new int[len + 2];
-        for (int i = 0; i < A.length; i++) {
-            if (i == 0 || i == A.length - 1) {
-                A[i] = 1;
-            } else {
-                A[i] = nums[i - 1];
-            }
+        int n = nums.length;
+        // add 1 to boarder. cannot be burst
+        int[] a = new int[n + 2];
+        a[0] = 1;
+        a[n + 1] = 1;
+        for (int i = 1; i <= n; i++) {
+            a[i] = nums[i - 1];
         }
-
-        int[][] f = new int[len + 2][len + 2];
-
-        for (int size = 1; size <= len; size++) {
-            for (int i = 1; i <= len - size + 1; i++) {
-                int j = i + size - 1;
-                for (int k = i; k <= j; k++) {
-                    f[i][j] = Math.max(f[i][j], f[i][k - 1] + A[i - 1] * A[k] * A[j + 1] + f[k + 1][j]);
+        int[][] f = new int[n + 2][n + 2];
+        // len == 2， no balloon means 0
+        for (int len = 3; len <= n + 2; len++) {
+            // idx
+            for (int i = 0; i + len - 1 <= n + 1; i++) {
+                int j = i + len - 1;
+                // points in middle
+                for (int k = i + 1; k < j; k++) {
+                    f[i][j] = Math.max(f[i][j], f[i][k] + f[k][j] + a[i] * a[k] * a[j]);
                 }
             }
         }
-
-        return f[1][len];
+        return f[0][n + 1];
     }
 }
