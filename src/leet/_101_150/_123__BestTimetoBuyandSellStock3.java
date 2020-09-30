@@ -27,6 +27,26 @@ package leet._101_150;
  * Explanation: In this case, no transaction is done, i.e. max profit = 0.
  */
 public class _123__BestTimetoBuyandSellStock3 {
+    class Sol_suffix_prefix {
+        public int maxProfit(int[] prices) {
+            int n = prices.length;
+            // idx is from 1.
+            int[] f = new int[n + 2];
+            for (int i = 1, minp = Integer.MAX_VALUE; i <= n; i++) {
+                // ith day do not sell, ith day sell
+                f[i] = Math.max(f[i - 1], prices[i - 1] - minp);
+                minp = Math.min(minp, prices[i - 1]);
+            }
+
+            int res = 0;
+            for (int i = n, maxp = 0; i > 0; i--) {
+                res = Math.max(res, maxp - prices[i - 1] + f[i - 1]);
+                maxp = Math.max(maxp, prices[i - 1]);
+            }
+            return res;
+        }
+    }
+
     /**
      * 4ms
      * T = n

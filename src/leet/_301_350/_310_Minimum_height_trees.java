@@ -45,57 +45,125 @@ import java.util.List;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _310_Minimum_height_trees {
-    /**
-     * 12ms
-     * T = n
-     * 从叶子结点开始，每一轮删除所有叶子结点。
-     * 删除后，会出现新的叶子结点，此时再删除。
-     * 重复以上过程直到剩余 1 个或 2 个结点，此时这 1 个或 2 个结点就是答案。
-     * https://www.jiuzhang.com/problem/minimum-height-trees/
-     * https://www.acwing.com/solution/content/344/
-     */
-    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
-        List<Integer> ans = new ArrayList<>();
+    //TODO
+    class Sol_dp_tree {
+        class Solution {
+            List<List<Integer>> g = new ArrayList<>();
+            int[] d1, d2, p1, up;
 
-        if (n == 1) {
-            ans.add(0);
-            return ans;
-        }
-
-        List<Integer>[] tree = new ArrayList[n];
-        for (int i = 0; i < n; i++) {
-            tree[i] = new ArrayList<>();
-        }
-        int[] deg = new int[n];
-
-        for (int[] e : edges) {
-            tree[e[0]].add(e[1]);
-            tree[e[1]].add(e[0]);
-            deg[e[0]]++;
-            deg[e[1]]++;
-        }
-
-        for (int i = 0; i < n; i++) {
-            if (deg[i] == 1) {
-                ans.add(i);
-            }
-        }
-
-        while (n > 2) {
-            List<Integer> next_ans = new ArrayList<>();
-            for (int u : ans) {
-                n--;
-                for (int v : tree[u]) {
-                    deg[v]--;
-                    if (deg[v] == 1) {
-                        next_ans.add(v);
+            void dfs1(int u, int father) {
+                for (int x : g.get(u)) {
+                    if (x == father) continue;
+                    dfs1(x, u);
+                    int d = d1[x] + 1;
+                    if (d >= d1[u]) {
+                        d2[u] = d1[u];
+                        d1[u] = d;
+                        p1[u] = x;
+                    } else if (d >= d2[u]) {
+                        d2[u] = d;
                     }
                 }
             }
 
-            ans = next_ans;
-        }
+            void dfs2(int u, int father) {
+                for (int x : g.get(u)) {
+                    if (x == father) continue;
+                    if (p1[u] == x) {
+                        up[x] = Math.max(up[u], d2[u]) + 1;
+                    } else {
+                        up[x] = Math.max(up[u], d1[u]) + 1;
+                    }
+                    dfs2(x, u);
+                }
+            }
 
-        return ans;
+            public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+                for (int i = 0; i < n; i++) {
+                    g.add(new ArrayList<>());
+                }
+                d1 = new int[n];
+                d2 = new int[n];
+                p1 = new int[n];
+                up = new int[n];
+
+                for (int[] e : edges) {
+                    int a = e[0], b = e[1];
+                    g.get(a).add(b);
+                    g.get(b).add(a);
+                }
+
+                dfs1(0, -1);
+                dfs2(0, -1);
+
+                int mind = n + 1;
+                for (int i = 0; i < n; i++) {
+                    mind = Math.min(mind, Math.max(up[i], d1[i]));
+                }
+
+                List<Integer> res = new ArrayList<>();
+                for (int i = 0; i < n; i++) {
+                    if (Math.max(up[i], d1[i]) == mind) res.add(i);
+                }
+                return res;
+            }
+        }
+    }
+
+    class Sol_greedy {
+        /**
+         * 12ms
+         * T = n
+         * 从叶子结点开始，每一轮删除所有叶子结点。
+         * 删除后，会出现新的叶子结点，此时再删除。
+         * 重复以上过程直到剩余 1 个或 2 个结点，此时这 1 个或 2 个结点就是答案。
+         * https://www.jiuzhang.com/problem/minimum-height-trees/
+         * https://www.acwing.com/solution/content/344/
+         */
+        public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+            List<Integer> ans = new ArrayList<>();
+
+            if (n == 1) {
+                ans.add(0);
+                return ans;
+            }
+
+            List<List<Integer>> g = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                g.add(new ArrayList<>());
+            }
+            int[] deg = new int[n];
+
+            for (int[] e : edges) {
+                int a = e[0], b = e[1];
+                g.get(a).add(b);
+                g.get(b).add(a);
+                deg[a]++;
+                deg[b]++;
+            }
+
+            for (int i = 0; i < n; i++) {
+                if (deg[i] == 1) {
+                    ans.add(i);
+                }
+            }
+
+            while (n > 2) {
+                List<Integer> next_ans = new ArrayList<>();
+                for (int u : ans) {
+                    n--;
+                    for (int v : g.get(u)) {
+                        deg[v]--;
+                        if (deg[v] == 1) {
+                            next_ans.add(v);
+                        }
+                    }
+                }
+
+                ans = next_ans;
+            }
+
+            return ans;
+        }
     }
 }

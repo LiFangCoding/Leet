@@ -22,6 +22,7 @@ package leet._301_350;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _307_Range_Sum_Query_Mutable {
+    //TODO
     /**
      * 13ms
      * T = n + Q*logn
@@ -32,43 +33,45 @@ public class _307_Range_Sum_Query_Mutable {
      * https://www.acwing.com/solution/content/342/
      */
     class NumArray {
-        private int[] arr, bit;
+        int n;
+        int[] tr;
+        int[] nums;
 
-        /**
-         * @return: nothing
-         */
-        public NumArray(int[] nums) {
-            arr = new int[nums.length];
-            bit = new int[nums.length + 1];
+        public NumArray(int[] _nums) {
+            nums = _nums;
+            n = nums.length;
+            tr = new int[n + 1];
 
-            for (int i = 0; i < nums.length; i++) {
-                update(i, nums[i]);
+            for (int i = 0; i < n; i++) {
+                add(i + 1, nums[i]);
             }
         }
 
-        public void update(int index, int val) {
-            int delta = val - arr[index];
-            arr[index] = val;
+        int lowbit(int x) {
+            return x & -x;
+        }
 
-            for (int i = index + 1; i <= arr.length; i = i + lowbit(i)) {
-                bit[i] += delta;
+        int query(int x) {
+            int res = 0;
+            for (int i = x; i > 0; i -= lowbit(i)) {
+                res += tr[i];
+            }
+            return res;
+        }
+
+        void add(int x, int v) {
+            for (int i = x; i <= n; i += lowbit(i)) {
+                tr[i] += v;
             }
         }
 
-        public int getPrefixSum(int index) {
-            int sum = 0;
-            for (int i = index + 1; i > 0; i = i - lowbit(i)) {
-                sum += bit[i];
-            }
-            return sum;
+        public void update(int i, int val) {
+            add(i + 1, val - nums[i]);
+            nums[i] = val;
         }
 
-        private int lowbit(int x) {
-            return x & (-x);
-        }
-
-        public int sumRange(int left, int right) {
-            return getPrefixSum(right) - getPrefixSum(left - 1);
+        public int sumRange(int i, int j) {
+            return query(j + 1) - query(i);
         }
     }
 }

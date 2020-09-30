@@ -20,26 +20,17 @@ package leet._101_150;
  * Explanation: In this case, no transaction is done, i.e. max profit = 0.
  */
 public class _121_BestTimetoBuyandSellStock {
-    public static void main(String[] args) {
-        _121_BestTimetoBuyandSellStock test = new _121_BestTimetoBuyandSellStock();
-        System.out.println(test.maxProfit(new int[] { 7, 1, 5, 3, 6, 4 }));
-        System.out.println(test.maxProfit(new int[] { 7, 6, 4, 3, 1 }));
-    }
-
     public int maxProfit(int[] prices) {
-        if (prices == null || prices.length == 0) {
-            return 0;
+        int res = 0;
+        int minP = Integer.MAX_VALUE;
+
+        for (int x : prices) {
+            // before this day, the minium price
+            res = Math.max(res, x - minP);
+            // update min
+            minP = Math.min(minP, x);
         }
 
-        int maxProfit = 0;
-        int minPrice = prices[0];
-
-        for (int i = 1; i < prices.length; i++) {
-            int curProfit = prices[i] - minPrice;
-            maxProfit = Math.max(maxProfit, curProfit);
-            minPrice = Math.min(minPrice, prices[i]);
-        }
-
-        return maxProfit;
+        return res;
     }
 }

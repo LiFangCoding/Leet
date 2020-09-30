@@ -1,5 +1,7 @@
 package leet._151_200;
 
+import java.util.Arrays;
+
 /**
  * Say you have an array for which the i-th element is the price of a given stock on day i.
  * <p>
@@ -21,6 +23,47 @@ package leet._151_200;
  *              Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
  */
 public class _188_Best_Tiem_To_Buy_Sell_Stock4 {
+    class Sol_ac {
+        public int maxProfit(int k, int[] prices) {
+            int n = prices.length;
+            if (k >= n / 2) {
+                int res = 0;
+                for (int i = 1; i < n; i++) {
+                    if (prices[i] > prices[i - 1]) {
+                        res += prices[i] - prices[i - 1];
+                    }
+                }
+                return res;
+            }
+
+            int MIN = (int) 1e8 * -1;
+            //状态机起点是0
+            int[][] f = new int[n + 1][k + 1];
+            for (int i = 0; i <= n; i++) {
+                Arrays.fill(f[i], MIN);
+            }
+            int[][] g = new int[n + 1][k + 1];
+            for (int i = 0; i <= n; i++) {
+                Arrays.fill(g[i], MIN);
+            }
+            f[0][0] = 0;
+            int res = 0;
+            for (int i = 1; i <= n; i++) {
+                //
+                for (int j = 0; j <= k; j++) {
+                    // idx is fron i - 1
+                    f[i][j] = Math.max(f[i - 1][j], g[i - 1][j] + prices[i - 1]);
+                    g[i][j] = g[i - 1][j];
+                    if (j > 0) {
+                        g[i][j] = Math.max(g[i][j], f[i - 1][j - 1] - prices[i - 1]);
+                    }
+                    res = Math.max(res, f[i][j]);
+                }
+            }
+            return res;
+        }
+    }
+
     /**
      * TODO: haojun. Hard
      * https://www.acwing.com/solution/content/6308/
