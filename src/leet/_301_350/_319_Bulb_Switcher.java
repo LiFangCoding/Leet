@@ -27,6 +27,8 @@ public class _319_Bulb_Switcher {
      * @param n
      * @return
      */
+    //约束个数是奇数，是完全平方数，灯泡会亮
+    // 1-n中完全平方数个数
     public int bulbSwitch(int n) {
         return (int) Math.sqrt(n);
     }
