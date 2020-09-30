@@ -23,48 +23,52 @@ import java.util.List;
  *              the order of elements returned by next should be:[1,4,6].
  */
 
-public class _341_Flatten_Nested_list_iterator implements Iterator<Integer> {
-    int i = 0;
-    int len;
-    List<Integer> list;
-
-    public _341_Flatten_Nested_list_iterator(List<NestedInteger> nestedList) {
-        list = new ArrayList<>();
-        addAll(nestedList);
-        len = list.size();
-    }
-
-    @Override
-    public Integer next() {
-        return list.get(i++);
-    }
-
-    @Override
-    public boolean hasNext() {
-        return i < len;
-    }
-
-    private void addAll(List<NestedInteger> nestedList) {
-        for (NestedInteger nest : nestedList) {
-            if (nest.isInteger()) {
-                list.add(nest.getInteger());
-            } else {
-                addAll(nest.getList());
-            }
-        }
-    }
-
+public class _341_Flatten_Nested_list_iterator {
     public interface NestedInteger {
 
         // @return true if this NestedInteger holds a single integer, rather than a nested list.
-        public boolean isInteger();
+        boolean isInteger();
 
         // @return the single integer that this NestedInteger holds, if it holds a single integer
         // Return null if this NestedInteger holds a nested list
-        public Integer getInteger();
+        Integer getInteger();
 
         // @return the nested list that this NestedInteger holds, if it holds a nested list
         // Return null if this NestedInteger holds a single integer
-        public List<NestedInteger> getList();
+        List<NestedInteger> getList();
+    }
+
+    public class NestedIterator implements Iterator<Integer> {
+        List<Integer> q;
+        int k;
+
+        // 看成树， 叶节点是整数
+        public NestedIterator(List<NestedInteger> nestedList) {
+            k = 0;
+            q = new ArrayList<>();
+            for (NestedInteger l : nestedList) {
+                dfs(l);
+            }
+        }
+
+        void dfs(NestedInteger l) {
+            if (l.isInteger()) {
+                q.add(l.getInteger());
+            } else {
+                for (NestedInteger v : l.getList()) {
+                    dfs(v);
+                }
+            }
+        }
+
+        @Override
+        public Integer next() {
+            return q.get(k++);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return k < q.size();
+        }
     }
 }
