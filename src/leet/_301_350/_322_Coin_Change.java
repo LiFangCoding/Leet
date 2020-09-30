@@ -3,31 +3,20 @@ package leet._301_350;
 import java.util.Arrays;
 
 public class _322_Coin_Change {
-    public int coinChange(int[] coins, int amount) {
-        if (coins == null || coins.length == 0 || amount < 0) {
-            return -1;
-        }
-
-        // f[i] means to get amount i, the fewest number need
-        int[] f = new int[amount + 1];
-
+    //面额是体积vi, 价值1， m是背包容量amount
+    public int coinChange(int[] coins, int m) {
+        int[] f = new int[m + 1];
+        // cannot add 1, overflow
+        Arrays.fill(f, (int) 1e8);
         f[0] = 0;
-        Arrays.sort(coins);
-
-        for (int i = 1; i < f.length; i++) {
-            // -1 means no way to get it
-            f[i] = -1;
-            for (int coin : coins) {
-                if (i - coin >= 0 && f[i - coin] != -1) {
-                    if (f[i] == -1) {
-                        f[i] = f[i - coin] + 1;
-                    } else {
-                        f[i] = Math.min(f[i], f[i - coin] + 1);
-                    }
-                }
+        for (int v : coins) {
+            for (int j = v; j <= m; j++) {
+                f[j] = Math.min(f[j], f[j - v] + 1);
             }
         }
 
-        return f[amount];
+        if (f[m] == (int) 1e8)
+            return -1;
+        return f[m];
     }
 }
