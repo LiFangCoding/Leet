@@ -40,6 +40,7 @@ public class _328_Odd_Even_Linked_List {
                     p = p.next;
                 }
             }
+
             ot.next = eh;
             et.next = null;
             return oh;
