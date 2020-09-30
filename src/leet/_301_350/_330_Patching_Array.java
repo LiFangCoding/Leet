@@ -27,6 +27,7 @@ package leet._301_350;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _330_Patching_Array {
+    //TODO
     /**
      * T = 0ms
      *
@@ -35,19 +36,16 @@ public class _330_Patching_Array {
      * @return
      */
     public int minPatches(int[] nums, int n) {
-        int ans = 0, idx = 0, m = nums.length;
-
-        long miss = 1;
-
-        while (miss <= n) {
-            if (idx < m && miss >= nums[idx]) {
-                miss += nums[idx++];
+        long x = 1;
+        int i = 0, res = 0;
+        while (x <= n) {
+            if (i < nums.length && nums[i] <= x) {
+                x += nums[i++];
             } else {
-                miss = miss << 1;
-                ans++;
+                x += x;
+                res++;
             }
         }
-
-        return ans;
+        return res;
     }
 }
