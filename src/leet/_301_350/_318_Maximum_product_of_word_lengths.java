@@ -27,30 +27,32 @@ public class _318_Maximum_product_of_word_lengths {
     /**
      * T = max(n2,n*L)
      * 9ms
-     *
      * @param words
      * @return https://www.acwing.com/solution/content/340/
      * https://www.acwing.com/solution/content/349/
      * https://www.jiuzhang.com/problem/maximum-product-of-word-lengths/
      */
     public int maxProduct(String[] words) {
-        if (words == null || words.length == 0)
-            return 0;
-        int len = words.length;
-        int[] value = new int[len];
-        for (int i = 0; i < len; i++) {
-            String tmp = words[i];
-            value[i] = 0;
-            for (int j = 0; j < tmp.length(); j++) {
-                value[i] |= 1 << (tmp.charAt(j) - 'a');
+        int n = words.length;
+        int[] state = new int[n];
+        for (int i = 0; i < n; i++) {
+            String word = words[i];
+            int s = 0;
+            for (char c : word.toCharArray()) {
+                s |= 1 << (c - 'a');
+            }
+            state[i] = s;
+        }
+
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if ((state[i] & state[j]) == 0) {
+                    res = Math.max(res, words[i].length() * words[j].length());
+                }
             }
         }
-        int maxProduct = 0;
-        for (int i = 0; i < len; i++)
-            for (int j = i + 1; j < len; j++) {
-                if ((value[i] & value[j]) == 0 && (words[i].length() * words[j].length() > maxProduct))
-                    maxProduct = words[i].length() * words[j].length();
-            }
-        return maxProduct;
+
+        return res;
     }
 }
