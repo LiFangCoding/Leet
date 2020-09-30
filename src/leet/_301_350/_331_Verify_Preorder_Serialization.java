@@ -46,33 +46,36 @@ public class _331_Verify_Preorder_Serialization {
      * 如果递归还没结束但数组已经遍历完，或者递归结束但数组还没遍历完，则说明给定的序列不是一个合法的前序遍历。
      * https://www.acwing.com/solution/content/357/
      */
+    // root, left, right
+    int k;
+    String s;
 
-    boolean ans = true;
-    int idx = 0;
-
-    public boolean isValidSerialization(String preorder) {
-        preorder += ',';
-        dfs(preorder);
-        return ans && idx == preorder.length();
+    public boolean isValidSerialization(String _s) {
+        k = 0;
+        //处理方便
+        s = _s + ",";
+        //中间出现问题
+        if (!dfs()) {
+            return false;
+        }
+        // 是否都遍历完
+        return k == s.length();
     }
 
-    private void dfs(String preorder) {
-        if (idx == preorder.length()) {
-            ans = false;
-            return;
+    boolean dfs() {
+        // util end, no char
+        if (k == s.length()) {
+            return false;
         }
 
-        if (preorder.charAt(idx) == '#') {
-            idx += 2;
-            return;
+        if (s.charAt(k) == '#') {
+            k += 2;
+            return true;
         }
 
-        while (preorder.charAt(idx) != ',') {
-            idx++;
-        }
-
-        idx++;
-        dfs(preorder);
-        dfs(preorder);
+        // skip build tree with real value
+        while (s.charAt(k) != ',') k++;
+        k++;
+        return dfs() && dfs();
     }
 }
