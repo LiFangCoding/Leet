@@ -1,10 +1,6 @@
 package leet._301_350;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Given a list of airline tickets represented by pairs of departure and arrival airports [from, to], reconstruct the itinerary in order. All of the tickets belong to a man who departs from JFK. Thus, the itinerary must begin with JFK.
@@ -46,34 +42,32 @@ public class _332_Reconstruct_Itinerary {
      * https://www.acwing.com/solution/content/359/
      * https://leetcode-cn.com/problems/reconstruct-itinerary/solution/javadfsjie-fa-by-pwrliang/
      */
+    List<String> ans = new ArrayList();
     Map<String, PriorityQueue<String>> g = new HashMap<>();
-    List<String> ans = new LinkedList<>();
 
     public List<String> findItinerary(List<List<String>> tickets) {
-        // 因为逆序插入，所以用链表
-        if (tickets == null || tickets.size() == 0) {
-            return ans;
-        }
-
-        for (List<String> ticket : tickets) {
-            if (!g.containsKey(ticket.get(0))) {
-                g.put(ticket.get(0), new PriorityQueue<>());
+        for (List<String> e : tickets) {
+            // a -> b
+            String a = e.get(0);
+            String b = e.get(1);
+            if (!g.containsKey(a)) {
+                g.put(a, new PriorityQueue<>());
             }
-            g.get(ticket.get(0)).add(ticket.get(1));
+            g.get(a).add(b);
         }
 
         dfs("JFK");
+        Collections.reverse(ans);
         return ans;
     }
 
-    private void dfs(String v) {
-        PriorityQueue<String> pq = g.get(v);
-        // Important : pq is not null
-        while (pq != null && pq.size() != 0) {
-            String next = pq.remove();
-            dfs(next);
+    void dfs(String u) {
+        PriorityQueue<String> min = g.get(u);
+        // important not null
+        while (min != null && !min.isEmpty()) {
+            String ver = min.remove();
+            dfs(ver);
         }
-
-        ans.add(0, v);
+        ans.add(u);
     }
 }
