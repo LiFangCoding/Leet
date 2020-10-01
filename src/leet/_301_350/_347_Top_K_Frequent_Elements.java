@@ -1,11 +1,6 @@
 package leet._301_350;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Given a non-empty array of integers, return the k most frequent elements.
@@ -24,65 +19,60 @@ import java.util.PriorityQueue;
  * Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
  */
 public class _347_Top_K_Frequent_Elements {
-    public static void main(String[] args) {
-        _347_Top_K_Frequent_Elements test = new _347_Top_K_Frequent_Elements();
-        int[] A = new int[] { 1, 1, 1, 2, 2, 3 };
-        int k = 2;
-        System.out.println(test.topKFrequent(A, k));
+
+    class Sol_n {
+        // 计数排序的思想
+        // O(n)
+        public int[] topKFrequent(int[] nums, int k) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int x : nums) {
+                map.put(x, map.getOrDefault(x, 0) + 1);
+            }
+            int n = nums.length;
+            // 记录每种次数元素个数
+            int[] s = new int[n + 1];
+            for (int x : map.keySet()) {
+                s[map.get(x)]++;
+            }
+            int i = n, t = 0;
+            while (t < k) {
+                t += s[i--];
+            }
+
+            int[] res = new int[k];
+            int idx = 0;
+            for (int x : map.keySet()) {
+                if (map.get(x) > i) {
+                    res[idx++] = x;
+                }
+            }
+            return res;
+        }
     }
 
-    public List<Integer> topKFrequent_bucket_sort(int[] A, int k) {
-        // key -> value
-        // num -> count
-        Map<Integer, Integer> map = new HashMap<>();
-        int maxCnt = 0;
+    class Sol_nlogk {
+        public List<Integer> topKFrequent(int[] A, int k) {
+            // key -> value
+            // num -> count
+            Map<Integer, Integer> map = new HashMap<>();
 
-        for (int num : A) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
-            maxCnt = Math.max(maxCnt, map.get(num));
-        }
-
-        List<List<Integer>> buckets = new ArrayList<>(maxCnt + 1);
-        for (int i = 0; i <= maxCnt; i++) {
-            buckets.add(new ArrayList<>());
-        }
-
-        map.forEach((key, val) -> buckets.get(val).add(key));
-
-        List<Integer> ans = new ArrayList<>();
-        for (int i = maxCnt; i >= 0 && ans.size() < k; --i) {
-            for (int num : buckets.get(i)) {
-                ans.add(num);
+            for (int num : A) {
+                map.put(num, map.getOrDefault(num, 0) + 1);
             }
-            if (ans.size() == k) {
-                break;
+
+            PriorityQueue<Integer> minq = new PriorityQueue<>(k, (key1, key2) -> Integer.compare(map.get(key1), map.get(key2)));
+
+            for (int key : map.keySet()) {
+                minq.add(key);
+                if (minq.size() > k) {
+                    minq.remove();
+                }
             }
+
+            List<Integer> ans = new ArrayList<>();
+            minq.forEach(i -> ans.add(i));
+            Collections.reverse(ans);
+            return ans;
         }
-
-        return ans;
-    }
-
-    public List<Integer> topKFrequent(int[] A, int k) {
-        // key -> value
-        // num -> count
-        Map<Integer, Integer> map = new HashMap<>();
-
-        for (int num : A) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-
-        PriorityQueue<Integer> pq = new PriorityQueue<>(k, (key1, key2) -> Integer.compare(map.get(key1), map.get(key2)));
-
-        for (int key : map.keySet()) {
-            pq.add(key);
-            if (pq.size() > k) {
-                pq.remove();
-            }
-        }
-
-        List<Integer> ans = new ArrayList<>();
-        pq.forEach(i -> ans.add(i));
-        Collections.reverse(ans);
-        return ans;
     }
 }
