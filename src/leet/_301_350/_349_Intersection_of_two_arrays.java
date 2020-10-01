@@ -27,28 +27,25 @@ import java.util.Set;
  */
 public class _349_Intersection_of_two_arrays {
     class Sol_set {
-        public int[] intersection(int[] A1, int[] A2) {
-            List<Integer> anslist = new ArrayList<>();
-
+        public int[] intersection(int[] nums1, int[] nums2) {
             Set<Integer> set = new HashSet<>();
+            List<Integer> list = new ArrayList<>();
 
-            for (int num : A1) {
-                set.add(num);
+            for (int x : nums1) {
+                set.add(x);
             }
 
-            for (int num : A2) {
-                if (set.contains(num)) {
-                    anslist.add(num);
-                    set.remove(num);
+            for (int x : nums2) {
+                if (set.contains(x)) {
+                    list.add(x);
+                    set.remove(x);
                 }
             }
-
-            int[] ans = new int[anslist.size()];
-            for (int i = 0; i < ans.length; i++) {
-                ans[i] = anslist.get(i);
+            int[] res = new int[list.size()];
+            for (int i = 0; i < res.length; i++) {
+                res[i] = list.get(i);
             }
-
-            return ans;
+            return res;
         }
     }
 }
