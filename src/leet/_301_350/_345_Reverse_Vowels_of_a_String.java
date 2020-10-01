@@ -19,47 +19,27 @@ package leet._301_350;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _345_Reverse_Vowels_of_a_String {
-    public String reverseVowels(String s) {
-        if (s == null || s.length() == 0) {
-            return s;
-        }
+    String vs = "aeiouAEIOU";
 
-        char[] sa = s.toCharArray();
-        int i = -1, j = s.length();
-
-        while (true) {
-            while (!isValid(sa[++i])) {
-                // high is len - 1
-                if (i == sa.length - 1) {
-                    break;
-                }
-            }
-
-            while (!isValid(sa[--j])) {
-                // lo is 0
-                if (j == 0) {
-                    break;
-                }
-            }
-
-            if (i >= j) {
-                break;
-            }
-
-            swap(sa, i, j);
-        }
-
-        return String.valueOf(sa);
+    private boolean check(char c) {
+        return vs.contains(String.valueOf(c));
     }
 
-    private void swap(char[] a, int i, int j) {
-        char temp = a[i];
-        // need add
-        a[i] = a[j];
-        a[j] = temp;
-    }
+    public String reverseVowels(String str) {
+        char[] s = str.toCharArray();
+        for (int i = 0, j = s.length - 1; i < j; i++, j--) {
+            while (i < j && !check(s[i])) {
+                i++;
+            }
 
-    private boolean isValid(char c) {
-        return c == 'a' || c == 'A' || c == 'e' || c == 'E' || c == 'i' || c == 'I' || c == 'o' || c == 'O' || c == 'u' || c == 'U';
+            while (i < j && !check(s[j])) {
+                j--;
+            }
+
+            char temp = s[i];
+            s[i] = s[j];
+            s[j] = temp;
+        }
+        return String.valueOf(s);
     }
 }
