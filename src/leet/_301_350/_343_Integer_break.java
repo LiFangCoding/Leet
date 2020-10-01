@@ -22,6 +22,7 @@ package leet._301_350;
 public class _343_Integer_break {
     class Sol_n {
         public int integerBreak(int n) {
+            // 尽量分为3.
             if (n <= 3) return 1 * (n - 1);
             int p = 1;
             while (n >= 5) {
