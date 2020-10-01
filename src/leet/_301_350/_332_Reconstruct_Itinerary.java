@@ -42,7 +42,7 @@ public class _332_Reconstruct_Itinerary {
      * https://www.acwing.com/solution/content/359/
      * https://leetcode-cn.com/problems/reconstruct-itinerary/solution/javadfsjie-fa-by-pwrliang/
      */
-    List<String> ans = new ArrayList();
+    List<String> revo = new ArrayList();
     Map<String, PriorityQueue<String>> g = new HashMap<>();
 
     public List<String> findItinerary(List<List<String>> tickets) {
@@ -57,17 +57,16 @@ public class _332_Reconstruct_Itinerary {
         }
 
         dfs("JFK");
-        Collections.reverse(ans);
-        return ans;
+        Collections.reverse(revo);
+        return revo;
     }
 
     void dfs(String u) {
-        PriorityQueue<String> min = g.get(u);
         // important not null
-        while (min != null && !min.isEmpty()) {
-            String ver = min.remove();
+        while (g.get(u) != null && !g.get(u).isEmpty()) {
+            String ver = g.get(u).remove();
             dfs(ver);
         }
-        ans.add(u);
+        revo.add(u);
     }
 }
