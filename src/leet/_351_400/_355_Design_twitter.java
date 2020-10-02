@@ -47,14 +47,12 @@ public class _355_Design_twitter {
                 follows.put(u, new HashSet<>());
             }
             follows.get(u).add(u);
-            // if (follows.get(u) != null) {
             for (int user : follows.get(u)) {
                 List<int[]> utweets = tweets.get(user);
                 if (utweets != null && utweets.size() != 0) {
                     int i = utweets.size() - 1;
                     pq.add(new int[] { utweets.get(i)[0], utweets.get(i)[1], i, user });
                 }
-                // }
             }
 
             List<Integer> res = new ArrayList<>();
