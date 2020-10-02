@@ -1,5 +1,7 @@
 package leet._351_400;
 
+import java.util.Arrays;
+
 /**
  * You have a number of envelopes with widths and heights given as a pair of integers (w, h). One envelope can fit into another if and only if both the width and height of one envelope is greater than the width and height of the other envelope.
  * <p>
@@ -20,4 +22,28 @@ package leet._351_400;
  */
 public class _354_Russian_Doll_Envelopes {
     //TODO: dp
+    // f以ai为结尾的上升子序列的集合。属性是最大值
+    public int maxEnvelopes(int[][] w) {
+        int n = w.length;
+        Arrays.sort(w, (a, b) -> {
+            if (a[0] != b[0]) {
+                return Integer.compare(a[0], b[0]);
+            } else {
+                return Integer.compare(a[1], b[1]);
+            }
+        });
+        int[] f = new int[n];
+
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            f[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (w[j][0] < w[i][0] && w[j][1] < w[i][1]) {
+                    f[i] = Math.max(f[i], f[j] + 1);
+                }
+            }
+            res = Math.max(res, f[i]);
+        }
+        return res;
+    }
 }
