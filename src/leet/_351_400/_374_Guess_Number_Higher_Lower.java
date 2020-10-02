@@ -23,25 +23,16 @@ package leet._351_400;
  */
 public class _374_Guess_Number_Higher_Lower {
     public int guessNumber(int n) {
-        int l = 1;
-        int r = n;
-
-        while (l + 1 < r) {
+        int l = 1, r = n;
+        while (l < r) {
             int mid = l + (r - l) / 2;
-            if (guess(mid) == 0)
-                return mid;
-            else if (guess(mid) == -1)
+            if (guess(mid) <= 0) {
                 r = mid;
-            else
-                l = mid;
-            // System.out.println("guess mid is " + guess(mid) + " mid is " + mid);
+            } else {
+                l = mid + 1;
+            }
         }
-
-        if (guess(l) == 0)
-            return l;
-        if (guess(r) == 0)
-            return r;
-        return -1;
+        return r;
     }
 
     // api
