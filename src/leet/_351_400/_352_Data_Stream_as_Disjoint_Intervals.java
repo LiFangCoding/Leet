@@ -1,5 +1,7 @@
 package leet._351_400;
 
+import java.util.TreeSet;
+
 /**
  * Given a data stream input of non-negative integers a1, a2, ..., an, ..., summarize the numbers seen so far as a list of disjoint intervals.
  * <p>
@@ -44,18 +46,33 @@ public class _352_Data_Stream_as_Disjoint_Intervals {
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
      */
     class SummaryRanges {
+        // 找左端点<= x最后一个区间
+        // 如果x不在区间里，
+        // 1 x -1] x [x + 1 合并
+        // 2  x- 1] x
+        // 3  x[x + 1
+        // 4  [x, x]
+        // 时间lowerbound, 是logn, 删除也是log n
+        /**
+         * Initialize your data structure here.
+         */
 
-        //        /** Initialize your data structure here. */
-        //        public SummaryRanges() {
-        //
-        //        }
-        //
-        //        public void addNum(int val) {
-        //
-        //        }
-        //
-        //        public int[][] getIntervals() {
-        //
-        //        }
+        TreeSet<int[]> ts;
+
+        public SummaryRanges() {
+            ts = new TreeSet<>();
+
+        }
+
+        public void addNum(int x) {
+            // <= x最后一个元素，> x第一个元素
+            int[] r = ts.ceiling(new int[]{x + 1, Integer.MIN_VALUE});
+            int[] l = ts.floor(new int[]{x - 1, Integer.MIN_VALUE});
+
+        }
+
+        public int[][] getIntervals() {
+
+        }
     }
 }
