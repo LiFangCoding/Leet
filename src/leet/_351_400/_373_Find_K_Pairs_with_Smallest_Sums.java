@@ -33,7 +33,7 @@ import java.util.PriorityQueue;
  * 链接：https://leetcode-cn.com/problems/find-k-pairs-with-smallest-sums
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-public class _372_Find_K_Pairs_with_Smallest_Sums {
+public class _373_Find_K_Pairs_with_Smallest_Sums {
     public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         List<List<Integer>> ans = new ArrayList<>();
         if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0)
