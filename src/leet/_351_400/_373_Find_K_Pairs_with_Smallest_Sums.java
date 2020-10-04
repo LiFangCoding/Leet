@@ -34,36 +34,32 @@ import java.util.PriorityQueue;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _373_Find_K_Pairs_with_Smallest_Sums {
-    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
-        List<List<Integer>> ans = new ArrayList<>();
-        if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0)
-            return ans;
+    // 多路归并。 从B0A0,.... B0An-1.
+    //            Bm-1A0 ... Bm-1An-1
+    public List<List<Integer>> kSmallestPairs(int[] a, int[] b, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (a == null || b == null || a.length == 0 || b.length == 0) {
+            return res;
+        }
+        int n = a.length, m = b.length;
+        PriorityQueue<int[]> minPq = new PriorityQueue<>((x, y) -> Integer.compare(x[0], y[0]));
 
-        PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> Integer.compare(nums1[a.x] + nums2[a.y], nums1[b.x] + nums2[b.y]));
-        for (int i = 0; i < nums1.length; i++) {
-            pq.add(new Node(i, 0));
+        for (int i = 0; i < m; i++) {
+            // sum, a idx, b idx
+            minPq.add(new int[]{b[i] + a[0], 0, i});
         }
 
-        while (!pq.isEmpty() && ans.size() < k) {
-            Node t = pq.remove();
+        while (k-- > 0 && !minPq.isEmpty()) {
+            int[] t = minPq.remove();
+            int tai = t[1], tbi = t[2];
             List<Integer> list = new ArrayList<>();
-            list.add(nums1[t.x]);
-            list.add(nums2[t.y]);
-            ans.add(list);
-            if (t.y + 1 < nums2.length) {
-                pq.add(new Node(t.x, t.y + 1));
+            list.add(a[tai]);
+            list.add(b[tbi]);
+            res.add(list);
+            if (tai + 1 < n) {
+                minPq.add(new int[]{b[tbi] + a[tai + 1], tai + 1, tbi});
             }
         }
-
-        return ans;
-    }
-
-    class Node {
-        int x, y;
-
-        public Node(int _x, int _y) {
-            x = _x;
-            y = _y;
-        }
+        return res;
     }
 }
