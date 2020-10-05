@@ -58,6 +58,17 @@ public class _378_Kth_Smallest_Element_Sorted_Matrix {
         }
     }
 
+    public static void main(String[] args) {
+        System.out.println((-1 + 0) / 2);
+        System.out.println((-1 + 0) >> 1);
+
+        System.out.println((1 + 0) / 2);
+        System.out.println((1 + 0) >> 1);
+
+        System.out.println((-2 + 1) / 2);
+        System.out.println((-2 + 1) >> 1);
+    }
+
     class Sol_old {
         class Solution {
             public int kthSmallest(int[][] matrix, int k) {
@@ -96,3 +107,4 @@ public class _378_Kth_Smallest_Element_Sorted_Matrix {
             }
         }
     }
+}
