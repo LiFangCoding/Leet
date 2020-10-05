@@ -1,5 +1,7 @@
 package leet._351_400;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
@@ -53,26 +55,63 @@ public class _352_Data_Stream_as_Disjoint_Intervals {
         // 3  x[x + 1
         // 4  [x, x]
         // 时间lowerbound, 是logn, 删除也是log n
+        TreeSet<long[]> ts;
         /**
          * Initialize your data structure here.
          */
 
-        TreeSet<int[]> ts;
+        private long INF = (long) 1e18;
 
         public SummaryRanges() {
-            ts = new TreeSet<>();
-
+            ts = new TreeSet<>((x, y) -> Long.compare(x[0], y[0]));
+            ts.add(new long[]{-INF, -INF});
+            ts.add(new long[]{INF, INF});
         }
 
         public void addNum(int x) {
-            // <= x最后一个元素，> x第一个元素
-            int[] r = ts.ceiling(new int[]{x + 1, Integer.MIN_VALUE});
-            int[] l = ts.floor(new int[]{x - 1, Integer.MIN_VALUE});
+            // <= x最后一个元素，> x第一个元素. 最好加两个最小和最大的来处理边界情况. 要== x，也放在左边，所以取最大值。
+            long[] r = ts.higher(new long[]{x, Integer.MAX_VALUE});
+            long[] l = ts.floor(new long[]{x, Integer.MIN_VALUE});
 
+            if (l[1] >= x) return;
+            if (l[1] == x - 1 && r[0] == x + 1) {
+                ts.remove(l);
+                ts.remove(r);
+                ts.add(new long[]{l[0], r[1]});
+                // if (x == 2) {
+                //     System.out.println("output here");
+                //     System.out.println(ts);
+                // }
+            } else if (l[1] == x - 1) {
+                ts.remove(l);
+                ts.add(new long[]{l[0], x});
+            } else if (r[0] == x + 1) {
+                ts.remove(r);
+                ts.add(new long[]{x, r[1]});
+            } else {
+                ts.add(new long[]{x, x});
+            }
         }
 
         public int[][] getIntervals() {
-
+            List<int[]> list = new ArrayList<>();
+            for (long[] p : ts) {
+                if (p[0] != -INF && p[0] != INF) {
+                    list.add(new int[]{(int) p[0], (int) p[1]});
+                }
+            }
+            int[][] res = new int[list.size()][2];
+            for (int i = 0; i < list.size(); i++) {
+                res[i] = new int[]{list.get(i)[0], list.get(i)[1]};
+            }
+            return res;
         }
     }
+
+/**
+ * Your SummaryRanges object will be instantiated and called as such:
+ * SummaryRanges obj = new SummaryRanges();
+ * obj.addNum(val);
+ * int[][] param_2 = obj.getIntervals();
+ */
 }
