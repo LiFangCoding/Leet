@@ -26,7 +26,9 @@ public class _374_Guess_Number_Higher_Lower {
         int l = 1, r = n;
         while (l < r) {
             int mid = l + (r - l) / 2;
-            if (guess(mid) <= 0) {
+            if (guess(mid) == 0) {
+                return mid;
+            } else if (guess(mid) < 0) {
                 r = mid;
             } else {
                 l = mid + 1;

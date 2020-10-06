@@ -23,55 +23,88 @@ package leet._351_400;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _378_Kth_Smallest_Element_Sorted_Matrix {
-    /**
-     * 0ms
-     * T = n * log(max - min)
-     * S = 1
-     */
-    public int kthSmallest(int[][] matrix, int k) {
-        int n = matrix.length - 1;
+    class Sol_ac {
+        //二分  t是不是第k小.
+        // 如果t是第k小， <= t的个数 >= k. 答案是t或者小于t
+        // <= t的个数  < k, 答案在t的右边
+        // logv = 32.
+        // 统计 <= t的个数。 行递增，列递增。O(n)
+        // T = nlogv
+        // 时间复杂度为O(NlogL)O(NlogL)，LL代表数组最大值和最小值的差。矩阵保证了从左到右递增和从上到下递增，所以j只会从尾到头扫描一遍，所以时间复杂度是O(NlogL)
+        public int kthSmallest(int[][] matrix, int k) {
+            int n = matrix.length;
+            int l = matrix[0][0], r = matrix[n - 1][n - 1];
+            // int l = Integer.MIN_VALUE;
+            // int r = Integer.MAX_VALUE;
 
-        int l = matrix[0][0], r = matrix[n][n];
+            while (l < r) {
+                int mid = (int) ((0L + l + r) >> 1);
+                // System.out.println(String.format("l : %d, r : %d, mid : %d", l, r, mid));
+                // 从后往前扫描
+                int i = matrix[0].length - 1;
+                int cnt = 0;
+                for (int j = 0; j < matrix.length; j++) {
+                    while (i >= 0 && matrix[j][i] > mid) i--;
+                    cnt += i + 1;
+                }
 
-        while (l + 1 < r) {
-            int mid = l + (r - l) / 2;
-            int count = countNotMoreThanMid(matrix, mid, n);
-            if (count < k) {
-                l = mid;
-            } else {
-                r = mid;
+                if (cnt >= k) {
+                    r = mid;
+                } else {
+                    l = mid + 1;
+                }
             }
+            return r;
         }
-
-        /**
-         * Special case:
-         * [1,2]
-         * [1,3]
-         *
-         * k = 1. Here we want the kth smallest element in sorted order,
-         * not the kth distinct element.
-         *
-         * So the k = 1, it is 2. which cnt is 2 >= k = 1.
-         */
-        if (countNotMoreThanMid(matrix, l, n) >= k) {
-            return l;
-        }
-        return r;
     }
 
-    private int countNotMoreThanMid(int[][] matrix, int mid, int n) {
-        int cnt = 0;
-        int row = n, col = 0;
+    public static void main(String[] args) {
+        System.out.println((-1 + 0) / 2);
+        System.out.println((-1 + 0) >> 1);
 
-        while (col <= n && row >= 0) {
-            if (matrix[row][col] <= mid) {
-                cnt += row + 1;
-                col++;
-            } else {
-                row--;
+        System.out.println((1 + 0) / 2);
+        System.out.println((1 + 0) >> 1);
+
+        System.out.println((-2 + 1) / 2);
+        System.out.println((-2 + 1) >> 1);
+    }
+
+    class Sol_old {
+        class Solution {
+            public int kthSmallest(int[][] matrix, int k) {
+                int n = matrix.length - 1;
+
+                int l = matrix[0][0], r = matrix[n][n];
+
+                while (l + 1 < r) {
+                    int mid = l + (r - l) / 2;
+                    int count = countNotMoreThanMid(matrix, mid, n);
+                    if (count < k) {
+                        l = mid;
+                    } else {
+                        r = mid;
+                    }
+                }
+
+                if (countNotMoreThanMid(matrix, l, n) >= k) {
+                    return l;
+                }
+                return r;
+            }
+
+            private int countNotMoreThanMid(int[][] matrix, int mid, int n) {
+                int count = 0;
+                int col = 0, row = n;
+                while (col <= n && row >= 0) {
+                    if (matrix[row][col] <= mid) {
+                        count += row + 1;
+                        col++;
+                    } else {
+                        row--;
+                    }
+                }
+                return count;
             }
         }
-
-        return cnt;
     }
 }
