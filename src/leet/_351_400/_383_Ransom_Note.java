@@ -34,8 +34,8 @@ public class _383_Ransom_Note {
         int[] map = new int[256];
         for (char c : m.toCharArray()) map[c]++;
         for (char c : r.toCharArray()) {
+            if (map[c] == 0) return false;
             map[c]--;
-            if (map[c] < 0) return false;
         }
         return true;
     }
