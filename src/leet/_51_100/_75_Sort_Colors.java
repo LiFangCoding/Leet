@@ -26,38 +26,43 @@ public class _75_Sort_Colors {
          * 设置两个index，一个代表0和1的分界线，一个代表1和2的分界线，初始时分别在两边
          * 扫描一遍数组，遇到0则swap后修改0和1的分界线，遇到1则接着遍历，遇到2则swap后修改1和2的分界线
          */
-        public void sortColors(int[] A) {
-            if (A == null || A.length == 0) {
-                return;
-            }
+        // 用三个指针
+        // |-------------|
+        //    j(->)   i(->)   k(<-)
+        // 0, j - 1 are all 0.  j - i - 1, all 1.  k + 1 - n - 1 are all 2.
+        // i > k时， it becomes 2.
+        // i 有多少种情况来区别
+        // when a[i] == 0, swap (ai, aj), ai = 1. i++, j++
+        // when a[i] == 2,  swap(ai, ak), k--, i cannot add since a[i] not sure
+        // when a[i] == 1, i++
+        public void sortColors(int[] nums) {
+            if (nums == null || nums.length == 0) return;
+            int n = nums.length;
 
-            int red = 0, blue = A.length - 1;
-
-            // 注意结束挑战。 不然会将已经blue的换回去
-            for (int i = 0; i <= blue; ) {
-                if (A[i] == 0) {
-                    swap(A, i++, red++);
-                } else if (A[i] == 2) {
-                    swap(A, i, blue--);
+            for (int i = 0, j = 0, k = n - 1; i <= k; ) {
+                if (nums[i] == 0) {
+                    swap(nums, i++, j++);
+                } else if (nums[i] == 2) {
+                    swap(nums, i, k--);
                 } else {
                     i++;
                 }
             }
-
-            /**
-             * !!! pay attention.
-             * before red are all the 0s. Behind blue are all the 1s.
-             * Interate all the elements, if meet 0, swap it to 0s,
-             * the swapped back value can be 0 ({0}) or 1. No need to care since no 2.
-             * If meet 2, swap it to 2s. Care swapped value. Since it can be 0,1,2
-             * Then all are well sorted.
-             */
         }
-    }
 
-    private void swap(int[] A, int i, int j) {
-        int temp = A[i];
-        A[i] = A[j];
-        A[j] = temp;
+        private void swap(int[] a, int i, int j) {
+            int t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+        }
+
+        /**
+         * !!! pay attention.
+         * before red are all the 0s. Behind blue are all the 1s.
+         * Interate all the elements, if meet 0, swap it to 0s,
+         * the swapped back value can be 0 ({0}) or 1. No need to care since no 2.
+         * If meet 2, swap it to 2s. Care swapped value. Since it can be 0,1,2
+         * Then all are well sorted.
+         */
     }
 }
