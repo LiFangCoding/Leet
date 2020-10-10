@@ -39,18 +39,18 @@ import java.util.Random;
  * // Since 2 is the only number in the set, getRandom always return 2.
  * randomSet.getRandom();
  */
-public class _380_Insert_Delete_GetRandom_O1 {
-    List<Integer> list;
-    // val -> Index
+public class _380_Insert_Delete_GetRandom_O1 {class RandomizedSet {
     Map<Integer, Integer> map;
-    Random rand = new Random();
+    List<Integer> list;
+    Random rand;
 
     /**
      * Initialize your data structure here.
      */
-    public _380_Insert_Delete_GetRandom_O1() {
-        list = new ArrayList<>();
+    public RandomizedSet() {
         map = new HashMap<>();
+        list = new ArrayList<>();
+        rand = new Random();
     }
 
     /**
@@ -59,37 +59,39 @@ public class _380_Insert_Delete_GetRandom_O1 {
     public boolean insert(int val) {
         if (map.containsKey(val)) {
             return false;
-        } else {
-            list.add(val);
-            map.put(val, list.size() - 1);
-            return true;
         }
+
+        list.add(val);
+        map.put(val, list.size() - 1);
+        return true;
     }
 
     /**
      * Removes a value from the set. Returns true if the set contained the specified element.
      */
-    public boolean remove(int val) {
-        if (!map.containsKey(val)) {
+    public boolean remove(int x) {
+        if (!map.containsKey(x)) {
             return false;
         }
 
-        int idx = map.get(val);
-        int endIdx = list.size() - 1;
-        int endVal = list.get(endIdx);
+            // last val
+            int y = list.get(list.size() - 1);
+            // px means idx x
+            int px = map.get(x), py = map.get(y);
+            list.set(px, y);
+            list.set(py, x);
 
-        Collections.swap(list, idx, endIdx);
-        map.put(endVal, idx);
-        list.remove(endIdx);
-        map.remove(val);
+            map.put(y, px);
+            map.put(x, py);
 
-        return true;
+            list.remove(list.size() - 1);
+            map.remove(x);
+            return true;
     }
 
-    /**
-     * Get a random element from the set.
-     */
+    /** Get a random element from the set. */
     public int getRandom() {
-        return list.get(rand.nextInt(list.size()));
+        int idx = rand.nextInt(list.size());
+        return list.get(idx);
     }
 }

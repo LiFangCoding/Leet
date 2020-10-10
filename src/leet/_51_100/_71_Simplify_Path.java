@@ -1,11 +1,6 @@
 package leet._51_100;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Given an absolute path for a file (Unix-style), simplify it. Or in other words, convert it to the canonical path.
@@ -48,6 +43,42 @@ import java.util.Stack;
  */
 public class _71_Simplify_Path {
     //TODO
+
+    class Sol_ac {
+        //就是去掉. 和 ..
+        // 用了栈的思想，但直接string操作
+        public String simplifyPath(String path) {
+            StringBuilder sb = new StringBuilder();
+            String name = "";
+            if (path.charAt(path.length() - 1) != '/') {
+                path += '/';
+            }
+
+            for (char c : path.toCharArray()) {
+                if (c != '/') {
+                    name += c;
+                } else {
+                    // equals, not ==
+                    if (name.equals("..")) {
+                        while (sb.length() != 0 && sb.charAt(sb.length() - 1) != '/') {
+                            sb.deleteCharAt(sb.length() - 1);
+                        }
+                        if (sb.length() != 0) {
+                            sb.deleteCharAt(sb.length() - 1);
+                        }
+                    } else if (!name.equals(".") && !name.equals("")) {
+                        sb.append("/");
+                        sb.append(name);
+                    }
+                    name = "";
+                }
+            }
+
+            if (sb.length() == 0) sb.append("/");
+            return sb.toString();
+        }
+    }
+
     class Sol_Deque {
         public String simplifyPath(String path) {
             if (path == null || path.length() == 0) {
