@@ -23,6 +23,42 @@ import java.util.Stack;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _394_Decode_String {
+    class Sol_ac {
+        class Solution {
+            int u = 0;
+            String str;
+
+            public String decodeString(String _s) {
+                str = _s;
+                return dfs(str.toCharArray());
+            }
+
+            String dfs(char[] s) {
+                StringBuilder sb = new StringBuilder();
+                while (u < s.length && s[u] != ']') {
+                    if (s[u] >= 'a' && s[u] <= 'z' || s[u] >= 'A' && s[u] <= 'Z') {
+                        sb.append(s[u++]);
+                    } else if (s[u] >= '0' && s[u] <= '9') {
+                        int k = u;
+                        while (s[k] >= '0' && s[k] <= '9') {
+                            k++;
+                        }
+                        int x = Integer.parseInt(str.substring(u, k));
+                        // skip left paren
+                        u = k + 1;
+                        String y = dfs(s);
+                        // 过滤掉右括号
+                        u++;
+                        while (x-- > 0) {
+                            sb.append(y);
+                        }
+                    }
+                }
+                return sb.toString();
+            }
+        }
+    }
+
     /**
      * 0ms
      * T = len(string)×k^n
