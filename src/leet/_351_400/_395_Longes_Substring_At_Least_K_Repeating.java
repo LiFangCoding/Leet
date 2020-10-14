@@ -39,7 +39,6 @@ public class _395_Longes_Substring_At_Least_K_Repeating {
                 y = 0;
                 for (int i = 0, j = 0; i < s.length(); i++) {
                     // add one char
-                    char c = s.charAt(i);
                     add(s.charAt(i));
                     while (x > k) {
                         del(s.charAt(j++));
