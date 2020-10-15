@@ -1,10 +1,6 @@
 package leet._351_400;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Equations are given in the format A / B = k, where A and B are variables represented as strings, and k is a real number (floating point number). Given some queries, return the answers. If the answer does not exist, return -1.0.
@@ -30,6 +26,55 @@ import java.util.Set;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _399_Evaluate_Division {
+    class Sol_floyd {
+        class Solution {
+            // floyd问题。 n^3.
+            public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+                Set<String> vers = new HashSet<>();
+                Map<String, Map<String, Double>> d = new HashMap<>();
+                for (int i = 0; i < equations.size(); i++) {
+                    String a = equations.get(i).get(0);
+                    String b = equations.get(i).get(1);
+                    double c = values[i];
+                    if (!d.containsKey(a)) {
+                        d.put(a, new HashMap<>());
+                    }
+                    d.get(a).put(b, c);
+                    if (!d.containsKey(b)) {
+                        d.put(b, new HashMap<>());
+                    }
+                    d.get(b).put(a, 1 / c);
+                    vers.add(a);
+                    vers.add(b);
+                }
+
+                for (String k : vers) {
+                    for (String i : vers) {
+                        for (String j : vers) {
+                            if (d.containsKey(i) && d.get(i).containsKey(k) && d.containsKey(j) && d.get(j).containsKey(k)) {
+                                d.get(i).put(j, d.get(i).get(k) * d.get(k).get(j));
+                            }
+                        }
+                    }
+                }
+
+                // ansers
+                double[] res = new double[queries.size()];
+                int idx = 0;
+                for (List<String> q : queries) {
+                    String a = q.get(0), b = q.get(1);
+                    if (d.containsKey(a) && d.get(a).containsKey(b)) {
+                        res[idx++] = d.get(a).get(b);
+                    } else {
+                        res[idx++] = -1;
+                    }
+                }
+
+                return res;
+            }
+        }
+    }
+
     // TODO : https://zxi.mytechroad.com/blog/graph/leetcode-399-evaluate-division/
     // https://www.acwing.com/solution/content/10234/
 
