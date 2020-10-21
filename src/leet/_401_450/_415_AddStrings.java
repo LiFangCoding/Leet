@@ -1,5 +1,8 @@
 package leet._401_450;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Given two non-negative integers num1 and num2 represented as string, return the sum of num1 and num2.
  * <p>
@@ -20,96 +23,44 @@ public class _415_AddStrings {
      * 2ms
      * T = n
      * S = n
+     *
+     * @return
      */
-    class Sol_Directly {
-        public String addStrings(String s1, String s2) {
-            // A1 is char array of s1
-            char[] A1 = s1.toCharArray();
-            char[] A2 = s2.toCharArray();
-
-            int idx1 = A1.length - 1;
-            int idx2 = A2.length - 1;
-
-            // need reverse to be ans
-            StringBuilder sb = new StringBuilder();
-
-            int carry = 0;
-            while (idx1 >= 0 || idx2 >= 0 || carry == 1) {
-                int sum = carry;
-
-                if (idx1 >= 0) {
-                    sum += A1[idx1--] - '0';
-                }
-
-                if (idx2 >= 0) {
-                    sum += A2[idx2--] - '0';
-                }
-
-                int digit = sum % 10;
-                carry = sum / 10;
-
-                sb.append((char) ('0' + digit));
+    List<Integer> add(int[] A, int[] B) {
+        List<Integer> C = new ArrayList<>();
+        for (int i = 0, t = 0; i < A.length || i < B.length || t != 0; i++) {
+            if (i < A.length) {
+                t += A[i];
             }
 
-            // sb.reverse() is stringbuilder. sb cannot convert to string
-            return sb.reverse().toString();
+            if (i < B.length) {
+                t += B[i];
+            }
+            C.add(t % 10);
+            t /= 10;
         }
+
+        return C;
     }
 
-    /**
-     * 3ms
-     * T = n
-     * S= n
-     */
-    class Sol_ReverseInt {
-        int LEN;
-
-        public String addStrings(String s1, String s2) {
-            if (s1 == null || s1.length() == 0) {
-                return s2;
-            }
-
-            if (s2 == null || s2.length() == 0) {
-                return s1;
-            }
-
-            LEN = Math.max(s1.length(), s2.length()) + 3;
-            int[] A1 = reverseInt(s1);
-            int[] A2 = reverseInt(s2);
-
-            int[] c = new int[LEN];
-            for (int i = 0; i < LEN; i++) {
-                // here need c[i]+= A1[i] + A2[i]. since the c[i] will have carry 1. cannot reset to 0
-                c[i] += A1[i] + A2[i];
-                // here is >= 10 not > 10
-                if (c[i] >= 10) {
-                    c[i + 1] += c[i] / 10;
-                    c[i] = c[i] % 10;
-                }
-            }
-
-            // reverse from last to end
-            int i;
-            for (i = LEN - 1; i >= 1; --i)
-                if (c[i] != 0)
-                    break;
-
-            StringBuilder sb = new StringBuilder();
-            for (; i >= 0; --i)
-                sb.append(c[i]);
-            return sb.toString();
+    public String addStrings(String a, String b) {
+        // 从个位，十位开始算
+        int[] A = new int[a.length()];
+        int[] B = new int[b.length()];
+        for (int i = a.length() - 1, idx = 0; i >= 0; i--) {
+            A[idx++] = a.charAt(i) - '0';
         }
 
-        private int[] reverseInt(String s) {
-            // System.out.println("the string is " + s);
-            int[] ans = new int[LEN];
-            int len = s.length();
-
-            for (int i = 0; i < len; i++) {
-                ans[len - i - 1] = s.charAt(i) - '0';
-            }
-
-            return ans;
+        for (int i = b.length() - 1, idx = 0; i >= 0; i--) {
+            B[idx++] = b.charAt(i) - '0';
         }
+
+        List<Integer> C = add(A, B);
+        StringBuilder sb = new StringBuilder();
+        // revese back
+        for (int i = C.size() - 1; i >= 0; i--) {
+            sb.append(C.get(i));
+        }
+        return sb.toString();
     }
 }
