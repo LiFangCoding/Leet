@@ -13,6 +13,5 @@ public class _405_Convert_to_Hexadecimal {
             // System.out.println("num is " + num);
         }
         return sb.reverse().toString();
-
     }
 }
