@@ -34,6 +34,27 @@ import java.util.Map;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _416_Partition_Equal_Subset_Sum {
+    class Sol_ac {
+        // 01背包问题。
+        // 体积ai,背包容量 sum / 2
+        public boolean canPartition(int[] nums) {
+            int n = nums.length, m = 0;
+            for (int x : nums) {
+                m += x;
+            }
+            if (m % 2 != 0) return false;
+            m /= 2;
+            int[] f = new int[m + 1];
+            f[0] = 1;
+            for (int x : nums) {
+                for (int j = m; j >= x; j--) {
+                    f[j] |= f[j - x];
+                }
+            }
+            return f[m] == 1;
+        }
+    }
+
     /**
      *
      */
