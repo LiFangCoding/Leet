@@ -33,60 +33,87 @@ package leet._151_200;
  * For C programmers, try to solve it in-place in O(1) extra space.
  */
 public class _151_Reverse_Words_in_a_String {
-    public static void main(String[] args) {
-        _151_Reverse_Words_in_a_String test = new _151_Reverse_Words_in_a_String();
-        System.out.println(test.reverseWords("  hello world!  "));
+    class Sol_ac {
+        public String reverseWords(String s) {
+            int k = 0;
+            char[] sa = s.toCharArray();
+            StringBuilder sb = new StringBuilder();
 
+            for (int i = 0; i < s.length(); i++) {
+                if (sa[i] == ' ') continue;
+                int j = i, t = k;
+                while (j < sa.length && sa[j] != ' ') {
+                    sa[t++] = sa[j++];
+                }
+                for (int r = t - 1; r >= k; r--) {
+                    sb.append(sa[r]);
+                }
+                sb.append(' ');
+
+                k = t;
+                i = j;
+            }
+
+            // 至少有一个单词，将最后的单词删掉
+            if (sb.length() > 0) {
+                sb.deleteCharAt(sb.length() - 1);
+            }
+            return sb.reverse().toString();
+        }
     }
 
-    public String reverseWords(String s) {
+    class Sol_old {
         /**
          * Here already trim()
          * If we do not use trim()
          */
-        char[] chars = s.toCharArray();
-        StringBuilder sb = new StringBuilder();
-        reverse(chars, 0, chars.length - 1);
 
-        int l = 0, r = 0;
-        while (r < chars.length) {
-            /**
-             * find the next word starting index that is not ' '
-             */
-            while (r < chars.length && chars[r] == ' ') {
-                r++;
+        public String reverseWords(String s) {
+
+            char[] chars = s.toCharArray();
+            StringBuilder sb = new StringBuilder();
+            reverse(chars, 0, chars.length - 1);
+
+            int l = 0, r = 0;
+            while (r < chars.length) {
+                /**
+                 * find the next word starting index that is not ' '
+                 */
+                while (r < chars.length && chars[r] == ' ') {
+                    r++;
+                }
+
+                if (r == chars.length) {
+                    break;
+                }
+                l = r;
+                /**
+                 * find next word end index
+                 */
+                while (r < chars.length && chars[r] != ' ') {
+                    r++;
+                }
+
+                reverse(chars, l, r - 1);
+                sb.append(new String(chars, l, r - l));
+                System.out.println("new Strign is " + new String(chars, l, r - l));
+                sb.append(' ');
             }
 
-            if (r == chars.length) {
-                break;
-            }
-            l = r;
-            /**
-             * find next word end index
-             */
-            while (r < chars.length && chars[r] != ' ') {
-                r++;
+            if (sb.length() > 0) {
+                sb.deleteCharAt(sb.length() - 1);
             }
 
-            reverse(chars, l, r - 1);
-            sb.append(new String(chars, l, r - l));
-            System.out.println("new Strign is " + new String(chars, l, r - l));
-            sb.append(' ');
+            return sb.toString();
         }
 
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1);
-        }
-
-        return sb.toString();
-    }
-
-    public void reverse(char[] chars, int start, int end) {
-        int l = start, r = end;
-        for (int i = start, j = end; i < j; i++, j--) {
-            char temp = chars[i];
-            chars[i] = chars[j];
-            chars[j] = temp;
+        public void reverse(char[] chars, int start, int end) {
+            int l = start, r = end;
+            for (int i = start, j = end; i < j; i++, j--) {
+                char temp = chars[i];
+                chars[i] = chars[j];
+                chars[j] = temp;
+            }
         }
     }
 }
