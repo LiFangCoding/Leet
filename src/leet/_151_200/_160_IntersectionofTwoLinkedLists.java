@@ -14,14 +14,13 @@ public class _160_IntersectionofTwoLinkedLists {
      * two not intersect
      */
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        ListNode curA = headA;
-        ListNode curB = headB;
+        // null also equals null
+        ListNode p = headA, q = headB;
 
-        while (curA != curB) {
-            curA = curA != null ? curA.next : headB;
-            curB = curB != null ? curB.next : headA;
+        while (p != q) {
+            p = p != null ? p.next : headB;
+            q = q != null ? q.next : headA;
         }
-
-        return curA;
+        return p;
     }
 }
