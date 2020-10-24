@@ -23,51 +23,47 @@ import java.util.Stack;
  * minStack.getMin();   --> Returns -2.
  */
 public class _155_Min_Stack {
-    /**
-     * initialize your data structure here.
-     */
-    Stack<Integer> valStack;
-    Stack<Integer> minStack;
+    class MinStack {
+        Stack<Integer> stk;
+        Stack<Integer> minStk;
 
-    public _155_Min_Stack() {
-        valStack = new Stack<>();
-        minStack = new Stack<>();
-    }
-
-    public void push(int x) {
-        valStack.push(x);
-
-        if (minStack.isEmpty()) {
-            minStack.push(x);
-        } else if (x <= minStack.peek()) {
-            minStack.push(x);
-        }
-    }
-
-    public void pop() {
         /**
-         * !!! check isEmpty or not
+         * initialize your data structure here.
          */
-        if (!valStack.isEmpty()) {
-            int val = valStack.pop();
-            if (minStack.peek() == val) {
-                minStack.pop();
+        public MinStack() {
+            stk = new Stack<>();
+            minStk = new Stack<>();
+        }
+
+        public void push(int x) {
+            stk.push(x);
+            if (minStk.isEmpty() || x <= minStk.peek()) {
+                minStk.push(x);
             }
         }
+
+        public void pop() {
+            int x = stk.pop();
+            if (minStk.peek() == x) {
+                minStk.pop();
+            }
+        }
+
+        public int top() {
+            return stk.peek();
+        }
+
+        public int getMin() {
+            return minStk.peek();
+        }
     }
 
-    public int top() {
-        if (valStack.isEmpty()) {
-            return -1;
-        }
-        return valStack.peek();
-    }
-
-    public int getMin() {
-        if (minStack.isEmpty()) {
-            return -1;
-        }
-        Integer.parseInt("123");
-        return minStack.peek();
-    }
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
 }
