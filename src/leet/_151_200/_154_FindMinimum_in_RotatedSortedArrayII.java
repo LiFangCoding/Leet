@@ -23,30 +23,19 @@ package leet._151_200;
  * Would allow duplicates affect the run-time complexity? How and why?
  */
 public class _154_FindMinimum_in_RotatedSortedArrayII {
-    public int findMin(int[] A) {
-        if (A == null || A.length == 0) {
-            return 0;
-        }
-
-        int l = 0;
-        int r = A.length - 1;
-
-        // delete black line. Because minimum will at least be A[l]. It can reduce the problem size
-        while (A[r] == A[l] && r > l) {
-            r--;
-        }
-
-        int splitVal = A[r];
-        while (l + 1 < r) {
+    // if nums[mid] == nums[0], cannot determine left or right side
+    // delete same element
+    public int findMin(int[] nums) {
+        int n = nums.length;
+        int l = 0, r = n - 1;
+        while (l < r && nums[r] == nums[0]) r--;
+        // special case
+        if (nums[l] <= nums[r]) return nums[0];
+        while (l < r) {
             int mid = l + (r - l) / 2;
-            // condiser the left part of min point will always large than split val
-            if (A[mid] > splitVal) {
-                l = mid;
-            } else {
-                r = mid;
-            }
+            if (nums[mid] < nums[0]) r = mid;
+            else l = mid + 1;
         }
-
-        return A[l] < A[r] ? A[l] : A[r];
+        return nums[r];
     }
 }
