@@ -15,44 +15,51 @@ package leet._151_200;
  * Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
  */
 public class _152_MaximumProductSubarray {
-    public static void main(String[] args) {
-        _152_MaximumProductSubarray test = new _152_MaximumProductSubarray();
-        int[] A = new int[] { 2, 3, -2, 4 };
+    class Sol_ac {
+        public int maxProduct(int[] nums) {
+            int res = nums[0];
 
-        System.out.println(test.maxProduct(A));
-
-        A = new int[] { -2, 0, -1 };
-        System.out.println(test.maxProduct(A));
+            int f = nums[0], g = nums[0];
+            for (int i = 1; i < nums.length; i++) {
+                int a = nums[i], fa = f * a, ga = g * a;
+                f = Math.max(a, Math.max(fa, ga));
+                g = Math.min(a, Math.min(fa, ga));
+                res = Math.max(res, f);
+            }
+            return res;
+        }
     }
 
-    /**
-     * f[i] means the end index ith, maxProduct
-     * <p>
-     * f[i] = max {A[i], f[i] = A[i] * max(f[i - 1]) }
-     * g[i] = min {A[i] < 0, f[i]  = A[i] * Minf[i-1]
-     *
-     * @param A
-     * @return
-     */
-    public int maxProduct(int[] A) {
-        if (A == null || A.length == 0) {
-            return 0;
+    class Sol_old {
+        /**
+         * f[i] means the end index ith, maxProduct
+         * <p>
+         * f[i] = max {A[i], f[i] = A[i] * max(f[i - 1]) }
+         * g[i] = min {A[i] < 0, f[i]  = A[i] * Minf[i-1]
+         *
+         * @param A
+         * @return
+         */
+        public int maxProduct(int[] A) {
+            if (A == null || A.length == 0) {
+                return 0;
+            }
+
+            int len = A.length;
+            int[] max = new int[2];
+            int[] min = new int[2];
+
+            min[0] = max[0] = A[0];
+            int res = A[0];
+
+            for (int i = 1; i < len; i++) {
+                max[i % 2] = Math.max(A[i], A[i] > 0 ? A[i] * max[(i - 1) % 2] : A[i] * min[(i - 1) % 2]);
+                min[i % 2] = Math.min(A[i], A[i] > 0 ? A[i] * min[(i - 1) % 2] : A[i] * max[(i - 1) % 2]);
+
+                res = Math.max(res, max[i % 2]);
+            }
+
+            return res;
         }
-
-        int len = A.length;
-        int[] max = new int[2];
-        int[] min = new int[2];
-
-        min[0] = max[0] = A[0];
-        int res = A[0];
-
-        for (int i = 1; i < len; i++) {
-            max[i % 2] = Math.max(A[i], A[i] > 0 ? A[i] * max[(i - 1) % 2] : A[i] * min[(i - 1) % 2]);
-            min[i % 2] = Math.min(A[i], A[i] > 0 ? A[i] * min[(i - 1) % 2] : A[i] * max[(i - 1) % 2]);
-
-            res = Math.max(res, max[i % 2]);
-        }
-
-        return res;
     }
 }
