@@ -42,6 +42,27 @@ package leet._151_200;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class _165_CompareVersionNumbers {
+    class Sol_ac {
+        public int compareVersion(String v1, String v2) {
+            for (int i = 0, j = 0; i < v1.length() || j < v2.length(); ) {
+                int a = i, b = j;
+                while (a < v1.length() && v1.charAt(a) != '.')
+                    a++;
+                while (b < v2.length() && v2.charAt(b) != '.')
+                    b++;
+                int x = a == i ? 0 : Integer.parseInt(v1.substring(i, a));
+                int y = b == j ? 0 : Integer.parseInt(v2.substring(j, b));
+                if (x > y)
+                    return 1;
+                if (x < y)
+                    return -1;
+                i = a + 1;
+                j = b + 1;
+            }
+            return 0;
+        }
+    }
+
     public int compareVersion(String version1, String version2) {
         /**
          * java里面以. \ |为分隔符时，需要加上\，即\. \\ \|才能正确分割
