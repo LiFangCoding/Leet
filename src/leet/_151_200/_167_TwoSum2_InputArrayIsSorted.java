@@ -16,6 +16,19 @@ package leet._151_200;
  * Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
  */
 public class _167_TwoSum2_InputArrayIsSorted {
+    class Sol_ac {
+        public int[] twoSum(int[] nums, int target) {
+            for (int i = 0, j = nums.length - 1; i < j; i++) {
+                while (i < j && nums[i] + nums[j] > target)
+                    j--;
+                if (i < j && nums[i] + nums[j] == target) {
+                    return new int[] { i + 1, j + 1 };
+                }
+            }
+            return new int[0];
+        }
+    }
+
     public int[] twoSum(int[] A, int target) {
         /**
          * !!! be careful, here do not use i++, j--
