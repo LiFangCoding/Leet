@@ -22,9 +22,39 @@ import java.util.Map;
  * Output: "0.(6)"
  */
 public class _166_Fraction_to_Recurring_Decimal {
-    public static void main(String[] args) {
-        _166_Fraction_to_Recurring_Decimal test = new _166_Fraction_to_Recurring_Decimal();
-        System.out.println(test.fractionToDecimal(2, 3));
+    class Sol_ac {
+        // 记录余数出现没有。 余数只有 0-n-1, 在循环N + 1次会重复，复杂度是n
+        // -min, -1. 2 ^ 31, overflow. So need long.
+        public String fractionToDecimal(int numerator, int denominator) {
+            long x = numerator, y = denominator;
+            if (x % y == 0)
+                return String.valueOf(x / y);
+            StringBuilder sb = new StringBuilder();
+            // 正数或负数
+            if ((x < 0) ^ (y < 0))
+                sb.append("-");
+            x = Math.abs(x);
+            y = Math.abs(y);
+            sb.append(x / y);
+            sb.append(".");
+            x %= y;
+            // val -> idx
+            Map<Long, Integer> map = new HashMap<>();
+            while (x != 0) {
+                map.put(x, sb.length());
+                x *= 10;
+                sb.append(x / y);
+
+                //update x
+                x %= y;
+                if (map.containsKey(x)) {
+                    sb.insert(map.get(x), "(");
+                    sb.append(")");
+                    break;
+                }
+            }
+            return sb.toString();
+        }
     }
 
     public String fractionToDecimal(int n, int d) {
