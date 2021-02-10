@@ -9,6 +9,6 @@ class _15_3SumTest {
         int[][] res = {{-1, 0 , 1}, {-1, -1, 2}};
         int[] nums = {-1, 0, 1, 2, -1, -4};
 
-        System.out.println(test.threeSum1(nums));
+        System.out.println(test.threeSum(nums));
     }
 }

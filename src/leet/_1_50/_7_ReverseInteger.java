@@ -24,7 +24,7 @@ public class _7_ReverseInteger {
      * O(log10(x)). Because int型整数在十进制表示下最多有10位，对于每一位的计算量是常数级的.
      * Overflow  [-2^31, 2^31 - 1]
      */
-    public int reverse(int x) {
+    public static int reverse(int x) {
         int r = 0;
         // 123 % 10 = 3, -123 % 10 = -3. for negative
         while (x != 0) {

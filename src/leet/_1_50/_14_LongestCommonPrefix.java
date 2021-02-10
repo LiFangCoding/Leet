@@ -19,8 +19,8 @@ package leet._1_50;
  * All given inputs are in lowercase letters a-z.
  */
 public class _14_LongestCommonPrefix {
-    class Sol_ac_sb {
-        public String longestCommonPrefix(String[] strs) {
+    public static class Sol_ac_sb {
+        public static String longestCommonPrefix(String[] strs) {
             //vertical scan is best.
             StringBuilder sb = new StringBuilder();
             if (strs == null || strs.length == 0) {
