@@ -27,34 +27,48 @@ public class _224_BasicCalculator {
     //TODO
     /**
      * 23 ms
-     * 包含
+     * 维护一个stack， 只要能算就算。
+     * a + b * c  -> 前面运算符能算就算
+     *
+     * 1数字  押入栈中
+     * 2（     押入栈中
+     * 3 ）   则左括号之前的都算完
+     * 4 运算符  +，-，*，/ ，^  定优先级。 1，1，2，2，3
+     * 4.1 举例， a * b + c 如果当前运算符优先级小于等于栈顶，则计算栈顶，压入栈中
+     * 4.2 举例， a + b * c 否则压入栈中
      */
     class Sol_template {
+        // calculate for one time
         void eval(Stack<Integer> num, Stack<Character> op) {
+            // number b
             int b = num.pop();
+            // number a
             int a = num.pop();
             char c = op.pop();
 
-            int r;
+            int res;
             if (c == '+') {
-                r = a + b;
+                res = a + b;
             } else {
-                r = a - b;
+                res = a - b;
             }
-            num.push(r);
+            num.push(res);
         }
 
         public int calculate(String str) {
+            str = "0" + str;
+
+            // stack for numbers
             Stack<Integer> num = new Stack<>();
+            // stack for operators
             Stack<Character> op = new Stack<>();
 
             char[] s = str.toCharArray();
-
             for (int i = 0; i < s.length; i++) {
                 char c = s[i];
                 if (c == ' ')
                     continue;
-
+                // number put into stack
                 if (Character.isDigit(c)) {
                     int x = 0, j = i;
                     while (j < s.length && Character.isDigit(s[j])) {
@@ -65,18 +79,24 @@ public class _224_BasicCalculator {
                 } else if (c == '(') {
                     op.push(c);
                 } else if (c == ')') {
+                    // ')", as long as stack is not (, evaluate 操作符
                     while (op.peek() != '(') {
                         eval(num, op);
                     }
+                    // pop out '('
                     op.pop();
                 } else {
+                    // only + , -, same priority
+                    // as long op has element, caculate the res
                     while (!op.isEmpty() && op.peek() != '(') {
                         eval(num, op);
                     }
+                    // put cur operator into stk
                     op.push(c);
                 }
             }
 
+            // calculate all the operators in the stack
             while (!op.isEmpty())
                 eval(num, op);
             return num.peek();
