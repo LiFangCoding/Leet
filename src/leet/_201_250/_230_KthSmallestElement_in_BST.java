@@ -2,6 +2,8 @@ package leet._201_250;
 
 import common.TreeNode;
 
+import java.util.Stack;
+
 /**
  * Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
  * <p>
@@ -32,30 +34,81 @@ import common.TreeNode;
  * What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?
  */
 public class _230_KthSmallestElement_in_BST {
-    int count;
-    int ans;
+    class Sol_dfs_no_return {
+        int k;
+        int res;
 
-    public int kthSmallest(TreeNode root, int k) {
-        count = k;
+        public int kthSmallest(TreeNode root, int _k) {
+            k = _k;
+            dfs(root);
+            return res;
+        }
 
-        helper(root);
+        private void dfs(TreeNode root) {
+            if (k < 0 || root == null) return;
 
-        return ans;
+            dfs(root.left);
+            k--;
+            if (k == 0) {
+                res = root.val;
+                return;
+            }
+
+            dfs(root.right);
+        }
     }
 
-    private void helper(TreeNode root) {
-        if (root == null) {
-            return;
+    class Sol_dfs_with_return {
+        int k;
+        int res;
+
+        public int kthSmallest(TreeNode root, int _k) {
+            k = _k;
+            dfs(root);
+            return res;
         }
 
-        helper(root.left);
+        private boolean dfs(TreeNode root) {
+            if (root == null) return false;
 
-        count--;
-        if (count == 0) {
-            ans = root.val;
-            return;
+            if (dfs(root.left)) return true;
+
+            if (--k == 0) {
+                res = root.val;
+                return true;
+            }
+
+            return dfs(root.right);
+        }
+    }
+
+    class Sol_stack {
+        Stack<TreeNode> stack;
+
+        public int kthSmallest(TreeNode root, int k) {
+            stack = new Stack<>();
+            pushToStack(root);
+
+            int res = 0;
+            while (!stack.isEmpty()) {
+                TreeNode t = stack.pop();
+                k--;
+                if (k == 0) {
+                    res = t.val;
+                    return res;
+                }
+
+                pushToStack(t.right);
+            }
+
+            return res;
         }
 
-        helper(root.right);
+        private void pushToStack(TreeNode node) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+        }
     }
 }
