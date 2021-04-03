@@ -28,8 +28,8 @@ import java.util.Stack;
  */
 public class _227_BasicCalculator2 {
     class Sol_acwing_muban {
-        Stack<Integer> num = new Stack<>();
-        Stack<Character> op = new Stack<>();
+        Stack<Integer> nums = new Stack<>();
+        Stack<Character> ops = new Stack<>();
 
         public int calculate(String s) {
             Map<Character, Integer> map = new HashMap<>();
@@ -38,51 +38,43 @@ public class _227_BasicCalculator2 {
             map.put('*', 2);
             map.put('/', 2);
 
-            char[] cs = s.toCharArray();
-            for (int i = 0; i < cs.length; i++) {
-                char c = cs[i];
-                if (c == ' ')
-                    continue;
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (c == ' ') continue;
 
                 if (Character.isDigit(c)) {
-                    int x = 0, j = i;
+                    int num = 0, j = i;
 
-                    while (j < cs.length && Character.isDigit(cs[j])) {
-                        x = x * 10 + (cs[j++] - '0');
+                    while (j < s.length() && Character.isDigit(s.charAt(j))) {
+                        num = num * 10 + (s.charAt(j) - '0');
+                        j++;
                     }
-
-                    num.push(x);
+                    nums.push(num);
                     i = j - 1;
                 }
                 // c is operator
                 else {
-                    while (op.size() > 0 && map.get(op.peek()) >= map.get(c))
-                        eval();
-                    op.push(c);
+                    while (!ops.isEmpty() && map.get(ops.peek()) >= map.get(c)) eval();
+                    ops.push(c);
                 }
             }
 
-            while (op.size() > 0)
-                eval();
-            return num.peek();
+            while (!ops.isEmpty()) eval();
+            return nums.peek();
         }
 
         // calculate one time
         void eval() {
-            int b = num.pop();
-            int a = num.pop();
-            char c = op.pop();
+            int b = nums.pop();
+            int a = nums.pop();
+            char op = ops.pop();
 
-            int r;
-            if (c == '+')
-                r = a + b;
-            else if (c == '-')
-                r = a - b;
-            else if (c == '*')
-                r = a * b;
-            else
-                r = a / b;
-            num.push(r);
+            int res;
+            if (op == '+') res = a + b;
+            else if (op == '-') res = a - b;
+            else if (op == '*') res = a * b;
+            else res = a / b;
+            nums.push(res);
         }
     }
 
