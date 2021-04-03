@@ -30,32 +30,6 @@ import common.TreeNode;
  * p and q are different and both values will exist in the binary tree.
  */
 public class _236_Lowest_Common_Ancestor_of_BinaryTree {
-    class Sol_dfs_bit {
-        TreeNode ans = null;
-
-        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-            dfs(root, p, q);
-            return ans;
-        }
-
-        int dfs(TreeNode root, TreeNode p, TreeNode q) {
-            if (root == null)
-                return 0;
-
-            int state = dfs(root.left, p, q);
-            if (root == p)
-                state |= 1;
-            else if (root == q)
-                state |= 2;
-
-            state |= dfs(root.right, p, q);
-
-            if (state == 3 && ans == null)
-                ans = root;
-            return state;
-        }
-    }
-
     class Sol_divide_conquer {
         public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
             Res res = helper(root, p, q);
@@ -94,6 +68,34 @@ public class _236_Lowest_Common_Ancestor_of_BinaryTree {
                 this.node = node;
                 this.count = count;
             }
+        }
+    }
+
+    class Sol_dfs_bit {
+        TreeNode ans = null;
+
+        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+            dfs(root, p, q);
+            return ans;
+        }
+
+        int dfs(TreeNode root, TreeNode p, TreeNode q) {
+            if (root == null)
+                return 0;
+
+            if (ans != null) return -1;
+
+            int state = dfs(root.left, p, q);
+            if (root == p)
+                state |= 1;
+            else if (root == q)
+                state |= 2;
+
+            state |= dfs(root.right, p, q);
+
+            if (state == 3 && ans == null)
+                ans = root;
+            return state;
         }
     }
 }

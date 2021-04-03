@@ -17,66 +17,54 @@ import common.ListNode;
  * Could you do it in O(n) time and O(1) space?
  */
 public class _234_PalindromeLinkedList {
-    /**
-     * test case
-     * 1
-     * 1 -> 2 false
-     * 1 -> 1 true
-     * 1 -> 2 -> 3 false
-     * 1 -> 2 -> 3 true
-     * 1 -> 2 ->2 -> 1 true
-     */
     public boolean isPalindrome(ListNode head) {
-        if (head == null || head.next == null) {
-            return true;
+        if (head == null || head.next == null) return true;
+
+        ListNode mid = findMid(head);
+        ListNode t = mid.next;
+        mid.next = null;
+        ListNode right = reverse(t);
+
+        ListNode l1 = head, l2 = right;
+        boolean res = true;
+        while (l1 != null && l2 != null) {
+            // here need to iterate
+            if (l1.val != l2.val) {
+                res = false;
+                break;
+            }
+            l1 = l1.next;
+            l2 = l2.next;
         }
 
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode fast = dummy, slow = dummy;
+        mid.next = reverse(right);
+        return res;
+    }
 
-        /**
-         * get the mid of list
-         *
-         * 0 |-> 1     1
-         *
-         * 0 \->  1 -> 2    1
-         * 0 -> 1-> 2-> 3  2
-         */
+    // 1,2,3 -> 2
+    // 1,2  -> 1
+    private ListNode findMid(ListNode head) {
+        ListNode fast = head.next;
+        ListNode slow = head;
+
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
         }
 
-        ListNode secondHalf = slow.next;
-        slow.next = null;
-
-        ListNode head2 = reverse(secondHalf);
-
-        while (head2 != null) {
-            if (head.val != head2.val) {
-                return false;
-            } else {
-                head = head.next;
-                head2 = head2.next;
-            }
-        }
-
-        return true;
+        return slow;
     }
 
-    private ListNode reverse(ListNode head) {
-        ListNode prev = null;
-        ListNode cur = head;
+    private ListNode reverse(ListNode second) {
+        ListNode first = null;
 
-        while (cur != null) {
-            ListNode temp = cur.next;
-            cur.next = prev;
-            prev = cur;
-            cur = temp;
+        while (second != null) {
+            ListNode temp = second.next;
+            second.next = first;
+            first = second;
+            second = temp;
         }
 
-        return prev;
+        return first;
     }
-
 }
