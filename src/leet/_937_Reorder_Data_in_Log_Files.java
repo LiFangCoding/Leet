@@ -30,6 +30,38 @@ import java.util.Arrays;
  * logs[i] is guaranteed to have an identifier, and a word after the identifier.
  */
 public class _937_Reorder_Data_in_Log_Files {
+    public String[] reorderLogFiles_2(String[] logs) {
+        Arrays.sort(logs, (log1, log2) -> {
+                    // string array1. [iden, content]
+                    String[] a1 = log1.split(" ", 2);
+                    String[] a2 = log2.split(" ", 2);
+
+                    boolean isDigit1 = Character.isDigit(a1[1].charAt(0));
+                    boolean isDigit2 = Character.isDigit(a2[1].charAt(0));
+
+                    if (!isDigit1 && !isDigit2) {
+                        if (a1[1].equals(a2[1])) {
+                            return a1[0].compareTo(a2[0]);
+                        } else {
+                            return a1[1].compareTo(a2[1]);
+                        }
+                    } else if (isDigit1){
+                        if (isDigit2) {
+                            // keep relative order. return 0
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    } else {
+                        // !isDigit1, digit2
+                        return -1;
+                    }
+                }
+        );
+
+        return logs;
+    }
+
     public String[] reorderLogFiles(String[] logs) {
         // Arrays sort object[] is stable. For primitive[] sort in java is quicksort, which is not stable
         Arrays.sort(logs, (log1, log2) -> {
@@ -45,7 +77,10 @@ public class _937_Reorder_Data_in_Log_Files {
                 return split1[0].compareTo(split2[0]);
             }
 
-            //如果isDigit1是真，也就是说log1数字类型的，判断括号内容，isDigit2也是真，也就是log2也是数字，那么返回0，两者一样大，如果lsDigit2是假，不是数字，返回1，那么log1比log2大，首先应清楚两者在这里不可能同时为字母日志，上面已经判断过了，如果isDigit为假，则表示字母日志，那样isDigit2必为假，此时返回-1，也就是log1比log2小。
+            //如果isDigit1是真，也就是说log1数字类型的，判断括号内容，
+            // isDigit2也是真，也就是log2也是数字，那么返回0，两者一样大，
+            // 如果lsDigit2是假，不是数字，返回1，那么log1比log2大，首先应清楚两者在这里不可能同时为字母日志，
+            // 上面已经判断过了，如果isDigit为假，则表示字母日志，那样isDigit2必为假，此时返回-1，也就是log1比log2小。
             if (isDigit1 && isDigit2) {
                 return 0;
             } else if (isDigit1) {
